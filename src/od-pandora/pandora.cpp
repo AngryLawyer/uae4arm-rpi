@@ -223,7 +223,7 @@ void logging_init( void )
     debugfile = 0;
   }
 
-    sprintf(debugfilename, "%s/uae4arm_log.txt", start_path_data);
+    sprintf(debugfilename, "/home/pi/uae4arm_log.txt");
     if(!debugfile)
     debugfile = fopen(debugfilename, "wt");
 
