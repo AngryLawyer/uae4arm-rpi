@@ -23,18 +23,18 @@ static TCHAR evilchars[NUM_EVILCHARS] = { '\\', '*', '?', '\"', '<', '>', '|' };
 static int fsdb_name_invalid_2 (const TCHAR *n, int dir)
 {
   int i;
-	int l = _tcslen (n);
+    int l = _tcslen (n);
 
   /* the reserved fsdb filename */
   if (_tcscmp (n, FSDB_FILE) == 0)
-  	return -1;
+    return -1;
 
-	if (dir) {
-		if (n[0] == '.' && l == 1)
-			return -1;
-		if (n[0] == '.' && n[1] == '.' && l == 2)
-			return -1;
-	}
+    if (dir) {
+        if (n[0] == '.' && l == 1)
+            return -1;
+        if (n[0] == '.' && n[1] == '.' && l == 2)
+            return -1;
+    }
 
   /* these characters are *never* allowed */
   for (i = 0; i < NUM_EVILCHARS; i++) {
@@ -42,7 +42,7 @@ static int fsdb_name_invalid_2 (const TCHAR *n, int dir)
       return 1;
   }
 
-	return 0; /* the filename passed all checks, now it should be ok */
+    return 0; /* the filename passed all checks, now it should be ok */
 }
 
 int fsdb_name_invalid (const TCHAR *n)
@@ -56,11 +56,11 @@ int fsdb_name_invalid (const TCHAR *n)
 
 int fsdb_name_invalid_dir (const TCHAR *n)
 {
-	int v = fsdb_name_invalid_2 (n, 1);
-	if (v <= 0)
-		return v;
-	write_log (_T("FILESYS: '%s' illegal filename\n"), n);
-	return v;
+    int v = fsdb_name_invalid_2 (n, 1);
+    if (v <= 0)
+        return v;
+    write_log (_T("FILESYS: '%s' illegal filename\n"), n);
+    return v;
 }
 
 int fsdb_exists (const char *nname)
@@ -76,12 +76,12 @@ int fsdb_fill_file_attrs (a_inode *base, a_inode *aino)
     struct stat statbuf;
     /* This really shouldn't happen...  */
     if (stat (aino->nname, &statbuf) == -1)
-	return 0;
+    return 0;
     aino->dir = S_ISDIR (statbuf.st_mode) ? 1 : 0;
     
     aino->amigaos_mode = ((S_IXUSR & statbuf.st_mode ? 0 : A_FIBF_EXECUTE)
-    			  | (S_IWUSR & statbuf.st_mode ? 0 : A_FIBF_WRITE)
-    			  | (S_IRUSR & statbuf.st_mode ? 0 : A_FIBF_READ));
+                  | (S_IWUSR & statbuf.st_mode ? 0 : A_FIBF_WRITE)
+                  | (S_IRUSR & statbuf.st_mode ? 0 : A_FIBF_READ));
 
 #if defined(WIN32) || defined(ANDROIDSDL) || defined(RASPBERRY)
     // Always give execute & read permission
@@ -99,26 +99,26 @@ int fsdb_set_file_attrs (a_inode *aino)
     uae_u32 tmpmask = aino->amigaos_mode;
 
     if (stat (aino->nname, &statbuf) == -1)
-	return ERROR_OBJECT_NOT_AROUND;
-	
+    return ERROR_OBJECT_NOT_AROUND;
+    
     mode = statbuf.st_mode;
 
-	if (tmpmask & A_FIBF_READ)
-	    mode &= ~S_IRUSR;
-	else
-	    mode |= S_IRUSR;
+    if (tmpmask & A_FIBF_READ)
+        mode &= ~S_IRUSR;
+    else
+        mode |= S_IRUSR;
 
-	if (tmpmask & A_FIBF_WRITE)
-	    mode &= ~S_IWUSR;
-	else
-	    mode |= S_IWUSR;
+    if (tmpmask & A_FIBF_WRITE)
+        mode &= ~S_IWUSR;
+    else
+        mode |= S_IWUSR;
 
-	if (tmpmask & A_FIBF_EXECUTE)
-	    mode &= ~S_IXUSR;
-	else
-	    mode |= S_IXUSR;
+    if (tmpmask & A_FIBF_EXECUTE)
+        mode &= ~S_IXUSR;
+    else
+        mode |= S_IXUSR;
 
-	chmod (aino->nname, mode);
+    chmod (aino->nname, mode);
 
     aino->dirty = 1;
     return 0;
@@ -151,7 +151,7 @@ int fsdb_mode_representable_p (const a_inode *aino, int amigaos_mode)
     int mask = amigaos_mode ^ 15;
 
     if (0 && aino->dir)
-    	return amigaos_mode == 0;
+        return amigaos_mode == 0;
     
     if (mask & A_FIBF_SCRIPT) /* script */
             return 0;
@@ -171,18 +171,18 @@ char *fsdb_create_unique_nname (a_inode *base, const char *suggestion)
     char tmp[256] = "__uae___";
     strncat (tmp, suggestion, 240);
     for (;;) {
-	int i;
-	char *p = build_nname (base->nname, tmp);
-	if (access (p, R_OK) < 0 && errno == ENOENT) {
-	    write_log ("unique name: %s\n", p);
-	    return p;
-	}
-	free (p);
+    int i;
+    char *p = build_nname (base->nname, tmp);
+    if (access (p, R_OK) < 0 && errno == ENOENT) {
+        write_log ("unique name: %s\n", p);
+        return p;
+    }
+    free (p);
 
-	/* tmpnam isn't reentrant and I don't really want to hack configure
-	 * right now to see whether tmpnam_r is available...  */
-	for (i = 0; i < 8; i++) {
+    /* tmpnam isn't reentrant and I don't really want to hack configure
+     * right now to see whether tmpnam_r is available...  */
+    for (i = 0; i < 8; i++) {
     tmp[i] = "_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"[uaerand () % 63];
-	}
+    }
     }
 }

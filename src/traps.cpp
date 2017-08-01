@@ -63,9 +63,9 @@
  */
 struct Trap
 {
-  TrapHandler handler;	/* Handler function to be invoked for this trap. */
-  int         flags;		/* Trap attributes. */
-  const TCHAR *name;		/* For debugging purposes. */
+  TrapHandler handler;  /* Handler function to be invoked for this trap. */
+  int         flags;        /* Trap attributes. */
+  const TCHAR *name;        /* For debugging purposes. */
   uaecptr addr;
 };
 
@@ -85,9 +85,9 @@ uaecptr find_trap (const TCHAR *name)
   int i;
 
   for (i = 0; i < trap_count; i++) {
-  	struct Trap *trap = &traps[i];
-  	if ((trap->flags & TRAPFLAG_UAERES) && trap->name && !_tcscmp (trap->name, name))
-	    return trap->addr;
+    struct Trap *trap = &traps[i];
+    if ((trap->flags & TRAPFLAG_UAERES) && trap->name && !_tcscmp (trap->name, name))
+        return trap->addr;
   }
   return 0;
 }
@@ -105,29 +105,29 @@ uaecptr find_trap (const TCHAR *name)
 unsigned int define_trap (TrapHandler handler_func, int flags, const TCHAR *name)
 {
   if (trap_count == MAX_TRAPS) {
-		write_log (_T("Ran out of emulator traps\n"));
-  	abort ();
-  	return -1;
+        write_log (_T("Ran out of emulator traps\n"));
+    abort ();
+    return -1;
   } else {
-  	int i;
-  	unsigned int trap_num;
-  	struct Trap *trap;
-  	uaecptr addr = here ();
+    int i;
+    unsigned int trap_num;
+    struct Trap *trap;
+    uaecptr addr = here ();
 
-  	for (i = 0; i < trap_count; i++) {
-	    if (addr == traps[i].addr)
-    		return i;
-  	}
+    for (i = 0; i < trap_count; i++) {
+        if (addr == traps[i].addr)
+            return i;
+    }
 
-  	trap_num = trap_count++;
-  	trap = &traps[trap_num];
+    trap_num = trap_count++;
+    trap = &traps[trap_num];
 
-  	trap->handler = handler_func;
-  	trap->flags   = flags;
-  	trap->name    = name;
-  	trap->addr    = addr;
+    trap->handler = handler_func;
+    trap->flags   = flags;
+    trap->name    = name;
+    trap->addr    = addr;
 
-  	return trap_num;
+    return trap_num;
   }
 }
 
@@ -147,30 +147,30 @@ void REGPARAM2 m68k_handle_trap (unsigned int trap_num)
   int implicit_rts = (trap->flags & TRAPFLAG_DORET) != 0;
 
   if (trap->name && trap->name[0] != 0 && trace_traps)
-		write_log (_T("TRAP: %s\n"), trap->name);
+        write_log (_T("TRAP: %s\n"), trap->name);
 
   if (trap_num < trap_count) {
-  	if (trap->flags & TRAPFLAG_EXTRA_STACK) {
-	    /* Handle an extended trap.
-	     * Note: the return value of this trap is passed back to 68k
-	     * space via a separate, dedicated simple trap which the trap
-	     * handler causes to be invoked when it is done.
-	     */
-	    trap_HandleExtendedTrap (trap->handler, has_retval);
-  	} else {
-	    /* Handle simple trap */
-	    retval = (trap->handler) (NULL);
+    if (trap->flags & TRAPFLAG_EXTRA_STACK) {
+        /* Handle an extended trap.
+         * Note: the return value of this trap is passed back to 68k
+         * space via a separate, dedicated simple trap which the trap
+         * handler causes to be invoked when it is done.
+         */
+        trap_HandleExtendedTrap (trap->handler, has_retval);
+    } else {
+        /* Handle simple trap */
+        retval = (trap->handler) (NULL);
 
-	    if (has_retval)
-    		m68k_dreg (regs, 0) = retval;
+        if (has_retval)
+            m68k_dreg (regs, 0) = retval;
 
-	    if (implicit_rts) {
-    		m68k_do_rts ();
-    		fill_prefetch ();
-	    }
+        if (implicit_rts) {
+            m68k_do_rts ();
+            fill_prefetch ();
+        }
     }
   } else
-		write_log (_T("Illegal emulator trap\n"));
+        write_log (_T("Illegal emulator trap\n"));
 }
 
 
@@ -181,16 +181,16 @@ void REGPARAM2 m68k_handle_trap (unsigned int trap_num)
 
 struct TrapCPUContext
 {
-	uae_u32 regs[16];
-	uae_u32 pc;
-	int intmask;
+    uae_u32 regs[16];
+    uae_u32 pc;
+    int intmask;
 };
 
 struct TrapContext
 {
   /* Trap's working copy of 68k state. This is what the trap handler should
   *  access to get arguments from 68k space. */
-	//struct regstruct regs;
+    //struct regstruct regs;
 
   /* Trap handler function that gets called on the trap context */
   TrapHandler       trap_handler;
@@ -200,8 +200,8 @@ struct TrapContext
   uae_u32           trap_retval;
 
   /* Copy of 68k state at trap entry. */
-	//struct regstruct saved_regs;
-	struct TrapCPUContext saved_regs;
+    //struct regstruct saved_regs;
+    struct TrapCPUContext saved_regs;
 
   /* Thread which effects the trap context. */
   uae_thread_id     thread;
@@ -219,15 +219,15 @@ struct TrapContext
 
 static void copytocpucontext(struct TrapCPUContext *cpu)
 {
-	memcpy (cpu->regs, regs.regs, sizeof (regs.regs));
-	cpu->intmask = regs.intmask;
-	cpu->pc = m68k_getpc ();
+    memcpy (cpu->regs, regs.regs, sizeof (regs.regs));
+    cpu->intmask = regs.intmask;
+    cpu->pc = m68k_getpc ();
 }
 static void copyfromcpucontext(struct TrapCPUContext *cpu, uae_u32 pc)
 {
-	memcpy (regs.regs, cpu->regs, sizeof (regs.regs));
-	regs.intmask = cpu->intmask;
-	m68k_setpc (pc);
+    memcpy (regs.regs, cpu->regs, sizeof (regs.regs));
+    regs.intmask = cpu->intmask;
+    m68k_setpc (pc);
 }
 
 
@@ -265,16 +265,16 @@ static void *trap_thread (void *arg)
   /* Enter critical section - only one trap at a time, please! */
   uae_sem_wait (&trap_mutex);
 
-	//regs = context->saved_regs;
-	/* Set PC to address of the exit handler, so that it will be called
-	* when the 68k context resumes. */
-	copyfromcpucontext (&context->saved_regs, exit_trap_trapaddr);
+    //regs = context->saved_regs;
+    /* Set PC to address of the exit handler, so that it will be called
+    * when the 68k context resumes. */
+    copyfromcpucontext (&context->saved_regs, exit_trap_trapaddr);
   /* Don't allow an interrupt and thus potentially another
    * trap to be invoked while we hold the above mutex.
    * This is probably just being paranoid. */
   regs.intmask = 7;
 
-	//m68k_setpc (exit_trap_trapaddr);
+    //m68k_setpc (exit_trap_trapaddr);
   current_context = context;
 
   /* Switch back to 68k context */
@@ -295,28 +295,28 @@ static void trap_HandleExtendedTrap (TrapHandler handler_func, int has_retval)
   struct TrapContext *context = xcalloc (TrapContext, 1);
 
   if (context) {
-	  uae_sem_init (&context->switch_to_trap_sem, 0, 0);
-	  uae_sem_init (&context->switch_to_emu_sem, 0, 0);
+      uae_sem_init (&context->switch_to_trap_sem, 0, 0);
+      uae_sem_init (&context->switch_to_emu_sem, 0, 0);
 
-	  context->trap_handler    = handler_func;
-	  context->trap_has_retval = has_retval;
+      context->trap_handler    = handler_func;
+      context->trap_has_retval = has_retval;
 
-		//context->saved_regs = regs;
-		copytocpucontext (&context->saved_regs);
+        //context->saved_regs = regs;
+        copytocpucontext (&context->saved_regs);
 
-	  /* Start thread to handle new trap context. */
-	  uae_start_thread_fast (trap_thread, (void *)context, &context->thread);
+      /* Start thread to handle new trap context. */
+      uae_start_thread_fast (trap_thread, (void *)context, &context->thread);
 
-	  /* Switch to trap context to begin execution of
-	   * trap handler function.
-	   */
-	  uae_sem_post (&context->switch_to_trap_sem);
+      /* Switch to trap context to begin execution of
+       * trap handler function.
+       */
+      uae_sem_post (&context->switch_to_trap_sem);
 
-	  /* Wait for trap context to switch back to us.
-	   *
-	   * It'll do this when the trap handler is done - or when
-	   * the handler wants to call 68k code. */
-	  uae_sem_wait (&context->switch_to_emu_sem);
+      /* Wait for trap context to switch back to us.
+       *
+       * It'll do this when the trap handler is done - or when
+       * the handler wants to call 68k code. */
+      uae_sem_wait (&context->switch_to_emu_sem);
   }
 }
 
@@ -440,13 +440,13 @@ static uae_u32 REGPARAM2 exit_trap_handler (TrapContext *dummy_ctx)
   uae_wait_thread (context->thread);
 
   /* Restore 68k state saved at trap entry. */
-	//regs = context->saved_regs;
-	copyfromcpucontext (&context->saved_regs, context->saved_regs.pc);
+    //regs = context->saved_regs;
+    copyfromcpucontext (&context->saved_regs, context->saved_regs.pc);
   
   /* If trap is supposed to return a value, then store
    * return value in D0. */
   if (context->trap_has_retval)
-  	m68k_dreg (regs, 0) = context->trap_retval;
+    m68k_dreg (regs, 0) = context->trap_retval;
 
   uae_sem_destroy (&context->switch_to_trap_sem);
   uae_sem_destroy (&context->switch_to_emu_sem);

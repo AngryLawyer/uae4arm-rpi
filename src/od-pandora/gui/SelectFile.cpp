@@ -123,17 +123,17 @@ static FileButtonActionListener* fileButtonActionListener;
 
 static void checkfoldername (char *current)
 {
-	char *ptr;
-	char actualpath [MAX_PATH];
-	DIR *dir;
-	
-	if (dir = opendir(current))
-	{ 
-	  fileList->changeDir(current);
-	  ptr = realpath(current, actualpath);
-	  strcpy(workingDir, ptr);
-	  closedir(dir);
-	}
+    char *ptr;
+    char actualpath [MAX_PATH];
+    DIR *dir;
+    
+    if (dir = opendir(current))
+    { 
+      fileList->changeDir(current);
+      ptr = realpath(current, actualpath);
+      strcpy(workingDir, ptr);
+      closedir(dir);
+    }
   else
     strcpy(workingDir, start_path_data);
   txtCurrent->setText(workingDir);

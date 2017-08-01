@@ -32,7 +32,7 @@
 
 /* Native integer code conditions */
 enum {
-      	NATIVE_CC_EQ = 0,
+        NATIVE_CC_EQ = 0,
         NATIVE_CC_NE = 1,
         NATIVE_CC_CS = 2,
         NATIVE_CC_CC = 3,

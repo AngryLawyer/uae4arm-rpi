@@ -166,7 +166,7 @@ static void crc_calc(struct lzxdata *d, unsigned char *memory, unsigned int leng
 /* There is an alternate algorithm which is faster but also more complex. */
 
 static int make_decode_table(struct lzxdata *d, short number_symbols, short table_size,
-		      unsigned char *length, unsigned short *table)
+              unsigned char *length, unsigned short *table)
 {
  register unsigned char bit_num = 0;
  register short symbol;
@@ -198,15 +198,15 @@ static int make_decode_table(struct lzxdata *d, short number_symbols, short tabl
      leaf = (leaf << 1) + (reverse & 1);
      reverse >>= 1;
     } while(--fill);
-	pos += bit_mask;
+    pos += bit_mask;
 #if LZX_ERROR_CHECK
-	if(pos > table_mask)
+    if(pos > table_mask)
     {
-	 /* we will overrun the table! abort! */
-	 return 1;
+     /* we will overrun the table! abort! */
+     return 1;
     }
 #endif
-	fill = bit_mask;
+    fill = bit_mask;
     next_symbol = 1 << bit_num;
     do
     {
@@ -264,12 +264,12 @@ static int make_decode_table(struct lzxdata *d, short number_symbols, short tabl
       leaf += (pos >> (15 - fill)) & 1;
      }
      table[leaf] = symbol;
-	 pos += bit_mask;
+     pos += bit_mask;
 #if LZX_ERROR_CHECK
-	 if(pos > table_mask)
+     if(pos > table_mask)
      {
       /* we will overrun the table! abort! */
-	  return 1;
+      return 1;
      }
 #endif
     }
@@ -338,7 +338,7 @@ static int read_literal_table(struct lzxdata *d)
 #if LZX_ERROR_CHECK
   abort = make_decode_table(d, 8, 7, d->offset_len, d->offset_table);
   if (abort)
-	  return abort;
+      return abort;
 #else
   make_decode_table(d, 8, 7, d->offset_len, d->offset_table);
 #endif
@@ -395,7 +395,7 @@ static int read_literal_table(struct lzxdata *d)
 #if LZX_ERROR_CHECK
    abort = make_decode_table(d, 20, 6, d->huffman20_len, d->huffman20_table);
    if (abort)
-	   return abort;
+       return abort;
 #else
    make_decode_table(d, 20, 6, d->huffman20_len, d->huffman20_table);
 #endif
@@ -469,14 +469,14 @@ static int read_literal_table(struct lzxdata *d)
       {
        do /* symbol is longer than 6 bits */
        {
-	symbol = d->huffman20_table[((control >> 6) & 1) + (symbol << 1)];
-	if(!shift--)
-	{
-	 shift += 16;
-	 control += *d->source++ << 24;
-	 control += *d->source++ << 16;
-	}
-	control >>= 1;
+    symbol = d->huffman20_table[((control >> 6) & 1) + (symbol << 1)];
+    if(!shift--)
+    {
+     shift += 16;
+     control += *d->source++ << 24;
+     control += *d->source++ << 16;
+    }
+    control >>= 1;
        } while(symbol >= 20);
        temp = 6;
       }
@@ -511,7 +511,7 @@ static int read_literal_table(struct lzxdata *d)
 #if LZX_ERROR_CHECK
    abort = make_decode_table(d, 768, 12, d->literal_len, d->literal_table);
    if (abort)
-	   return abort;
+       return abort;
 #else
    make_decode_table(d, 768, 12, d->literal_len, d->literal_table);
 #endif
@@ -642,7 +642,7 @@ struct zfile *archive_access_lzx (struct znode *zn)
     struct zfile *dstf, *newzf;
     uae_u8 *buf, *dbuf, *dbufend;
     unsigned int compsize, unpsize;
-	struct lzxdata d = { 0 };
+    struct lzxdata d = { 0 };
 
     dstf = NULL;
     buf = dbuf = NULL;
@@ -652,28 +652,28 @@ struct zfile *archive_access_lzx (struct znode *zn)
     unpsize = 0;
     znfirst = zn;
     while (znfirst->prev) {
-		struct znode *zt = znfirst->prev;
-		if (!zt || zt->offset != 0)
-			break;
-		znfirst = zt;
-		unpsize += znfirst->size;
+        struct znode *zt = znfirst->prev;
+        if (!zt || zt->offset != 0)
+            break;
+        znfirst = zt;
+        unpsize += znfirst->size;
     }
     /* find last file in compressed block */
     znlast = zn;
     while (znlast) {
-		unpsize += znlast->size;
-		if (znlast->offset != 0)
-			break;
-		znlast = znlast->next;
+        unpsize += znlast->size;
+        if (znlast->offset != 0)
+            break;
+        znlast = znlast->next;
     }
     if (!znlast)
-		return NULL;
+        return NULL;
     /* start offset to compressed block */
     startpos = znlast->offset;
     compsize = znlast->packedsize;
     zfile_fseek (zf, startpos, SEEK_SET);
     buf = xmalloc (uae_u8, compsize + 1);
-	buf[compsize] = 0;
+    buf[compsize] = 0;
     zfile_fread (buf, compsize, 1, zf);
     dbuf = xcalloc (uae_u8, unpsize);
 
@@ -684,44 +684,44 @@ struct zfile *archive_access_lzx (struct znode *zn)
     d.global_shift = -16;
     d.last_offset = 1;
     d.destination = dbuf;
-	dbufend = dbuf + unpsize;
-	int outsize = 0;
+    dbufend = dbuf + unpsize;
+    int outsize = 0;
     if (compsize == unpsize) {
-		memcpy (dbuf, buf, unpsize);
+        memcpy (dbuf, buf, unpsize);
     } else {
-		while (unpsize > 0) {
-			uae_u8 *pdest = d.destination;
-			if (!read_literal_table(&d)) {
-				d.destination_end = d.destination + d.decrunch_length;
-				if (d.destination_end > dbufend)
-					goto end;
-				decrunch(&d);
-				outsize += d.decrunch_length;
-				unpsize -= d.decrunch_length;
-				crc_calc (&d, pdest, d.decrunch_length);
-			} else {
-				write_log (_T("LZX corrupt compressed data %s\n"), zn->name);
+        while (unpsize > 0) {
+            uae_u8 *pdest = d.destination;
+            if (!read_literal_table(&d)) {
+                d.destination_end = d.destination + d.decrunch_length;
+                if (d.destination_end > dbufend)
+                    goto end;
+                decrunch(&d);
+                outsize += d.decrunch_length;
+                unpsize -= d.decrunch_length;
+                crc_calc (&d, pdest, d.decrunch_length);
+            } else {
+                write_log (_T("LZX corrupt compressed data %s\n"), zn->name);
 #if 0
-				struct zfile *x = zfile_fopen(_T("c:\\temp\\1.dat"),_T("wb"));
-				zfile_fwrite(dbuf,1,outsize, x);
-				zfile_fclose(x);
-#endif				
-				goto end;
-			}
-		}
+                struct zfile *x = zfile_fopen(_T("c:\\temp\\1.dat"),_T("wb"));
+                zfile_fwrite(dbuf,1,outsize, x);
+                zfile_fclose(x);
+#endif              
+                goto end;
+            }
+        }
     }
     /* pre-cache all files we just decompressed */
     for (;;) {
-		if (znfirst->size && !znfirst->f) {
-			dstf = zfile_fopen_empty (zf, znfirst->name, znfirst->size);
-			zfile_fwrite(dbuf + znfirst->offset2, znfirst->size, 1, dstf);
-			znfirst->f = dstf;
-			if (znfirst == zn)
-			newzf = zfile_dup (dstf);
-		}
-		if (znfirst == znlast)
-			break;
-		znfirst = znfirst->next;
+        if (znfirst->size && !znfirst->f) {
+            dstf = zfile_fopen_empty (zf, znfirst->name, znfirst->size);
+            zfile_fwrite(dbuf + znfirst->offset2, znfirst->size, 1, dstf);
+            znfirst->f = dstf;
+            if (znfirst == zn)
+            newzf = zfile_dup (dstf);
+        }
+        if (znfirst == znlast)
+            break;
+        znfirst = znfirst->next;
     }
 end:
     xfree(buf);
@@ -786,76 +786,76 @@ struct zvolume *archive_directory_lzx (struct zfile *in_file)
        actual = zfile_fread(header_comment, 1, temp, in_file);
        if(!zfile_ferror(in_file))
        {
-	if(actual == temp)
-	{
-	 header_comment[temp] = 0;
-	 crc_calc(&d, (unsigned char*)header_comment, temp);
-	 if(d.sum == crc)
-	 {
-	  unsigned int year, month, day;
-	  unsigned int hour, minute, second;
-	  unsigned char attributes;
-	  attributes = archive_header[0]; /* file protection modes */
-	  unpack_size = (archive_header[5] << 24) + (archive_header[4] << 16) + (archive_header[3] << 8) + archive_header[2]; /* unpack size */
-	  pack_size = (archive_header[9] << 24) + (archive_header[8] << 16) + (archive_header[7] << 8) + archive_header[6]; /* packed size */
-	  temp = (archive_header[18] << 24) + (archive_header[19] << 16) + (archive_header[20] << 8) + archive_header[21]; /* date */
-	  year = ((temp >> 17) & 63) + 1970;
-	  month = (temp >> 23) & 15;
-	  day = (temp >> 27) & 31;
-	  hour = (temp >> 12) & 31;
-	  minute = (temp >> 6) & 63;
-	  second = temp & 63;
+    if(actual == temp)
+    {
+     header_comment[temp] = 0;
+     crc_calc(&d, (unsigned char*)header_comment, temp);
+     if(d.sum == crc)
+     {
+      unsigned int year, month, day;
+      unsigned int hour, minute, second;
+      unsigned char attributes;
+      attributes = archive_header[0]; /* file protection modes */
+      unpack_size = (archive_header[5] << 24) + (archive_header[4] << 16) + (archive_header[3] << 8) + archive_header[2]; /* unpack size */
+      pack_size = (archive_header[9] << 24) + (archive_header[8] << 16) + (archive_header[7] << 8) + archive_header[6]; /* packed size */
+      temp = (archive_header[18] << 24) + (archive_header[19] << 16) + (archive_header[20] << 8) + archive_header[21]; /* date */
+      year = ((temp >> 17) & 63) + 1970;
+      month = (temp >> 23) & 15;
+      day = (temp >> 27) & 31;
+      hour = (temp >> 12) & 31;
+      minute = (temp >> 6) & 63;
+      second = temp & 63;
 
-	  memset(&zai, 0, sizeof zai);
-	  zai.name = au (header_filename);
-	  if (header_comment[0])
-	   zai.comment = au (header_comment);
-	  zai.flags |= (attributes & 32) ? 0x80 : 0;
-	  zai.flags |= (attributes & 64) ? 0x40 : 0;
-	  zai.flags |= (attributes & 128) ? 0x20 : 0;
-	  zai.flags |= (attributes & 16) ? 0x10 : 0;
-	  zai.flags |= (attributes & 1) ? 0x08 : 0;
-	  zai.flags |= (attributes & 2) ? 0x04 : 0;
-	  zai.flags |= (attributes & 8) ? 0x02 : 0;
-	  zai.flags |= (attributes & 4) ? 0x01 : 0;
-	  zai.flags ^= 15;
-	  memset(&tm, 0, sizeof tm);
-	  tm.tm_hour = hour;
-	  tm.tm_min  = minute;
-	  tm.tm_sec  = second;
-	  tm.tm_year = year - 1900;
-	  tm.tm_mon  = month;
-	  tm.tm_mday = day;
-	  zai.tv.tv_sec = mktime(&tm);
-	  zai.size = unpack_size;
-	  zn = zvolume_addfile_abs(zv, &zai);
-	  zn->offset2 = merge_size;
-	  xfree (zai.name);
-	  xfree (zai.comment);
+      memset(&zai, 0, sizeof zai);
+      zai.name = au (header_filename);
+      if (header_comment[0])
+       zai.comment = au (header_comment);
+      zai.flags |= (attributes & 32) ? 0x80 : 0;
+      zai.flags |= (attributes & 64) ? 0x40 : 0;
+      zai.flags |= (attributes & 128) ? 0x20 : 0;
+      zai.flags |= (attributes & 16) ? 0x10 : 0;
+      zai.flags |= (attributes & 1) ? 0x08 : 0;
+      zai.flags |= (attributes & 2) ? 0x04 : 0;
+      zai.flags |= (attributes & 8) ? 0x02 : 0;
+      zai.flags |= (attributes & 4) ? 0x01 : 0;
+      zai.flags ^= 15;
+      memset(&tm, 0, sizeof tm);
+      tm.tm_hour = hour;
+      tm.tm_min  = minute;
+      tm.tm_sec  = second;
+      tm.tm_year = year - 1900;
+      tm.tm_mon  = month;
+      tm.tm_mday = day;
+      zai.tv.tv_sec = mktime(&tm);
+      zai.size = unpack_size;
+      zn = zvolume_addfile_abs(zv, &zai);
+      zn->offset2 = merge_size;
+      xfree (zai.name);
+      xfree (zai.comment);
 
-	  total_pack += pack_size;
-	  total_unpack += unpack_size;
-	  total_files++;
-	  merge_size += unpack_size;
+      total_pack += pack_size;
+      total_unpack += unpack_size;
+      total_files++;
+      merge_size += unpack_size;
 
-	  if(pack_size) /* seek past the packed data */
-	  {
-	   merge_size = 0;
-	   zn->offset = zfile_ftell(in_file);
-	   zn->packedsize = pack_size;
-	   if(!zfile_fseek(in_file, pack_size, SEEK_CUR))
-	   {
-	    abort = 0; /* continue */
-	   }
-	  }
-	  else
-	   abort = 0; /* continue */
+      if(pack_size) /* seek past the packed data */
+      {
+       merge_size = 0;
+       zn->offset = zfile_ftell(in_file);
+       zn->packedsize = pack_size;
+       if(!zfile_fseek(in_file, pack_size, SEEK_CUR))
+       {
+        abort = 0; /* continue */
+       }
+      }
+      else
+       abort = 0; /* continue */
 
-	  //write_log (_T("unp=%6d mrg=%6d pack=%6d off=%6d %s\n"), unpack_size, merge_size, pack_size, zn->offset, zai.name);
+      //write_log (_T("unp=%6d mrg=%6d pack=%6d off=%6d %s\n"), unpack_size, merge_size, pack_size, zn->offset, zai.name);
 
 
-	 }
-	}
+     }
+    }
        }
       }
      }

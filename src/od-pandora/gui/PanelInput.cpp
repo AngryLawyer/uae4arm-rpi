@@ -206,11 +206,11 @@ class InputActionListener : public gcn::ActionListener
           changed_prefs.input_autofire_linecnt = 4 * 312;
       }
       
- 	    else if (actionEvent.getSource() == sldMouseSpeed)
- 	    {
-    		changed_prefs.input_joymouse_multiplier = mousespeed_values[(int)(sldMouseSpeed->getValue())];
-    		RefreshPanelInput();
-    	}
+        else if (actionEvent.getSource() == sldMouseSpeed)
+        {
+            changed_prefs.input_joymouse_multiplier = mousespeed_values[(int)(sldMouseSpeed->getValue())];
+            RefreshPanelInput();
+        }
 #ifndef RASPBERRY
       else if (actionEvent.getSource() == cboTapDelay)
       {
@@ -222,45 +222,45 @@ class InputActionListener : public gcn::ActionListener
           changed_prefs.pandora_tapDelay = 2;
       }
 
-    	else if (actionEvent.getSource() == chkMouseHack)
-  	  {
-  	    changed_prefs.input_tablet = chkMouseHack->isSelected() ? TABLET_MOUSEHACK : TABLET_OFF;
-  	  }
+        else if (actionEvent.getSource() == chkMouseHack)
+      {
+        changed_prefs.input_tablet = chkMouseHack->isSelected() ? TABLET_MOUSEHACK : TABLET_OFF;
+      }
 #endif
- 	    else if (actionEvent.getSource() == chkCustomCtrl)
- 	      changed_prefs.pandora_customControls = chkCustomCtrl->isSelected() ? 1 : 0;
- 	        
- 	    else if (actionEvent.getSource() == cboA)
+        else if (actionEvent.getSource() == chkCustomCtrl)
+          changed_prefs.pandora_customControls = chkCustomCtrl->isSelected() ? 1 : 0;
+            
+        else if (actionEvent.getSource() == cboA)
         customControlMap[VK_A] = amigaKey[cboA->getSelected()];
 
- 	    else if (actionEvent.getSource() == cboB)
+        else if (actionEvent.getSource() == cboB)
         customControlMap[VK_B] = amigaKey[cboB->getSelected()];
 
- 	    else if (actionEvent.getSource() == cboX)
+        else if (actionEvent.getSource() == cboX)
         customControlMap[VK_X] = amigaKey[cboX->getSelected()];
 
- 	    else if (actionEvent.getSource() == cboY)
+        else if (actionEvent.getSource() == cboY)
         customControlMap[VK_Y] = amigaKey[cboY->getSelected()];
 
- 	    else if (actionEvent.getSource() == cboL)
+        else if (actionEvent.getSource() == cboL)
         customControlMap[VK_L] = amigaKey[cboL->getSelected()];
 
- 	    else if (actionEvent.getSource() == cboR)
+        else if (actionEvent.getSource() == cboR)
         customControlMap[VK_R] = amigaKey[cboR->getSelected()];
 
- 	    else if (actionEvent.getSource() == cboUp)
+        else if (actionEvent.getSource() == cboUp)
         customControlMap[VK_UP] = amigaKey[cboUp->getSelected()];
 
- 	    else if (actionEvent.getSource() == cboDown)
+        else if (actionEvent.getSource() == cboDown)
         customControlMap[VK_DOWN] = amigaKey[cboDown->getSelected()];
 
- 	    else if (actionEvent.getSource() == cboLeft)
+        else if (actionEvent.getSource() == cboLeft)
         customControlMap[VK_LEFT] = amigaKey[cboLeft->getSelected()];
 
- 	    else if (actionEvent.getSource() == cboRight)
+        else if (actionEvent.getSource() == cboRight)
         customControlMap[VK_RIGHT] = amigaKey[cboRight->getSelected()];
 
- 	    else if (actionEvent.getSource() == KeyForMenu)
+        else if (actionEvent.getSource() == KeyForMenu)
         changed_prefs.key_for_menu = ControlKey_SDLKeyValues[KeyForMenu->getSelected()] ;
 
     }
@@ -285,7 +285,7 @@ void InitPanelInput(const struct _ConfigCategory& category)
   lblPort0 = new gcn::Label("Port0:");
   lblPort0->setSize(100, LABEL_HEIGHT);
   lblPort0->setAlignment(gcn::Graphics::RIGHT);
-	cboPort0 = new gcn::UaeDropDown(&ctrlPortList);
+    cboPort0 = new gcn::UaeDropDown(&ctrlPortList);
   cboPort0->setSize(435, DROPDOWN_HEIGHT);
   cboPort0->setBaseColor(gui_baseCol);
   cboPort0->setId("cboPort0");
@@ -294,7 +294,7 @@ void InitPanelInput(const struct _ConfigCategory& category)
   lblPort1 = new gcn::Label("Port1:");
   lblPort1->setSize(100, LABEL_HEIGHT);
   lblPort1->setAlignment(gcn::Graphics::RIGHT);
-	cboPort1 = new gcn::UaeDropDown(&ctrlPortList);
+    cboPort1 = new gcn::UaeDropDown(&ctrlPortList);
   cboPort1->setSize(435, DROPDOWN_HEIGHT);
   cboPort1->setBaseColor(gui_baseCol);
   cboPort1->setId("cboPort1");
@@ -303,28 +303,28 @@ void InitPanelInput(const struct _ConfigCategory& category)
   lblAutofire = new gcn::Label("Autofire Rate:");
   lblAutofire->setSize(100, LABEL_HEIGHT);
   lblAutofire->setAlignment(gcn::Graphics::RIGHT);
-	cboAutofire = new gcn::UaeDropDown(&autofireList);
+    cboAutofire = new gcn::UaeDropDown(&autofireList);
   cboAutofire->setSize(80, DROPDOWN_HEIGHT);
   cboAutofire->setBaseColor(gui_baseCol);
   cboAutofire->setId("cboAutofire");
   cboAutofire->addActionListener(inputActionListener);
 
-	lblMouseSpeed = new gcn::Label("Mouse Speed:");
+    lblMouseSpeed = new gcn::Label("Mouse Speed:");
   lblMouseSpeed->setSize(100, LABEL_HEIGHT);
   lblMouseSpeed->setAlignment(gcn::Graphics::RIGHT);
   sldMouseSpeed = new gcn::Slider(0, 4);
   sldMouseSpeed->setSize(110, SLIDER_HEIGHT);
   sldMouseSpeed->setBaseColor(gui_baseCol);
-	sldMouseSpeed->setMarkerLength(20);
-	sldMouseSpeed->setStepLength(1);
-	sldMouseSpeed->setId("MouseSpeed");
+    sldMouseSpeed->setMarkerLength(20);
+    sldMouseSpeed->setStepLength(1);
+    sldMouseSpeed->setId("MouseSpeed");
   sldMouseSpeed->addActionListener(inputActionListener);
   lblMouseSpeedInfo = new gcn::Label(".25");
 #ifndef RASPBERRY
   lblTapDelay = new gcn::Label("Tap Delay:");
   lblTapDelay->setSize(100, LABEL_HEIGHT);
   lblTapDelay->setAlignment(gcn::Graphics::RIGHT);
-	cboTapDelay = new gcn::UaeDropDown(&tapDelayList);
+    cboTapDelay = new gcn::UaeDropDown(&tapDelayList);
   cboTapDelay->setSize(80, DROPDOWN_HEIGHT);
   cboTapDelay->setBaseColor(gui_baseCol);
   cboTapDelay->setId("cboTapDelay");
@@ -334,14 +334,14 @@ void InitPanelInput(const struct _ConfigCategory& category)
   chkMouseHack->setId("MouseHack");
   chkMouseHack->addActionListener(inputActionListener);
 #endif
-	chkCustomCtrl = new gcn::UaeCheckBox("Custom Control");
-	chkCustomCtrl->setId("CustomCtrl");
+    chkCustomCtrl = new gcn::UaeCheckBox("Custom Control");
+    chkCustomCtrl->setId("CustomCtrl");
   chkCustomCtrl->addActionListener(inputActionListener);
 
   lblA = new gcn::Label("<A>:");
   lblA->setSize(100, LABEL_HEIGHT);
   lblA->setAlignment(gcn::Graphics::RIGHT);
-	cboA = new gcn::UaeDropDown(&mappingList);
+    cboA = new gcn::UaeDropDown(&mappingList);
   cboA->setSize(150, DROPDOWN_HEIGHT);
   cboA->setBaseColor(gui_baseCol);
   cboA->setId("cboA");
@@ -350,7 +350,7 @@ void InitPanelInput(const struct _ConfigCategory& category)
   lblB = new gcn::Label("<B>:");
   lblB->setSize(100, LABEL_HEIGHT);
   lblB->setAlignment(gcn::Graphics::RIGHT);
-	cboB = new gcn::UaeDropDown(&mappingList);
+    cboB = new gcn::UaeDropDown(&mappingList);
   cboB->setSize(150, DROPDOWN_HEIGHT);
   cboB->setBaseColor(gui_baseCol);
   cboB->setId("cboB");
@@ -359,7 +359,7 @@ void InitPanelInput(const struct _ConfigCategory& category)
   lblX = new gcn::Label("<X>:");
   lblX->setSize(100, LABEL_HEIGHT);
   lblX->setAlignment(gcn::Graphics::RIGHT);
-	cboX = new gcn::UaeDropDown(&mappingList);
+    cboX = new gcn::UaeDropDown(&mappingList);
   cboX->setSize(150, DROPDOWN_HEIGHT);
   cboX->setBaseColor(gui_baseCol);
   cboX->setId("cboX");
@@ -368,7 +368,7 @@ void InitPanelInput(const struct _ConfigCategory& category)
   lblY = new gcn::Label("<Y>:");
   lblY->setSize(100, LABEL_HEIGHT);
   lblY->setAlignment(gcn::Graphics::RIGHT);
-	cboY = new gcn::UaeDropDown(&mappingList);
+    cboY = new gcn::UaeDropDown(&mappingList);
   cboY->setSize(150, DROPDOWN_HEIGHT);
   cboY->setBaseColor(gui_baseCol);
   cboY->setId("cboY");
@@ -377,7 +377,7 @@ void InitPanelInput(const struct _ConfigCategory& category)
   lblL = new gcn::Label("<L>:");
   lblL->setSize(100, LABEL_HEIGHT);
   lblL->setAlignment(gcn::Graphics::RIGHT);
-	cboL = new gcn::UaeDropDown(&mappingList);
+    cboL = new gcn::UaeDropDown(&mappingList);
   cboL->setSize(150, DROPDOWN_HEIGHT);
   cboL->setBaseColor(gui_baseCol);
   cboL->setId("cboL");
@@ -386,7 +386,7 @@ void InitPanelInput(const struct _ConfigCategory& category)
   lblR = new gcn::Label("<R>:");
   lblR->setSize(100, LABEL_HEIGHT);
   lblR->setAlignment(gcn::Graphics::RIGHT);
-	cboR = new gcn::UaeDropDown(&mappingList);
+    cboR = new gcn::UaeDropDown(&mappingList);
   cboR->setSize(150, DROPDOWN_HEIGHT);
   cboR->setBaseColor(gui_baseCol);
   cboR->setId("cboR");
@@ -395,7 +395,7 @@ void InitPanelInput(const struct _ConfigCategory& category)
   lblUp = new gcn::Label("Up:");
   lblUp->setSize(100, LABEL_HEIGHT);
   lblUp->setAlignment(gcn::Graphics::RIGHT);
-	cboUp = new gcn::UaeDropDown(&mappingList);
+    cboUp = new gcn::UaeDropDown(&mappingList);
   cboUp->setSize(150, DROPDOWN_HEIGHT);
   cboUp->setBaseColor(gui_baseCol);
   cboUp->setId("cboUp");
@@ -404,7 +404,7 @@ void InitPanelInput(const struct _ConfigCategory& category)
   lblDown = new gcn::Label("Down:");
   lblDown->setSize(100, LABEL_HEIGHT);
   lblDown->setAlignment(gcn::Graphics::RIGHT);
-	cboDown = new gcn::UaeDropDown(&mappingList);
+    cboDown = new gcn::UaeDropDown(&mappingList);
   cboDown->setSize(150, DROPDOWN_HEIGHT);
   cboDown->setBaseColor(gui_baseCol);
   cboDown->setId("cboDown");
@@ -413,7 +413,7 @@ void InitPanelInput(const struct _ConfigCategory& category)
   lblLeft = new gcn::Label("Left:");
   lblLeft->setSize(100, LABEL_HEIGHT);
   lblLeft->setAlignment(gcn::Graphics::RIGHT);
-	cboLeft = new gcn::UaeDropDown(&mappingList);
+    cboLeft = new gcn::UaeDropDown(&mappingList);
   cboLeft->setSize(150, DROPDOWN_HEIGHT);
   cboLeft->setBaseColor(gui_baseCol);
   cboLeft->setId("cboLeft");
@@ -422,7 +422,7 @@ void InitPanelInput(const struct _ConfigCategory& category)
   lblRight = new gcn::Label("Right:");
   lblRight->setSize(100, LABEL_HEIGHT);
   lblRight->setAlignment(gcn::Graphics::RIGHT);
-	cboRight = new gcn::UaeDropDown(&mappingList);
+    cboRight = new gcn::UaeDropDown(&mappingList);
   cboRight->setSize(150, DROPDOWN_HEIGHT);
   cboRight->setBaseColor(gui_baseCol);
   cboRight->setId("cboRight");
@@ -589,9 +589,9 @@ void RefreshPanelInput(void)
       break;
   } 
 
-	if (changed_prefs.input_autofire_linecnt == 0)
-	  cboAutofire->setSelected(0);
-	else if (changed_prefs.input_autofire_linecnt > 10 * 312)
+    if (changed_prefs.input_autofire_linecnt == 0)
+      cboAutofire->setSelected(0);
+    else if (changed_prefs.input_autofire_linecnt > 10 * 312)
     cboAutofire->setSelected(1);
   else if (changed_prefs.input_autofire_linecnt > 6 * 312)
     cboAutofire->setSelected(2);
@@ -608,7 +608,7 @@ void RefreshPanelInput(void)
     }
   }
 #ifndef RASPBERRY
-	if (changed_prefs.pandora_tapDelay == 10)
+    if (changed_prefs.pandora_tapDelay == 10)
     cboTapDelay->setSelected(0);
   else if (changed_prefs.pandora_tapDelay == 5)
     cboTapDelay->setSelected(1);

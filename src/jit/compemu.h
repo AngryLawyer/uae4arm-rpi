@@ -89,16 +89,16 @@ typedef union {
 #define BYTES_PER_INST 10240  /* paranoid ;-) */
 #if defined(CPU_arm)
 #define LONGEST_68K_INST 256 /* The number of bytes the longest possible
-			       68k instruction takes */
+                   68k instruction takes */
 #else
 #define LONGEST_68K_INST 16 /* The number of bytes the longest possible
-			       68k instruction takes */
+                   68k instruction takes */
 #endif
 #define MAX_CHECKSUM_LEN 2048 /* The maximum size we calculate checksums
-				 for. Anything larger will be flushed
-				 unconditionally even with SOFT_FLUSH */
+                 for. Anything larger will be flushed
+                 unconditionally even with SOFT_FLUSH */
 #define MAX_HOLD_BI 3  /* One for the current block, and up to two
-			  for jump targets */
+              for jump targets */
 
 #define INDIVIDUAL_INST 0
 #if 1
@@ -189,14 +189,14 @@ typedef struct {
     uae_u8 use_flags;
     uae_u8 set_flags;
     uae_u8 is_addx;
-	  uae_u8 cflow;
+      uae_u8 cflow;
 } op_properties;
 
 extern op_properties prop[65536];
 
 STATIC_INLINE int end_block(uae_u16 opcode)
 {
-	return (prop[opcode].cflow & fl_end_block);
+    return (prop[opcode].cflow & fl_end_block);
 }
 
 #define PC_P 16
@@ -386,8 +386,8 @@ typedef struct blockinfo_t {
     smallstate  env;
 
 #ifdef JIT_DEBUG
-	/* (gb) size of the compiled block (direct handler) */
-	uae_u32 direct_handler_size;
+    /* (gb) size of the compiled block (direct handler) */
+    uae_u32 direct_handler_size;
 #endif
 } blockinfo;
 

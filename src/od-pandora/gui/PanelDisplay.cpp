@@ -53,25 +53,25 @@ class AmigaScreenActionListener : public gcn::ActionListener
       {
         if(changed_prefs.gfx_size.width != amigawidth_values[(int)(sldAmigaWidth->getValue())])
         {
-      		changed_prefs.gfx_size.width = amigawidth_values[(int)(sldAmigaWidth->getValue())];
-      		RefreshPanelDisplay();
-    	  }
+            changed_prefs.gfx_size.width = amigawidth_values[(int)(sldAmigaWidth->getValue())];
+            RefreshPanelDisplay();
+          }
       }
       else if (actionEvent.getSource() == sldAmigaHeight) 
       {
         if(changed_prefs.gfx_size.height != amigaheight_values[(int)(sldAmigaHeight->getValue())])
         {
-      		changed_prefs.gfx_size.height = amigaheight_values[(int)(sldAmigaHeight->getValue())];
-      		RefreshPanelDisplay();
-    	  }
+            changed_prefs.gfx_size.height = amigaheight_values[(int)(sldAmigaHeight->getValue())];
+            RefreshPanelDisplay();
+          }
       }
       else if (actionEvent.getSource() == sldVertPos) 
       {
         if(changed_prefs.pandora_vertical_offset != (int)(sldVertPos->getValue()))
         {
-      		changed_prefs.pandora_vertical_offset = (int)(sldVertPos->getValue());
-      		RefreshPanelDisplay();
-    	  }
+            changed_prefs.pandora_vertical_offset = (int)(sldVertPos->getValue());
+            RefreshPanelDisplay();
+          }
       }
       else if (actionEvent.getSource() == chkFrameskip) 
       {
@@ -82,9 +82,9 @@ class AmigaScreenActionListener : public gcn::ActionListener
       {
         if(changed_prefs.gfx_fullscreen_ratio != FullscreenRatio[(int)(sldFSRatio->getValue())])
         {
-      		changed_prefs.gfx_fullscreen_ratio = FullscreenRatio[(int)(sldFSRatio->getValue())];
-      		RefreshPanelDisplay();
-    	  }
+            changed_prefs.gfx_fullscreen_ratio = FullscreenRatio[(int)(sldFSRatio->getValue())];
+            RefreshPanelDisplay();
+          }
       }
       else if (actionEvent.getSource() == chkAspect)
         changed_prefs.gfx_correct_aspect = chkAspect->isSelected();

@@ -46,9 +46,9 @@ void free_AmigaMem(void)
 
 void alloc_AmigaMem(void)
 {
-	int i;
-	uae_u64 total;
-	int max_allowed_mman;
+    int i;
+    uae_u64 total;
+    int max_allowed_mman;
 
   free_AmigaMem();
 
@@ -57,10 +57,10 @@ void alloc_AmigaMem(void)
   natmem_size = 16 * 1024 * 1024;
   natmem_offset = (uae_u8*)valloc (natmem_size);
   max_z3fastmem = ADDITIONAL_MEMSIZE - (16 * 1024 * 1024);
-	if (!natmem_offset) {
-		write_log("Can't allocate 16M of virtual address space!?\n");
+    if (!natmem_offset) {
+        write_log("Can't allocate 16M of virtual address space!?\n");
     abort();
-	}
+    }
   additional_mem = (uae_u8*) mmap(natmem_offset + 0x10000000, ADDITIONAL_MEMSIZE + BARRIER,
     PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS | MAP_FIXED, -1, 0);
   if(additional_mem != MAP_FAILED)
@@ -88,57 +88,57 @@ void alloc_AmigaMem(void)
   // Third attempt: old style: 64 MB allocated and Z3 and RTG at wrong address
 
   // Get max. available size
-	total = (uae_u64)sysconf (_SC_PHYS_PAGES) * (uae_u64)getpagesize();
+    total = (uae_u64)sysconf (_SC_PHYS_PAGES) * (uae_u64)getpagesize();
   
   // Limit to max. 64 MB
-	natmem_size = total;
-	if (natmem_size > MAXAMIGAMEM)
-		natmem_size = MAXAMIGAMEM;
+    natmem_size = total;
+    if (natmem_size > MAXAMIGAMEM)
+        natmem_size = MAXAMIGAMEM;
 
   // We need at least 16 MB
-	if (natmem_size < 16 * 1024 * 1024)
-		natmem_size = 16 * 1024 * 1024;
+    if (natmem_size < 16 * 1024 * 1024)
+        natmem_size = 16 * 1024 * 1024;
 
-	write_log("Total physical RAM %lluM. Attempting to reserve: %uM.\n", total >> 20, natmem_size >> 20);
-	natmem_offset = (uae_u8*)valloc (natmem_size + BARRIER);
+    write_log("Total physical RAM %lluM. Attempting to reserve: %uM.\n", total >> 20, natmem_size >> 20);
+    natmem_offset = (uae_u8*)valloc (natmem_size + BARRIER);
 
-	if (!natmem_offset) {
-		for (;;) {
-			natmem_offset = (uae_u8*)valloc (natmem_size + BARRIER);
-			if (natmem_offset)
-				break;
-			natmem_size -= 16 * 1024 * 1024;
-			if (!natmem_size) {
-				write_log("Can't allocate 16M of virtual address space!?\n");
+    if (!natmem_offset) {
+        for (;;) {
+            natmem_offset = (uae_u8*)valloc (natmem_size + BARRIER);
+            if (natmem_offset)
+                break;
+            natmem_size -= 16 * 1024 * 1024;
+            if (!natmem_size) {
+                write_log("Can't allocate 16M of virtual address space!?\n");
         abort();
-			}
-		}
-	}
+            }
+        }
+    }
 
   z3_start_adr = 0x01000000;
   rtg_start_adr = 0x03000000;
-	max_z3fastmem = natmem_size - 32 * 1024 * 1024;
-	if(max_z3fastmem <= 0)
+    max_z3fastmem = natmem_size - 32 * 1024 * 1024;
+    if(max_z3fastmem <= 0)
   {
     z3_start_adr = 0x00000000; // No mem for Z3
     if(max_z3fastmem == 0)
       rtg_start_adr = 0x01000000; // We have mem for RTG
     else
       rtg_start_adr = 0x00000000; // No mem for expansion at all
-	  max_z3fastmem = 0;
-	}
-	write_log("Reserved: %p-%p (0x%08x %dM)\n", natmem_offset, (uae_u8*)natmem_offset + natmem_size,
-		natmem_size, natmem_size >> 20);
+      max_z3fastmem = 0;
+    }
+    write_log("Reserved: %p-%p (0x%08x %dM)\n", natmem_offset, (uae_u8*)natmem_offset + natmem_size,
+        natmem_size, natmem_size >> 20);
 }
 
 
 static uae_u32 getz2rtgaddr (void)
 {
-	uae_u32 start;
-	start = currprefs.fastmem_size;
-	while (start & (currprefs.rtgmem_size - 1) && start < 4 * 1024 * 1024)
-		start += 1024 * 1024;
-	return start + 2 * 1024 * 1024;
+    uae_u32 start;
+    start = currprefs.fastmem_size;
+    while (start & (currprefs.rtgmem_size - 1) && start < 4 * 1024 * 1024)
+        start += 1024 * 1024;
+    return start + 2 * 1024 * 1024;
 }
 
 
@@ -198,11 +198,11 @@ void protect_roms (bool protect)
 /*
   If this code is enabled, we can't switch back from JIT to nonJIT emulation...
   
-	if (protect) {
-		// protect only if JIT enabled, always allow unprotect
-		if (!currprefs.cachesize)
-			return;
-	}
+    if (protect) {
+        // protect only if JIT enabled, always allow unprotect
+        if (!currprefs.cachesize)
+            return;
+    }
 
   // Protect all regions, which contains ROM
   if(extendedkickmem_bank.baseaddr != NULL)

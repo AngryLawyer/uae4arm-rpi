@@ -164,5 +164,5 @@ extern struct zfile *savestate_file;
 
 STATIC_INLINE bool isrestore (void)
 {
-	return savestate_state == STATE_RESTORE;
+    return savestate_state == STATE_RESTORE;
 }

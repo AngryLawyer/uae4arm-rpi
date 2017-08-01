@@ -62,7 +62,7 @@ static int GetHDType(int index)
   type = get_filesys_unitconfig(&changed_prefs, index, &mi);
   if (type < 0) {
     uci = &changed_prefs.mountconfig[index];
-		type = (uci->ci.type == UAEDEV_DIR) ? FILESYS_VIRTUAL : FILESYS_HARDFILE;
+        type = (uci->ci.type == UAEDEV_DIR) ? FILESYS_VIRTUAL : FILESYS_HARDFILE;
   }
   return type;
 }
@@ -207,35 +207,35 @@ class CDButtonActionListener : public gcn::ActionListener
     {
       if (actionEvent.getSource() == cmdCDEject)
       {
-  	    //---------------------------------------
+        //---------------------------------------
         // Eject CD from drive
-  	    //---------------------------------------
+        //---------------------------------------
         strcpy(changed_prefs.cdslots[0].name, "");
         AdjustDropDownControls();
       } 
       else if(actionEvent.getSource() == cmdCDSelect)
       {
-  	    char tmp[MAX_DPATH];
+        char tmp[MAX_DPATH];
 
-  	    if(strlen(changed_prefs.cdslots[0].name) > 0)
-  	      strncpy(tmp, changed_prefs.cdslots[0].name, MAX_DPATH);
-  	    else
-  	      strncpy(tmp, currentDir, MAX_DPATH);
+        if(strlen(changed_prefs.cdslots[0].name) > 0)
+          strncpy(tmp, changed_prefs.cdslots[0].name, MAX_DPATH);
+        else
+          strncpy(tmp, currentDir, MAX_DPATH);
 
-  	    if(SelectFile("Select CD image file", tmp, cdfile_filter))
-	      {
-    	    if(strncmp(changed_prefs.cdslots[0].name, tmp, MAX_DPATH))
-    	    {
-      	    strncpy(changed_prefs.cdslots[0].name, tmp, sizeof(changed_prefs.cdslots[0].name));
-      	    changed_prefs.cdslots[0].inuse = true;
-      	    changed_prefs.cdslots[0].type = SCSI_UNIT_IMAGE;
-      	    AddFileToCDList(tmp, 1);
-      	    extractPath(tmp, currentDir);
+        if(SelectFile("Select CD image file", tmp, cdfile_filter))
+          {
+            if(strncmp(changed_prefs.cdslots[0].name, tmp, MAX_DPATH))
+            {
+            strncpy(changed_prefs.cdslots[0].name, tmp, sizeof(changed_prefs.cdslots[0].name));
+            changed_prefs.cdslots[0].inuse = true;
+            changed_prefs.cdslots[0].type = SCSI_UNIT_IMAGE;
+            AddFileToCDList(tmp, 1);
+            extractPath(tmp, currentDir);
 
             AdjustDropDownControls();
-    	    }
-	      }
-	      cmdCDSelect->requestFocus();
+            }
+          }
+          cmdCDSelect->requestFocus();
       }
       RefreshPanelHD();
     }
@@ -268,32 +268,32 @@ class CDFileActionListener : public gcn::ActionListener
   public:
     void action(const gcn::ActionEvent& actionEvent)
     {
-	    //---------------------------------------
+        //---------------------------------------
       // CD image from list selected
-	    //---------------------------------------
-	    if(!bIgnoreListChange)
+        //---------------------------------------
+        if(!bIgnoreListChange)
       {
-  	    int idx = cboCDFile->getSelected();
+        int idx = cboCDFile->getSelected();
 
-  	    if(idx < 0)
-	      {
+        if(idx < 0)
+          {
           strcpy(changed_prefs.cdslots[0].name, "");
           AdjustDropDownControls();
-	      }
-	      else
-  	    {
-    	    if(cdfileList.getElementAt(idx).compare(changed_prefs.cdslots[0].name))
-	        {
-      	    strncpy(changed_prefs.cdslots[0].name, cdfileList.getElementAt(idx).c_str(), sizeof(changed_prefs.cdslots[0].name));
-      	    changed_prefs.cdslots[0].inuse = true;
-      	    changed_prefs.cdslots[0].type = SCSI_UNIT_IMAGE;
-      	    lstMRUCDList.erase(lstMRUCDList.begin() + idx);
-      	    lstMRUCDList.insert(lstMRUCDList.begin(), changed_prefs.cdslots[0].name);
+          }
+          else
+        {
+            if(cdfileList.getElementAt(idx).compare(changed_prefs.cdslots[0].name))
+            {
+            strncpy(changed_prefs.cdslots[0].name, cdfileList.getElementAt(idx).c_str(), sizeof(changed_prefs.cdslots[0].name));
+            changed_prefs.cdslots[0].inuse = true;
+            changed_prefs.cdslots[0].type = SCSI_UNIT_IMAGE;
+            lstMRUCDList.erase(lstMRUCDList.begin() + idx);
+            lstMRUCDList.insert(lstMRUCDList.begin(), changed_prefs.cdslots[0].name);
             bIgnoreListChange = true;
             cboCDFile->setSelected(0);
             bIgnoreListChange = false;
           }
-  	    }
+        }
       }
       RefreshPanelHD();
     }
@@ -391,15 +391,15 @@ void InitPanelHD(const struct _ConfigCategory& category)
   cboCDFile->setId("cboCD");
   cboCDFile->addActionListener(cdFileActionListener);
 
-	lblCDVol = new gcn::Label("CD Volume:");
+    lblCDVol = new gcn::Label("CD Volume:");
   lblCDVol->setSize(80, LABEL_HEIGHT);
   lblCDVol->setAlignment(gcn::Graphics::RIGHT);
   sldCDVol = new gcn::Slider(0, 100);
   sldCDVol->setSize(200, SLIDER_HEIGHT);
   sldCDVol->setBaseColor(gui_baseCol);
-	sldCDVol->setMarkerLength(20);
-	sldCDVol->setStepLength(10);
-	sldCDVol->setId("CDVol");
+    sldCDVol->setMarkerLength(20);
+    sldCDVol->setStepLength(10);
+    sldCDVol->setId("CDVol");
   sldCDVol->addActionListener(genericActionListener);
   lblCDVolInfo = new gcn::Label("80 %");
 
@@ -526,12 +526,12 @@ void RefreshPanelHD(void)
       uci = &changed_prefs.mountconfig[row];
       ci = &uci->ci;
       type = get_filesys_unitconfig(&changed_prefs, row, &mi);
-	    if (type < 0) {
-    		type = (uci->ci.type == UAEDEV_DIR) ? FILESYS_VIRTUAL : FILESYS_HARDFILE;
-    		nosize = 1;
-	    }
-			if (mi.size < 0)
-				nosize = 1;
+        if (type < 0) {
+            type = (uci->ci.type == UAEDEV_DIR) ? FILESYS_VIRTUAL : FILESYS_HARDFILE;
+            nosize = 1;
+        }
+            if (mi.size < 0)
+                nosize = 1;
       
       if(type == FILESYS_VIRTUAL)
       {
@@ -555,12 +555,12 @@ void RefreshPanelHD(void)
           listCells[row][COL_READWRITE]->setText("no");
         else
           listCells[row][COL_READWRITE]->setText("yes");
-  	    if (nosize)
-  	      snprintf (tmp, 32, "n/a");
-  	    else if (mi.size >= 1024 * 1024 * 1024)
-	        snprintf (tmp, 32, "%.1fG", ((double)(uae_u32)(mi.size / (1024 * 1024))) / 1024.0);
-  	    else
-	        snprintf (tmp, 32, "%.1fM", ((double)(uae_u32)(mi.size / (1024))) / 1024.0);
+        if (nosize)
+          snprintf (tmp, 32, "n/a");
+        else if (mi.size >= 1024 * 1024 * 1024)
+            snprintf (tmp, 32, "%.1fG", ((double)(uae_u32)(mi.size / (1024 * 1024))) / 1024.0);
+        else
+            snprintf (tmp, 32, "%.1fM", ((double)(uae_u32)(mi.size / (1024))) / 1024.0);
         listCells[row][COL_SIZE]->setText(tmp);
         snprintf(tmp, 32, "%d", ci->bootpri);
         listCells[row][COL_BOOTPRI]->setText(tmp);

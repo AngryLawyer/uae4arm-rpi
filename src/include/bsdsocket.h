@@ -35,53 +35,53 @@ extern void deinit_socket_layer (void);
 /* allocated and maintained on a per-task basis */
 struct socketbase {
     struct socketbase *next;
-    struct socketbase *nextsig;	/* queue for tasks to signal */
+    struct socketbase *nextsig; /* queue for tasks to signal */
 
     uaecptr sysbase;
-	int dosignal;		/* signal flag */
-    uae_u32 ownertask;		/* task that opened the library */
-    int signal;			/* signal allocated for that task */
-    int sb_errno, sb_herrno;	/* errno and herrno variables */
-    uae_u32 errnoptr, herrnoptr;	/* pointers */
-    uae_u32 errnosize, herrnosize;	/* pinter sizes */
-    int dtablesize;		/* current descriptor/flag etc. table size */
-    SOCKET_TYPE *dtable;	/* socket descriptor table */
-    int *ftable;		/* socket flags */
+    int dosignal;       /* signal flag */
+    uae_u32 ownertask;      /* task that opened the library */
+    int signal;         /* signal allocated for that task */
+    int sb_errno, sb_herrno;    /* errno and herrno variables */
+    uae_u32 errnoptr, herrnoptr;    /* pointers */
+    uae_u32 errnosize, herrnosize;  /* pinter sizes */
+    int dtablesize;     /* current descriptor/flag etc. table size */
+    SOCKET_TYPE *dtable;    /* socket descriptor table */
+    int *ftable;        /* socket flags */
     int resultval;
-    uae_u32 hostent;		/* pointer to the current hostent structure (Amiga mem) */
+    uae_u32 hostent;        /* pointer to the current hostent structure (Amiga mem) */
     uae_u32 hostentsize;
-    uae_u32 protoent;		/* pointer to the current protoent structure (Amiga mem) */
+    uae_u32 protoent;       /* pointer to the current protoent structure (Amiga mem) */
     uae_u32 protoentsize;
-    uae_u32 servent;		/* pointer to the current servent structure (Amiga mem) */
+    uae_u32 servent;        /* pointer to the current servent structure (Amiga mem) */
     uae_u32 serventsize;
     uae_u32 sigstosend;
-    uae_u32 eventsigs;		/* EVENT sigmask */
-    uae_u32 eintrsigs;		/* EINTR sigmask */
-    int eintr;			/* interrupted by eintrsigs? */
-    int eventindex;		/* current socket looked at by GetSocketEvents() to prevent starvation */
-	uae_u32 logstat;
-	uae_u32 logptr;
-	uae_u32 logmask;
-	uae_u32 logfacility;
-	uaecptr fdcallback;
+    uae_u32 eventsigs;      /* EVENT sigmask */
+    uae_u32 eintrsigs;      /* EINTR sigmask */
+    int eintr;          /* interrupted by eintrsigs? */
+    int eventindex;     /* current socket looked at by GetSocketEvents() to prevent starvation */
+    uae_u32 logstat;
+    uae_u32 logptr;
+    uae_u32 logmask;
+    uae_u32 logfacility;
+    uaecptr fdcallback;
 
-    unsigned int *mtable;	/* window messages allocated for asynchronous event notification */
+    unsigned int *mtable;   /* window messages allocated for asynchronous event notification */
     /* host-specific fields below */
 #ifdef _WIN32
-    SOCKET_TYPE sockAbort;	/* for aborting WinSock2 select() (damn Microsoft) */
-    SOCKET_TYPE sockAsync;	/* for aborting WSBAsyncSelect() in window message handler */
-    int needAbort;		/* abort flag */
-    void *hAsyncTask;		/* async task handle */
-    void *hEvent;		/* thread event handle */
+    SOCKET_TYPE sockAbort;  /* for aborting WinSock2 select() (damn Microsoft) */
+    SOCKET_TYPE sockAsync;  /* for aborting WSBAsyncSelect() in window message handler */
+    int needAbort;      /* abort flag */
+    void *hAsyncTask;       /* async task handle */
+    void *hEvent;       /* thread event handle */
 #else
-    uae_sem_t sem;		/* semaphore to notify the socket thread of work */
-    uae_thread_id thread;	/* socket thread */
-    int  sockabort[2];		/* pipe used to tell the thread to abort a select */
+    uae_sem_t sem;      /* semaphore to notify the socket thread of work */
+    uae_thread_id thread;   /* socket thread */
+    int  sockabort[2];      /* pipe used to tell the thread to abort a select */
     int action;
-    int s;			/* for accept */
-    uae_u32 name;		/* For gethostbyname */
-    uae_u32 a_addr;		/* gethostbyaddr, accept */
-    uae_u32 a_addrlen;		/* for gethostbyaddr, accept */
+    int s;          /* for accept */
+    uae_u32 name;       /* For gethostbyname */
+    uae_u32 a_addr;     /* gethostbyaddr, accept */
+    uae_u32 a_addrlen;      /* for gethostbyaddr, accept */
     uae_u32 flags;
     void *buf;
     uae_u32 len;
@@ -104,22 +104,22 @@ struct UAEBSDBase {
 
 /* socket flags */
 /* socket events to report */
-#define REP_ACCEPT	 0x01	/* there is a connection to accept() */
-#define REP_CONNECT	 0x02	/* connect() completed */
-#define REP_OOB		 0x04	/* socket has out-of-band data */
-#define REP_READ	 0x08	/* socket is readable */
-#define REP_WRITE	 0x10	/* socket is writeable */
-#define REP_ERROR	 0x20	/* asynchronous error on socket */
-#define REP_CLOSE	 0x40	/* connection closed (graceful or not) */
+#define REP_ACCEPT   0x01   /* there is a connection to accept() */
+#define REP_CONNECT  0x02   /* connect() completed */
+#define REP_OOB      0x04   /* socket has out-of-band data */
+#define REP_READ     0x08   /* socket is readable */
+#define REP_WRITE    0x10   /* socket is writeable */
+#define REP_ERROR    0x20   /* asynchronous error on socket */
+#define REP_CLOSE    0x40   /* connection closed (graceful or not) */
 #define REP_ALL      0x7f
 /* socket events that occurred */
-#define SET_ACCEPT	 0x0100	/* there is a connection to accept() */
-#define SET_CONNECT	 0x0200	/* connect() completed */
-#define SET_OOB		 0x0400	/* socket has out-of-band data */
-#define SET_READ	 0x0800	/* socket is readable */
-#define SET_WRITE	 0x1000	/* socket is writeable */
-#define SET_ERROR	 0x2000	/* asynchronous error on socket */
-#define SET_CLOSE	 0x4000	/* connection closed (graceful or not) */
+#define SET_ACCEPT   0x0100 /* there is a connection to accept() */
+#define SET_CONNECT  0x0200 /* connect() completed */
+#define SET_OOB      0x0400 /* socket has out-of-band data */
+#define SET_READ     0x0800 /* socket is readable */
+#define SET_WRITE    0x1000 /* socket is writeable */
+#define SET_ERROR    0x2000 /* asynchronous error on socket */
+#define SET_CLOSE    0x4000 /* connection closed (graceful or not) */
 #define SET_ALL      0x7f00
 /* socket properties */
 #define SF_BLOCKING 0x80000000

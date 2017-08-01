@@ -24,9 +24,9 @@
 
 bool gfxboard_is_z3 (int type)
 {
-	if (type == GFXBOARD_UAE_Z2)
-		return false;
-	if (type == GFXBOARD_UAE_Z3)
-		return true;
-	return false;
+    if (type == GFXBOARD_UAE_Z2)
+        return false;
+    if (type == GFXBOARD_UAE_Z3)
+        return true;
+    return false;
 }

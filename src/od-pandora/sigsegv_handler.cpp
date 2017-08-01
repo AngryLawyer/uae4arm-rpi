@@ -44,16 +44,16 @@
 
 
 enum transfer_type_t {
-	TYPE_UNKNOWN,
-	TYPE_LOAD,
-	TYPE_STORE
+    TYPE_UNKNOWN,
+    TYPE_LOAD,
+    TYPE_STORE
 };
 
 enum type_size_t {
-	SIZE_UNKNOWN,
-	SIZE_BYTE,
-	SIZE_WORD,
-	SIZE_INT
+    SIZE_UNKNOWN,
+    SIZE_BYTE,
+    SIZE_WORD,
+    SIZE_INT
 };
 
 static int in_handler=0;
@@ -65,149 +65,149 @@ enum {
 
 STATIC_INLINE void unknown_instruction(uae_u32 instr) 
 {
-	panicbug("Unknown instruction %08x!\n", instr);
+    panicbug("Unknown instruction %08x!\n", instr);
   SDL_Quit();
-	abort();
+    abort();
 }
 
 
 static bool handle_arm_instruction(unsigned long *pregs, uintptr addr) 
 {
-	unsigned int *pc = (unsigned int *)pregs[ARM_REG_PC];
+    unsigned int *pc = (unsigned int *)pregs[ARM_REG_PC];
 
-	panicbug("IP: %p [%08x] %p\n", pc, pc[0], addr);
-	if (pc == 0) 
-	  return false;
+    panicbug("IP: %p [%08x] %p\n", pc, pc[0], addr);
+    if (pc == 0) 
+      return false;
 
-	if (in_handler > 0) 
-	{
+    if (in_handler > 0) 
+    {
     panicbug("Segmentation fault in handler :-(\n");
     return false;
   }
 
   in_handler += 1;
 
-	transfer_type_t transfer_type = TYPE_UNKNOWN;
-	int transfer_size = SIZE_UNKNOWN;
-	enum { SIGNED, UNSIGNED };
-	int style = UNSIGNED;
+    transfer_type_t transfer_type = TYPE_UNKNOWN;
+    int transfer_size = SIZE_UNKNOWN;
+    enum { SIGNED, UNSIGNED };
+    int style = UNSIGNED;
 
-	// Handle load/store instructions only
-	const unsigned int opcode = pc[0];
-	switch ((opcode >> 25) & 7) {
-		case 0: // Halfword and Signed Data Transfer (LDRH, STRH, LDRSB, LDRSH)
-			// Determine transfer size (S/H bits)
-			switch ((opcode >> 5) & 3) {
-				case 0: // SWP instruction
-					panicbug("FIXME: SWP Instruction\n");
-					break;
-				case 1: // Unsigned halfwords
-	  				transfer_size = SIZE_WORD;
-	  				break;
-				case 3: // Signed halfwords
-					style = SIGNED;
-	  				transfer_size = SIZE_WORD;
-	  				break;
-				case 2: // Signed byte
-					style = SIGNED;
-				  	transfer_size = SIZE_BYTE;
-	  				break;
-			}
-			break;
-		case 2:
-		case 3: // Single Data Transfer (LDR, STR)
-			style = UNSIGNED;
-			// Determine transfer size (B bit)
-			if (((opcode >> 22) & 1) == 1)
-  			transfer_size = SIZE_BYTE;
-			else
-  			transfer_size = SIZE_INT;
-			break;
-		default:
-			panicbug("FIXME: support load/store mutliple?\n");
+    // Handle load/store instructions only
+    const unsigned int opcode = pc[0];
+    switch ((opcode >> 25) & 7) {
+        case 0: // Halfword and Signed Data Transfer (LDRH, STRH, LDRSB, LDRSH)
+            // Determine transfer size (S/H bits)
+            switch ((opcode >> 5) & 3) {
+                case 0: // SWP instruction
+                    panicbug("FIXME: SWP Instruction\n");
+                    break;
+                case 1: // Unsigned halfwords
+                    transfer_size = SIZE_WORD;
+                    break;
+                case 3: // Signed halfwords
+                    style = SIGNED;
+                    transfer_size = SIZE_WORD;
+                    break;
+                case 2: // Signed byte
+                    style = SIGNED;
+                    transfer_size = SIZE_BYTE;
+                    break;
+            }
+            break;
+        case 2:
+        case 3: // Single Data Transfer (LDR, STR)
+            style = UNSIGNED;
+            // Determine transfer size (B bit)
+            if (((opcode >> 22) & 1) == 1)
+            transfer_size = SIZE_BYTE;
+            else
+            transfer_size = SIZE_INT;
+            break;
+        default:
+            panicbug("FIXME: support load/store mutliple?\n");
       in_handler--;
       return false;
-	}
+    }
 
-	// Check for invalid transfer size (SWP instruction?)
-	if (transfer_size == SIZE_UNKNOWN) {
-		panicbug("Invalid transfer size\n");
+    // Check for invalid transfer size (SWP instruction?)
+    if (transfer_size == SIZE_UNKNOWN) {
+        panicbug("Invalid transfer size\n");
     in_handler--;
     return false;
-	}
+    }
 
-	// Determine transfer type (L bit)
-	if (((opcode >> 20) & 1) == 1)
-		transfer_type = TYPE_LOAD;
-	else
-		transfer_type = TYPE_STORE;
+    // Determine transfer type (L bit)
+    if (((opcode >> 20) & 1) == 1)
+        transfer_type = TYPE_LOAD;
+    else
+        transfer_type = TYPE_STORE;
 
   int rd = (opcode >> 12) & 0xf;
 #if DEBUG
   static const char * reg_names[] = {
-  	"r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
-  	"r8", "r9", "sl", "fp", "ip", "sp", "lr", "pc"
+    "r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7",
+    "r8", "r9", "sl", "fp", "ip", "sp", "lr", "pc"
   };
   panicbug("%s %s register %s\n",
-		transfer_size == SIZE_BYTE ? "byte" :
-		transfer_size == SIZE_WORD ? "word" :
-		transfer_size == SIZE_INT ? "long" : "unknown",
-		transfer_type == TYPE_LOAD ? "load to" : "store from",
-		reg_names[rd]);
+        transfer_size == SIZE_BYTE ? "byte" :
+        transfer_size == SIZE_WORD ? "word" :
+        transfer_size == SIZE_INT ? "long" : "unknown",
+        transfer_type == TYPE_LOAD ? "load to" : "store from",
+        reg_names[rd]);
   panicbug("\n");
 //  for (int i = 0; i < 16; i++) {
-//  	panicbug("%s : %p", reg_names[i], pregs[i]);
+//      panicbug("%s : %p", reg_names[i], pregs[i]);
 //  }
 #endif
 
 //  if ((addr < 0x00f00000) || (addr > 0x00ffffff))
 //    goto buserr;
 
-	if (transfer_type == TYPE_LOAD) {
-		switch(transfer_size) {
-		  case SIZE_BYTE: {
-		    pregs[rd] = style == SIGNED ? (uae_s8)get_byte(addr) : (uae_u8)get_byte(addr);
-		    break;
-		  }
-		  case SIZE_WORD: {
-		    pregs[rd] = do_byteswap_16(style == SIGNED ? (uae_s16)get_word(addr) : (uae_u16)get_word(addr));
-		    break;
-		  }
-		  case SIZE_INT: {
-		    pregs[rd] = do_byteswap_32(get_long(addr));
-		    break;
-		  }
-		}
-	} else {
-		switch(transfer_size) {
-		  case SIZE_BYTE: {
-		    put_byte(addr, pregs[rd]);
-		    break;
-		  }
-		  case SIZE_WORD: {
-		    put_word(addr, do_byteswap_16(pregs[rd]));
-		    break;
-		  }
-		  case SIZE_INT: {
-		    put_long(addr, do_byteswap_32(pregs[rd]));
-		    break;
-		  }
-		}
-	}
+    if (transfer_type == TYPE_LOAD) {
+        switch(transfer_size) {
+          case SIZE_BYTE: {
+            pregs[rd] = style == SIGNED ? (uae_s8)get_byte(addr) : (uae_u8)get_byte(addr);
+            break;
+          }
+          case SIZE_WORD: {
+            pregs[rd] = do_byteswap_16(style == SIGNED ? (uae_s16)get_word(addr) : (uae_u16)get_word(addr));
+            break;
+          }
+          case SIZE_INT: {
+            pregs[rd] = do_byteswap_32(get_long(addr));
+            break;
+          }
+        }
+    } else {
+        switch(transfer_size) {
+          case SIZE_BYTE: {
+            put_byte(addr, pregs[rd]);
+            break;
+          }
+          case SIZE_WORD: {
+            put_word(addr, do_byteswap_16(pregs[rd]));
+            break;
+          }
+          case SIZE_INT: {
+            put_long(addr, do_byteswap_32(pregs[rd]));
+            break;
+          }
+        }
+    }
 
- 	pregs[ARM_REG_PC] += 4;
-	panicbug("processed: %p \n", pregs[ARM_REG_PC]);
+    pregs[ARM_REG_PC] += 4;
+    panicbug("processed: %p \n", pregs[ARM_REG_PC]);
 
   in_handler--;
 
-	return true;
+    return true;
 
 buserr:
   panicbug("Amiga bus error\n");
   in_handler--;
 
 //  BUS_ERROR(addr);
-	return false;
+    return false;
 } 
 
 
@@ -221,22 +221,22 @@ void signal_segv(int signum, siginfo_t* info, void*ptr)
 {
   int i, f = 0;
   ucontext_t *ucontext = (ucontext_t*)ptr;
-	Dl_info dlinfo;
+    Dl_info dlinfo;
 
 #ifdef TRACER
-	trace_end();
+    trace_end();
 #endif
 
   void **bp = 0;
   void *ip = 0;
 
-	mcontext_t *context = &(ucontext->uc_mcontext);
-	unsigned long *regs = &context->arm_r0;
-	uintptr addr = (uintptr)info->si_addr;
+    mcontext_t *context = &(ucontext->uc_mcontext);
+    unsigned long *regs = &context->arm_r0;
+    uintptr addr = (uintptr)info->si_addr;
   addr = (uae_u32) addr - (uae_u32) natmem_offset;
-	if (handle_arm_instruction(regs, addr))
-	  return;
-	  
+    if (handle_arm_instruction(regs, addr))
+      return;
+      
   if(signum == 4)
     printf("Illegal Instruction!\n");
   else
@@ -275,11 +275,11 @@ void signal_segv(int signum, siginfo_t* info, void*ptr)
 
   void *getaddr = (void *)ucontext->uc_mcontext.arm_lr;
   if(dladdr(getaddr, &dlinfo))
-	  printf("LR - 0x%08X: <%s> (%s)\n", getaddr, dlinfo.dli_sname, dlinfo.dli_fname);
+      printf("LR - 0x%08X: <%s> (%s)\n", getaddr, dlinfo.dli_sname, dlinfo.dli_fname);
   else
     printf("LR - 0x%08X: symbol not found\n", getaddr);
 
-//	printf("Stack trace:\n");
+//  printf("Stack trace:\n");
 
 /*
   #define MAX_BACKTRACE 10
@@ -290,7 +290,7 @@ void signal_segv(int signum, siginfo_t* info, void*ptr)
   {
     if (dladdr(array[i], &dlinfo)) {
       const char *symname = dlinfo.dli_sname;
-  	  printf("%p <%s + 0x%08x> (%s)\n", array[i], symname,
+      printf("%p <%s + 0x%08x> (%s)\n", array[i], symname,
         (unsigned long)array[i] - (unsigned long)dlinfo.dli_saddr, dlinfo.dli_fname);
     }
   }
@@ -305,22 +305,22 @@ void signal_segv(int signum, siginfo_t* info, void*ptr)
       break;
     }
     const char *symname = dlinfo.dli_sname;
-	  printf("% 2d: %p <%s + 0x%08x> (%s)\n", ++f, ip, symname,
+      printf("% 2d: %p <%s + 0x%08x> (%s)\n", ++f, ip, symname,
       (unsigned long)ip - (unsigned long)dlinfo.dli_saddr, dlinfo.dli_fname);
-	  if(dlinfo.dli_sname && !strcmp(dlinfo.dli_sname, "main"))
+      if(dlinfo.dli_sname && !strcmp(dlinfo.dli_sname, "main"))
       break;
     ip = bp[1];
     bp = (void**)bp[0];
   }
 
-	printf("Stack trace (non-dedicated):\n");
+    printf("Stack trace (non-dedicated):\n");
   char **strings;
   void *bt[20];
   int sz = backtrace(bt, 20);
   strings = backtrace_symbols(bt, sz);
   for(i = 0; i < sz; ++i)
     printf("%s\n", strings[i]);
-	printf("End of stack trace.\n");
+    printf("End of stack trace.\n");
 */
   
   SDL_Quit();

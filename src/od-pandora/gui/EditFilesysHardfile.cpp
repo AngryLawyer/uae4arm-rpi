@@ -56,15 +56,15 @@ static void check_rdb(const TCHAR *filename)
   bool isrdb = hardfile_testrdb(filename);
   if(isrdb)
   {
-		txtSectors->setText("0");
-		txtSurfaces->setText("0");
-		txtReserved->setText("0");
-		txtBootPri->setText("0");
+        txtSectors->setText("0");
+        txtSurfaces->setText("0");
+        txtReserved->setText("0");
+        txtBootPri->setText("0");
   }
   txtSectors->setEnabled(!isrdb);
-	txtSurfaces->setEnabled(!isrdb);
-	txtReserved->setEnabled(!isrdb);
-	txtBootPri->setEnabled(!isrdb);
+    txtSurfaces->setEnabled(!isrdb);
+    txtReserved->setEnabled(!isrdb);
+    txtBootPri->setEnabled(!isrdb);
 }
 
 
@@ -145,7 +145,7 @@ static void InitEditFilesysHardfile(void)
   chkReadWrite = new gcn::UaeCheckBox("Read/Write", true);
   chkReadWrite->setId("hdfRW");
 
-	chkAutoboot = new gcn::UaeCheckBox("Bootable", true);
+    chkAutoboot = new gcn::UaeCheckBox("Bootable", true);
   chkAutoboot->setId("hdfAutoboot");
 
   lblBootPri = new gcn::Label("Boot priority:");
@@ -398,7 +398,7 @@ bool EditFilesysHardfile(int unit_no)
     
     uci = add_filesys_config(&changed_prefs, unit_no, &ci);
     if (uci) {
-  		struct hardfiledata *hfd = get_hardfile_data (uci->configoffset);
+        struct hardfiledata *hfd = get_hardfile_data (uci->configoffset);
       hardfile_media_change (hfd, &ci, true, false);
     }
   }

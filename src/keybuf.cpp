@@ -41,8 +41,8 @@ int get_next_key (void)
   assert (kpb_first != kpb_last);
 
   key = keybuf[kpb_last];
-	if (++kpb_last == KEYBUF_SIZE)
-  	kpb_last = 0;
+    if (++kpb_last == KEYBUF_SIZE)
+    kpb_last = 0;
   return key;
 }
 
@@ -51,15 +51,15 @@ int record_key (int kc)
   int kpb_next = kpb_first + 1;
 
   if (kpb_next == KEYBUF_SIZE)
-  	kpb_next = 0;
+    kpb_next = 0;
   if (kpb_next == kpb_last) {
-		write_log (_T("Keyboard buffer overrun. Congratulations.\n"));
+        write_log (_T("Keyboard buffer overrun. Congratulations.\n"));
     return 0;
   }
 #if 0
   if ((kc >> 1) == AK_RCTRL) {
-  	kc ^= AK_RCTRL << 1;
-  	kc ^= AK_CTRL << 1;
+    kc ^= AK_RCTRL << 1;
+    kc ^= AK_CTRL << 1;
   }
 #endif
   keybuf[kpb_first] = kc;
@@ -70,5 +70,5 @@ int record_key (int kc)
 void keybuf_init (void)
 {
   kpb_first = kpb_last = 0;
-	inputdevice_updateconfig (&changed_prefs, &currprefs);
+    inputdevice_updateconfig (&changed_prefs, &currprefs);
 }

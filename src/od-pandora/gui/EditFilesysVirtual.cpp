@@ -81,8 +81,8 @@ static FilesysVirtualActionListener* filesysVirtualActionListener;
 
 static void InitEditFilesysVirtual(void)
 {
-	wndEditFilesysVirtual = new gcn::Window("Edit");
-	wndEditFilesysVirtual->setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
+    wndEditFilesysVirtual = new gcn::Window("Edit");
+    wndEditFilesysVirtual->setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
   wndEditFilesysVirtual->setPosition((GUI_WIDTH - DIALOG_WIDTH) / 2, (GUI_HEIGHT - DIALOG_HEIGHT) / 2);
   wndEditFilesysVirtual->setBaseColor(gui_baseCol + 0x202020);
   wndEditFilesysVirtual->setCaption("Volume settings");
@@ -90,16 +90,16 @@ static void InitEditFilesysVirtual(void)
   
   filesysVirtualActionListener = new FilesysVirtualActionListener();
   
-	cmdOK = new gcn::Button("Ok");
-	cmdOK->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-	cmdOK->setPosition(DIALOG_WIDTH - DISTANCE_BORDER - 2 * BUTTON_WIDTH - DISTANCE_NEXT_X, DIALOG_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - 10);
+    cmdOK = new gcn::Button("Ok");
+    cmdOK->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    cmdOK->setPosition(DIALOG_WIDTH - DISTANCE_BORDER - 2 * BUTTON_WIDTH - DISTANCE_NEXT_X, DIALOG_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - 10);
   cmdOK->setBaseColor(gui_baseCol + 0x202020);
   cmdOK->setId("virtOK");
   cmdOK->addActionListener(filesysVirtualActionListener);
   
-	cmdCancel = new gcn::Button("Cancel");
-	cmdCancel->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-	cmdCancel->setPosition(DIALOG_WIDTH - DISTANCE_BORDER - BUTTON_WIDTH, DIALOG_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - 10);
+    cmdCancel = new gcn::Button("Cancel");
+    cmdCancel->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    cmdCancel->setPosition(DIALOG_WIDTH - DISTANCE_BORDER - BUTTON_WIDTH, DIALOG_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - 10);
   cmdCancel->setBaseColor(gui_baseCol + 0x202020);
   cmdCancel->setId("virtCancel");
   cmdCancel->addActionListener(filesysVirtualActionListener);
@@ -130,10 +130,10 @@ static void InitEditFilesysVirtual(void)
   cmdPath->setId("virtPath");
   cmdPath->addActionListener(filesysVirtualActionListener);
 
-	chkReadWrite = new gcn::UaeCheckBox("Read/Write", true);
+    chkReadWrite = new gcn::UaeCheckBox("Read/Write", true);
   chkReadWrite->setId("virtRW");
 
-	chkAutoboot = new gcn::UaeCheckBox("Bootable", true);
+    chkAutoboot = new gcn::UaeCheckBox("Bootable", true);
   chkAutoboot->setId("virtAutoboot");
 
   lblBootPri = new gcn::Label("Boot priority:");
@@ -315,7 +315,7 @@ bool EditFilesysVirtual(int unit_no)
     
     uci = add_filesys_config(&changed_prefs, unit_no, &ci);
     if (uci) {
-  		struct hardfiledata *hfd = get_hardfile_data (uci->configoffset);
+        struct hardfiledata *hfd = get_hardfile_data (uci->configoffset);
       hardfile_media_change (hfd, &ci, true, false);
     }
   }

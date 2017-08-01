@@ -13,13 +13,13 @@ typedef enum { DRV_NONE = -1, DRV_35_DD = 0, DRV_35_HD, DRV_525_SD, DRV_35_DD_ES
 
 struct diskinfo
 {
-	uae_u8 bootblock[1024];
-	bool bb_crc_valid;
-	uae_u32 crc32;
-	bool hd;
-	bool unreadable;
-	int bootblocktype;
-	TCHAR diskname[110];
+    uae_u8 bootblock[1024];
+    bool bb_crc_valid;
+    uae_u32 crc32;
+    bool hd;
+    bool unreadable;
+    int bootblocktype;
+    TCHAR diskname[110];
 };
 
 extern void DISK_init (void);

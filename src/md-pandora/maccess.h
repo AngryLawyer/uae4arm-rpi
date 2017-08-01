@@ -15,8 +15,8 @@ STATIC_INLINE uae_u16 do_get_mem_word(uae_u16 *_GCCRES_ a)
 {
   uae_u16 v;
    __asm__ (
-						"ldrh %[v], [%[a]] \n\t"
-						"rev16 %[v], %[v] \n\t"
+                        "ldrh %[v], [%[a]] \n\t"
+                        "rev16 %[v], %[v] \n\t"
            : [v] "=r" (v) : [a] "r" (a) ); 
   return v;
 }
@@ -36,8 +36,8 @@ STATIC_INLINE uae_u32 do_get_mem_long(uae_u32 *a)
 {
   uae_u32 v;
    __asm__ (
-						"ldr %[v], [%[a]] \n\t"
-						"rev %[v], %[v] \n\t"
+                        "ldr %[v], [%[a]] \n\t"
+                        "rev %[v], %[v] \n\t"
            : [v] "=r" (v) : [a] "r" (a) ); 
   return v;
 }
@@ -60,8 +60,8 @@ STATIC_INLINE uae_u8 do_get_mem_byte(uae_u8 *_GCCRES_ a)
 STATIC_INLINE void do_put_mem_word(uae_u16 *_GCCRES_ a, uae_u16 v)
 {
    __asm__ (
-						"rev16 r2, %[v] \n\t"
-						"strh r2, [%[a]] \n\t"
+                        "rev16 r2, %[v] \n\t"
+                        "strh r2, [%[a]] \n\t"
            : : [v] "r" (v), [a] "r" (a) : "r2", "memory" ); 
 }
 #else
@@ -78,8 +78,8 @@ STATIC_INLINE void do_put_mem_word(uae_u16 *_GCCRES_ a, uae_u16 v)
 STATIC_INLINE void do_put_mem_long(uae_u32 *_GCCRES_ a, uae_u32 v)
 {
    __asm__ (
-						"rev r2, %[v] \n\t"
-						"str r2, [%[a]] \n\t"
+                        "rev r2, %[v] \n\t"
+                        "str r2, [%[a]] \n\t"
            : : [v] "r" (v), [a] "r" (a) : "r2", "memory" ); 
 }
 #else

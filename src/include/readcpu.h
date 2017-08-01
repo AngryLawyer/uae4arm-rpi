@@ -34,7 +34,7 @@ ENUMDECL {
     i_MMUOP030, i_PFLUSHN, i_PFLUSH, i_PFLUSHAN, i_PFLUSHA,
     i_PLPAR, i_PLPAW, i_PTESTR, i_PTESTW,
     i_LPSTOP,
-	MAX_OPCODE_FAMILY
+    MAX_OPCODE_FAMILY
 } ENUMNAME (instrmnem);
 
 struct mnemolookup {
@@ -59,14 +59,14 @@ ENUMDECL {
 } ENUMNAME (flaguse);
 
 ENUMDECL {
-    fl_normal		= 0,
-    fl_branch		= 1,
-    fl_jump		= 2,
-    fl_return		= 3,
-    fl_trap		= 4,
-    fl_const_jump	= 8,
+    fl_normal       = 0,
+    fl_branch       = 1,
+    fl_jump     = 2,
+    fl_return       = 3,
+    fl_trap     = 4,
+    fl_const_jump   = 8,
     /* Instructions that can trap don't mark the end of a block */
-    fl_end_block	= 3
+    fl_end_block    = 3
 } ENUMNAME (cflow_t);
 
 ENUMDECL {
@@ -80,17 +80,17 @@ struct instr_def {
     uae_u8 bitpos[16];
     unsigned int mask;
     int cpulevel;
-	int unimpcpulevel;
+    int unimpcpulevel;
     int plevel;
     struct {
-	unsigned int flaguse:3;
-	unsigned int flagset:3;
+    unsigned int flaguse:3;
+    unsigned int flagset:3;
     } flaginfo[5];
     unsigned char cflow;
     uae_u8 sduse;
     const TCHAR *opcstr;
-	// 68020/030 timing
-	int head, tail, clocks, fetchmode;
+    // 68020/030 timing
+    int head, tail, clocks, fetchmode;
 };
 
 extern struct instr_def defs68k[];
@@ -108,7 +108,7 @@ extern struct instr {
     unsigned int cc:4;
     unsigned int plev:2;
     unsigned int size:2;
-		unsigned int unsized:1;
+        unsigned int unsized:1;
     unsigned int smode:5;
     unsigned int stype:3;
     unsigned int dmode:5;
@@ -117,7 +117,7 @@ extern struct instr {
     unsigned int clev:3, unimpclev:3;
     unsigned int cflow:3;
     unsigned int unused3:7;
-	char head, tail, clocks, fetchmode;
+    char head, tail, clocks, fetchmode;
 } *table68k;
 
 extern void read_table68k (void);

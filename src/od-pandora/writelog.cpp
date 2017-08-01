@@ -36,8 +36,8 @@ void write_log (const TCHAR *format,...)
   va_start (parms, format);
   count = vsnprintf( buffer, WRITE_LOG_BUF_SIZE-1, format, parms );
   if( debugfile ) {
-	  fprintf( debugfile, buffer );
-	  fflush (debugfile);
+      fprintf( debugfile, buffer );
+      fflush (debugfile);
   }
   va_end (parms);
 }
@@ -56,7 +56,7 @@ void jit_abort (const TCHAR *format,...)
     write_log (buffer);
     va_end (parms);
     if (!happened)
-	gui_message ("JIT: Serious error:\n%s", buffer);
+    gui_message ("JIT: Serious error:\n%s", buffer);
     happened = 1;
     uae_reset (1, 0);
 }

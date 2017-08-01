@@ -29,10 +29,10 @@ extern void maybe_blit2 (int);
 STATIC_INLINE void maybe_blit (int hack)
 {
   if (bltstate == BLT_done)
-  	return;
+    return;
 
   if (savestate_state)
-  	return;
+    return;
 
   maybe_blit2(hack);
 }

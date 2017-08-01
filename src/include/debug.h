@@ -8,10 +8,10 @@
 #if defined(DEBUG) && DEBUG
 #define DUNUSED(x)
 #else
-#define DUNUSED(x)	((void)x)
+#define DUNUSED(x)  ((void)x)
 #endif
 #ifndef UNUSED
-#define UNUSED(x)	((void)x)
+#define UNUSED(x)   ((void)x)
 #endif
 
 /*

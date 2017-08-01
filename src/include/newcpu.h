@@ -62,7 +62,7 @@ typedef uae_u32 REGPARAM3 compop_func (uae_u32) REGPARAM;
 
 struct comptbl {
   compop_func *handler;
-	uae_u32	specific;
+    uae_u32 specific;
   uae_u32 opcode;
 };
 #endif
@@ -85,11 +85,11 @@ typedef double fptype;
 
 typedef struct
 {
-	fptype fp;
+    fptype fp;
 #ifdef USE_SOFT_LONG_DOUBLE
-	bool fpx;
-	uae_u32 fpm;
-	uae_u64 fpe;
+    bool fpx;
+    uae_u32 fpm;
+    uae_u64 fpe;
 #endif
 } fpdata;
 
@@ -103,7 +103,7 @@ struct regstruct
   uae_u8 *pc_oldp;
   uae_u32 instruction_pc;
   
-	uae_u16 irc, ir;
+    uae_u16 irc, ir;
   uae_u32 spcflags;
 
   uaecptr usp, isp, msp;
@@ -114,22 +114,22 @@ struct regstruct
   flagtype m;
   flagtype x;
   flagtype stopped;
-	int halted;
+    int halted;
   int intmask;
 
   uae_u32 vbr,sfc,dfc;
 
 #ifdef FPUEMU
-	fpdata fp[8];
-	fpdata fp_result;
-	uae_u32 fp_result_status;
+    fpdata fp[8];
+    fpdata fp_result;
+    uae_u32 fp_result_status;
   uae_u32 fpcr,fpsr, fpiar;
-	uae_u32 fpu_state;
-	uae_u32 fpu_exp_state;
-	fpdata exp_src1, exp_src2;
-	uae_u32 exp_pack[3];
+    uae_u32 fpu_state;
+    uae_u32 fpu_exp_state;
+    fpdata exp_src1, exp_src2;
+    uae_u32 exp_pack[3];
   uae_u16 exp_opcode, exp_extra, exp_type;
-	bool fp_exception;
+    bool fp_exception;
 #endif
 #ifndef CPUEMU_68000_ONLY
   uae_u32 cacr, caar;
@@ -161,13 +161,13 @@ extern bool m68k_pc_indirect;
 
 STATIC_INLINE void set_special (uae_u32 x)
 {
-	regs.spcflags |= x;
+    regs.spcflags |= x;
   cycles_do_special();
 }
 
 STATIC_INLINE void unset_special (uae_u32 x)
 {
-	regs.spcflags &= ~x;
+    regs.spcflags &= ~x;
 }
 
 #define m68k_dreg(r,num) ((r).regs[(num)])
@@ -184,7 +184,7 @@ STATIC_INLINE void m68k_setpc (uaecptr newpc)
 
 STATIC_INLINE uaecptr m68k_getpc (void)
 {
-	return (uaecptr)(regs.pc + ((uae_u8*)regs.pc_p - (uae_u8*)regs.pc_oldp));
+    return (uaecptr)(regs.pc + ((uae_u8*)regs.pc_p - (uae_u8*)regs.pc_oldp));
 }
 #define M68K_GETPC m68k_getpc()
 
@@ -227,42 +227,42 @@ STATIC_INLINE void m68k_do_rts (void)
 #define m68k_setpci(newpc) (regs.instruction_pc = regs.pc = newpc)
 STATIC_INLINE uaecptr m68k_getpci(void)
 {
-	return regs.pc;
+    return regs.pc;
 }
 #define m68k_incpci(o) (regs.pc += (o))
 
 STATIC_INLINE void m68k_do_bsri(uaecptr oldpc, uae_s32 offset)
 {
-	m68k_areg(regs, 7) -= 4;
-	put_long(m68k_areg(regs, 7), oldpc);
-	m68k_incpci(offset);
+    m68k_areg(regs, 7) -= 4;
+    put_long(m68k_areg(regs, 7), oldpc);
+    m68k_incpci(offset);
 }
 STATIC_INLINE void m68k_do_rtsi(void)
 {
-	uae_u32 newpc = get_long(m68k_areg(regs, 7));
-	m68k_setpci(newpc);
-	m68k_areg(regs, 7) += 4;
+    uae_u32 newpc = get_long(m68k_areg(regs, 7));
+    m68k_setpci(newpc);
+    m68k_areg(regs, 7) += 4;
 }
 
 /* common access */
 
 STATIC_INLINE void m68k_incpc_normal(int o)
 {
-	if (m68k_pc_indirect)
-		m68k_incpci(o);
-	else
-		m68k_incpc(o);
+    if (m68k_pc_indirect)
+        m68k_incpci(o);
+    else
+        m68k_incpc(o);
 }
 
 STATIC_INLINE void m68k_setpc_normal(uaecptr pc)
 {
-	if (m68k_pc_indirect) {
-		regs.pc_p = regs.pc_oldp = 0;
-		m68k_setpci(pc);
-	}
-	else {
-		m68k_setpc(pc);
-	}
+    if (m68k_pc_indirect) {
+        regs.pc_p = regs.pc_oldp = 0;
+        m68k_setpci(pc);
+    }
+    else {
+        m68k_setpc(pc);
+    }
 }
 
 #define x_get_word get_word

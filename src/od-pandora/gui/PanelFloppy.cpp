@@ -98,12 +98,12 @@ class DriveTypeActionListener : public gcn::ActionListener
   public:
     void action(const gcn::ActionEvent& actionEvent)
     {
-	    //---------------------------------------
-	    // New drive type selected
-	    //---------------------------------------
-	    for(int i=0; i<4; ++i)
-	    {
-	      if (actionEvent.getSource() == cboDFxType[i])
+        //---------------------------------------
+        // New drive type selected
+        //---------------------------------------
+        for(int i=0; i<4; ++i)
+        {
+          if (actionEvent.getSource() == cboDFxType[i])
           changed_prefs.floppyslots[i].dfxtype = cboDFxType[i]->getSelected() - 1;
       }
       RefreshPanelFloppy();
@@ -117,17 +117,17 @@ class DFxCheckActionListener : public gcn::ActionListener
   public:
     void action(const gcn::ActionEvent& actionEvent)
     {
-	    if(actionEvent.getSource() == chkLoadConfig)
-	      bLoadConfigForDisk = chkLoadConfig->isSelected();
-	    else
+        if(actionEvent.getSource() == chkLoadConfig)
+          bLoadConfigForDisk = chkLoadConfig->isSelected();
+        else
       {
-  	    for(int i=0; i<4; ++i)
-  	    {
-  	      if (actionEvent.getSource() == chkDFx[i])
+        for(int i=0; i<4; ++i)
+        {
+          if (actionEvent.getSource() == chkDFx[i])
           {
-      	    //---------------------------------------
+            //---------------------------------------
             // Drive enabled/disabled
-      	    //---------------------------------------
+            //---------------------------------------
             if(chkDFx[i]->isSelected())
               changed_prefs.floppyslots[i].dfxtype = DRV_35_DD;
             else
@@ -135,9 +135,9 @@ class DFxCheckActionListener : public gcn::ActionListener
           }
           else if(actionEvent.getSource() == chkDFxWriteProtect[i])
           {
-      	    //---------------------------------------
+            //---------------------------------------
             // Write-protect changed
-      	    //---------------------------------------
+            //---------------------------------------
             // ToDo: set write protect for floppy
           }
         }
@@ -153,56 +153,56 @@ class DFxButtonActionListener : public gcn::ActionListener
   public:
     void action(const gcn::ActionEvent& actionEvent)
     {
-	    for(int i=0; i<4; ++i)
-	    {
-	      if (actionEvent.getSource() == cmdDFxInfo[i])
+        for(int i=0; i<4; ++i)
         {
-    	    //---------------------------------------
+          if (actionEvent.getSource() == cmdDFxInfo[i])
+        {
+            //---------------------------------------
           // Show info about current disk-image
-    	    //---------------------------------------
+            //---------------------------------------
           if(changed_prefs.floppyslots[i].dfxtype != DRV_NONE && strlen(changed_prefs.floppyslots[i].df) > 0)
             ; // ToDo: Show info dialog
         }
         else if (actionEvent.getSource() == cmdDFxEject[i])
         {
-    	    //---------------------------------------
+            //---------------------------------------
           // Eject disk from drive
-    	    //---------------------------------------
+            //---------------------------------------
           disk_eject(i);
           strcpy(changed_prefs.floppyslots[i].df, "");
           AdjustDropDownControls();
         }
         else if (actionEvent.getSource() == cmdDFxSelect[i])
         {
-    	    //---------------------------------------
+            //---------------------------------------
           // Select disk for drive
-    	    //---------------------------------------
-    	    char tmp[MAX_PATH];
+            //---------------------------------------
+            char tmp[MAX_PATH];
 
-    	    if(strlen(changed_prefs.floppyslots[i].df) > 0)
-    	      strncpy(tmp, changed_prefs.floppyslots[i].df, MAX_PATH);
-    	    else
-    	      strncpy(tmp, currentDir, MAX_PATH);
-    	    if(SelectFile("Select disk image file", tmp, diskfile_filter))
-  	      {
-      	    if(strncmp(changed_prefs.floppyslots[i].df, tmp, MAX_PATH))
-      	    {
-        	    strncpy(changed_prefs.floppyslots[i].df, tmp, sizeof(changed_prefs.floppyslots[i].df));
-        	    disk_insert(i, tmp);
-        	    AddFileToDiskList(tmp, 1);
-        	    extractPath(tmp, currentDir);
+            if(strlen(changed_prefs.floppyslots[i].df) > 0)
+              strncpy(tmp, changed_prefs.floppyslots[i].df, MAX_PATH);
+            else
+              strncpy(tmp, currentDir, MAX_PATH);
+            if(SelectFile("Select disk image file", tmp, diskfile_filter))
+          {
+            if(strncmp(changed_prefs.floppyslots[i].df, tmp, MAX_PATH))
+            {
+                strncpy(changed_prefs.floppyslots[i].df, tmp, sizeof(changed_prefs.floppyslots[i].df));
+                disk_insert(i, tmp);
+                AddFileToDiskList(tmp, 1);
+                extractPath(tmp, currentDir);
 
-        	    if(i == 0 && chkLoadConfig->isSelected())
-      	      {
-      	        // Search for config of disk
-      	        extractFileName(changed_prefs.floppyslots[i].df, tmp);
-      	        removeFileExtension(tmp);
-      	        LoadConfigByName(tmp);
-      	      }
+                if(i == 0 && chkLoadConfig->isSelected())
+              {
+                // Search for config of disk
+                extractFileName(changed_prefs.floppyslots[i].df, tmp);
+                removeFileExtension(tmp);
+                LoadConfigByName(tmp);
+              }
               AdjustDropDownControls();
-      	    }
-  	      }
-  	      cmdDFxSelect[i]->requestFocus();
+            }
+          }
+          cmdDFxSelect[i]->requestFocus();
         }
       }
       RefreshPanelFloppy();
@@ -217,47 +217,47 @@ class DiskFileActionListener : public gcn::ActionListener
   public:
     void action(const gcn::ActionEvent& actionEvent)
     {
-	    for(int i=0; i<4; ++i)
-	    {
-	      if (actionEvent.getSource() == cboDFxFile[i])
+        for(int i=0; i<4; ++i)
         {
-    	    //---------------------------------------
+          if (actionEvent.getSource() == cboDFxFile[i])
+        {
+            //---------------------------------------
           // Diskimage from list selected
-    	    //---------------------------------------
-    	    if(!bIgnoreListChange)
-  	      {
-      	    int idx = cboDFxFile[i]->getSelected();
+            //---------------------------------------
+            if(!bIgnoreListChange)
+          {
+            int idx = cboDFxFile[i]->getSelected();
 
-      	    if(idx < 0)
-    	      {
+            if(idx < 0)
+              {
               disk_eject(i);
               strcpy(changed_prefs.floppyslots[i].df, "");
               AdjustDropDownControls();
-    	      }
-    	      else
-      	    {
-        	    if(diskfileList.getElementAt(idx).compare(changed_prefs.floppyslots[i].df))
-    	        {
-          	    strncpy(changed_prefs.floppyslots[i].df, diskfileList.getElementAt(idx).c_str(), sizeof(changed_prefs.floppyslots[i].df));
-          	    disk_insert(i, changed_prefs.floppyslots[i].df);
-          	    lstMRUDiskList.erase(lstMRUDiskList.begin() + idx);
-          	    lstMRUDiskList.insert(lstMRUDiskList.begin(), changed_prefs.floppyslots[i].df);
+              }
+              else
+            {
+                if(diskfileList.getElementAt(idx).compare(changed_prefs.floppyslots[i].df))
+                {
+                strncpy(changed_prefs.floppyslots[i].df, diskfileList.getElementAt(idx).c_str(), sizeof(changed_prefs.floppyslots[i].df));
+                disk_insert(i, changed_prefs.floppyslots[i].df);
+                lstMRUDiskList.erase(lstMRUDiskList.begin() + idx);
+                lstMRUDiskList.insert(lstMRUDiskList.begin(), changed_prefs.floppyslots[i].df);
                 bIgnoreListChange = true;
                 cboDFxFile[i]->setSelected(0);
                 bIgnoreListChange = false;
 
-          	    if(i == 0 && chkLoadConfig->isSelected())
-        	      {
-        	        // Search for config of disk
-        	        char tmp[MAX_PATH];
-        	        
-        	        extractFileName(changed_prefs.floppyslots[i].df, tmp);
-        	        removeFileExtension(tmp);
-        	        LoadConfigByName(tmp);
+                if(i == 0 && chkLoadConfig->isSelected())
+                  {
+                    // Search for config of disk
+                    char tmp[MAX_PATH];
+                    
+                    extractFileName(changed_prefs.floppyslots[i].df, tmp);
+                    removeFileExtension(tmp);
+                    LoadConfigByName(tmp);
                 }
               }
-      	    }
-      	  }
+            }
+          }
         }
       }
       RefreshPanelFloppy();
@@ -271,8 +271,8 @@ class DriveSpeedSliderActionListener : public gcn::ActionListener
   public:
     void action(const gcn::ActionEvent& actionEvent)
     {
-  		changed_prefs.floppy_speed = drivespeedvalues[(int)sldDriveSpeed->getValue()];
-  		RefreshPanelFloppy();
+        changed_prefs.floppy_speed = drivespeedvalues[(int)sldDriveSpeed->getValue()];
+        RefreshPanelFloppy();
     }
 };
 static DriveSpeedSliderActionListener* driveSpeedSliderActionListener;
@@ -324,8 +324,8 @@ class CreateDiskActionListener : public gcn::ActionListener
           removeFileExtension(diskname);
           diskname[31] = '\0';
           disk_creatediskfile(tmp, 0, DRV_35_DD, diskname, false, false, NULL);
-    	    AddFileToDiskList(tmp, 1);
-    	    extractPath(tmp, currentDir);
+            AddFileToDiskList(tmp, 1);
+            extractPath(tmp, currentDir);
         }
         cmdCreateDDDisk->requestFocus();
       }
@@ -341,8 +341,8 @@ class CreateDiskActionListener : public gcn::ActionListener
           removeFileExtension(diskname);
           diskname[31] = '\0';
           disk_creatediskfile(tmp, 0, DRV_35_HD, diskname, false, false, NULL);
-    	    AddFileToDiskList(tmp, 1);
-    	    extractPath(tmp, currentDir);
+            AddFileToDiskList(tmp, 1);
+            extractPath(tmp, currentDir);
         }
         cmdCreateHDDisk->requestFocus();
       }
@@ -353,36 +353,36 @@ static CreateDiskActionListener* createDiskActionListener;
 
 void InitPanelFloppy(const struct _ConfigCategory& category)
 {
-	int posX;
-	int posY = DISTANCE_BORDER;
-	int i;
-	
-	dfxCheckActionListener = new DFxCheckActionListener();
-	driveTypeActionListener = new DriveTypeActionListener();
-	dfxButtonActionListener = new DFxButtonActionListener();
-	diskFileActionListener = new DiskFileActionListener();
-	driveSpeedSliderActionListener = new DriveSpeedSliderActionListener();
-	saveForDiskActionListener = new SaveForDiskActionListener();
-	createDiskActionListener = new CreateDiskActionListener();
-	
-	for(i=0; i<4; ++i)
-	{
-	  char tmp[20];
-	  snprintf(tmp, 20, "DF%d:", i); 
-	  chkDFx[i] = new gcn::UaeCheckBox(tmp);
-	  chkDFx[i]->addActionListener(dfxCheckActionListener);
-	  
-	  cboDFxType[i] = new gcn::UaeDropDown(&driveTypeList);
+    int posX;
+    int posY = DISTANCE_BORDER;
+    int i;
+    
+    dfxCheckActionListener = new DFxCheckActionListener();
+    driveTypeActionListener = new DriveTypeActionListener();
+    dfxButtonActionListener = new DFxButtonActionListener();
+    diskFileActionListener = new DiskFileActionListener();
+    driveSpeedSliderActionListener = new DriveSpeedSliderActionListener();
+    saveForDiskActionListener = new SaveForDiskActionListener();
+    createDiskActionListener = new CreateDiskActionListener();
+    
+    for(i=0; i<4; ++i)
+    {
+      char tmp[20];
+      snprintf(tmp, 20, "DF%d:", i); 
+      chkDFx[i] = new gcn::UaeCheckBox(tmp);
+      chkDFx[i]->addActionListener(dfxCheckActionListener);
+      
+      cboDFxType[i] = new gcn::UaeDropDown(&driveTypeList);
     cboDFxType[i]->setSize(106, DROPDOWN_HEIGHT);
     cboDFxType[i]->setBaseColor(gui_baseCol);
-	  snprintf(tmp, 20, "cboType%d", i);
-	  cboDFxType[i]->setId(tmp);
+      snprintf(tmp, 20, "cboType%d", i);
+      cboDFxType[i]->setId(tmp);
     cboDFxType[i]->addActionListener(driveTypeActionListener);
-	  
-	  chkDFxWriteProtect[i] = new gcn::UaeCheckBox("Write-protected");
-	  chkDFxWriteProtect[i]->addActionListener(dfxCheckActionListener);
-	  chkDFxWriteProtect[i]->setEnabled(false);
-	  
+      
+      chkDFxWriteProtect[i] = new gcn::UaeCheckBox("Write-protected");
+      chkDFxWriteProtect[i]->addActionListener(dfxCheckActionListener);
+      chkDFxWriteProtect[i]->setEnabled(false);
+      
     cmdDFxInfo[i] = new gcn::Button("?");
     cmdDFxInfo[i]->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
     cmdDFxInfo[i]->setBaseColor(gui_baseCol);
@@ -391,22 +391,22 @@ void InitPanelFloppy(const struct _ConfigCategory& category)
     cmdDFxEject[i] = new gcn::Button("Eject");
     cmdDFxEject[i]->setSize(SMALL_BUTTON_WIDTH * 2, SMALL_BUTTON_HEIGHT);
     cmdDFxEject[i]->setBaseColor(gui_baseCol);
-	  snprintf(tmp, 20, "cmdEject%d", i);
-	  cmdDFxEject[i]->setId(tmp);
+      snprintf(tmp, 20, "cmdEject%d", i);
+      cmdDFxEject[i]->setId(tmp);
     cmdDFxEject[i]->addActionListener(dfxButtonActionListener);
 
     cmdDFxSelect[i] = new gcn::Button("...");
     cmdDFxSelect[i]->setSize(SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
     cmdDFxSelect[i]->setBaseColor(gui_baseCol);
-	  snprintf(tmp, 20, "cmdSel%d", i);
-	  cmdDFxSelect[i]->setId(tmp);
+      snprintf(tmp, 20, "cmdSel%d", i);
+      cmdDFxSelect[i]->setId(tmp);
     cmdDFxSelect[i]->addActionListener(dfxButtonActionListener);
 
-	  cboDFxFile[i] = new gcn::UaeDropDown(&diskfileList);
+      cboDFxFile[i] = new gcn::UaeDropDown(&diskfileList);
     cboDFxFile[i]->setSize(category.panel->getWidth() - 2 * DISTANCE_BORDER, DROPDOWN_HEIGHT);
     cboDFxFile[i]->setBaseColor(gui_baseCol);
-	  snprintf(tmp, 20, "cboDisk%d", i);
-	  cboDFxFile[i]->setId(tmp);
+      snprintf(tmp, 20, "cboDisk%d", i);
+      cboDFxFile[i]->setId(tmp);
     cboDFxFile[i]->addActionListener(diskFileActionListener);
 
     if(i == 0)
@@ -415,15 +415,15 @@ void InitPanelFloppy(const struct _ConfigCategory& category)
       chkLoadConfig->setId("LoadDiskCfg");
       chkLoadConfig->addActionListener(dfxCheckActionListener);
     }
-	}
+    }
 
-	lblDriveSpeed = new gcn::Label("Floppy Drive Emulation Speed:");
+    lblDriveSpeed = new gcn::Label("Floppy Drive Emulation Speed:");
   sldDriveSpeed = new gcn::Slider(0, 3);
   sldDriveSpeed->setSize(110, SLIDER_HEIGHT);
   sldDriveSpeed->setBaseColor(gui_baseCol);
-	sldDriveSpeed->setMarkerLength(20);
-	sldDriveSpeed->setStepLength(1);
-	sldDriveSpeed->setId("DriveSpeed");
+    sldDriveSpeed->setMarkerLength(20);
+    sldDriveSpeed->setStepLength(1);
+    sldDriveSpeed->setId("DriveSpeed");
   sldDriveSpeed->addActionListener(driveSpeedSliderActionListener);
   lblDriveSpeedInfo = new gcn::Label(drivespeedlist[0]);
 
@@ -444,30 +444,30 @@ void InitPanelFloppy(const struct _ConfigCategory& category)
   cmdCreateHDDisk->setBaseColor(gui_baseCol);
   cmdCreateHDDisk->setId("CreateHD");
   cmdCreateHDDisk->addActionListener(createDiskActionListener);
-	
-	for(i=0; i<4; ++i)
-	{
-	  posX = DISTANCE_BORDER;
-	  category.panel->add(chkDFx[i], posX, posY);
-	  posX += 100;
-	  category.panel->add(cboDFxType[i], posX, posY);
-	  posX += cboDFxType[i]->getWidth() + 2 * DISTANCE_NEXT_X;
-	  category.panel->add(chkDFxWriteProtect[i], posX, posY);
-	  posX += chkDFxWriteProtect[i]->getWidth() + 4 * DISTANCE_NEXT_X;
-//	  category.panel->add(cmdDFxInfo[i], posX, posY);
-	  posX += cmdDFxInfo[i]->getWidth() + DISTANCE_NEXT_X;
-	  category.panel->add(cmdDFxEject[i], posX, posY);
-	  posX += cmdDFxEject[i]->getWidth() + DISTANCE_NEXT_X;
-	  category.panel->add(cmdDFxSelect[i], posX, posY);
-	  posY += chkDFx[i]->getHeight() + 8;
-
-	  category.panel->add(cboDFxFile[i], DISTANCE_BORDER, posY);
-	  if(i == 0)
+    
+    for(i=0; i<4; ++i)
     {
-  	  posY += cboDFxFile[i]->getHeight() + 8;
+      posX = DISTANCE_BORDER;
+      category.panel->add(chkDFx[i], posX, posY);
+      posX += 100;
+      category.panel->add(cboDFxType[i], posX, posY);
+      posX += cboDFxType[i]->getWidth() + 2 * DISTANCE_NEXT_X;
+      category.panel->add(chkDFxWriteProtect[i], posX, posY);
+      posX += chkDFxWriteProtect[i]->getWidth() + 4 * DISTANCE_NEXT_X;
+//    category.panel->add(cmdDFxInfo[i], posX, posY);
+      posX += cmdDFxInfo[i]->getWidth() + DISTANCE_NEXT_X;
+      category.panel->add(cmdDFxEject[i], posX, posY);
+      posX += cmdDFxEject[i]->getWidth() + DISTANCE_NEXT_X;
+      category.panel->add(cmdDFxSelect[i], posX, posY);
+      posY += chkDFx[i]->getHeight() + 8;
+
+      category.panel->add(cboDFxFile[i], DISTANCE_BORDER, posY);
+      if(i == 0)
+    {
+      posY += cboDFxFile[i]->getHeight() + 8;
       category.panel->add(chkLoadConfig, DISTANCE_BORDER, posY);
     }
-	  posY += cboDFxFile[i]->getHeight() + DISTANCE_NEXT_Y + 4;
+      posY += cboDFxFile[i]->getHeight() + DISTANCE_NEXT_Y + 4;
   }
   
   posX = DISTANCE_BORDER;
@@ -489,16 +489,16 @@ void InitPanelFloppy(const struct _ConfigCategory& category)
 
 void ExitPanelFloppy(void)
 {
-	for(int i=0; i<4; ++i)
-	{
-	  delete chkDFx[i];
-	  delete cboDFxType[i];
-	  delete chkDFxWriteProtect[i];
-	  delete cmdDFxInfo[i];
-	  delete cmdDFxEject[i];
-	  delete cmdDFxSelect[i];
-	  delete cboDFxFile[i];
-	}
+    for(int i=0; i<4; ++i)
+    {
+      delete chkDFx[i];
+      delete cboDFxType[i];
+      delete chkDFxWriteProtect[i];
+      delete cmdDFxInfo[i];
+      delete cmdDFxEject[i];
+      delete cmdDFxSelect[i];
+      delete cboDFxFile[i];
+    }
   delete chkLoadConfig;
   delete lblDriveSpeed;
   delete sldDriveSpeed;

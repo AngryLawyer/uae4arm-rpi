@@ -13,45 +13,45 @@
 //#define device_debug write_log
 #define device_debug
 
-#define	INQ_DASD	0x00		/* Direct-access device (disk) */
-#define	INQ_SEQD	0x01		/* Sequential-access device (tape) */
-#define	INQ_PRTD	0x02 		/* Printer device */
-#define	INQ_PROCD	0x03 		/* Processor device */
-#define	INQ_OPTD	0x04		/* Write once device (optical disk) */
-#define	INQ_WORM	0x04		/* Write once device (optical disk) */
-#define	INQ_ROMD	0x05		/* CD-ROM device */
-#define	INQ_SCAN	0x06		/* Scanner device */
-#define	INQ_OMEM	0x07		/* Optical Memory device */
-#define	INQ_JUKE	0x08		/* Medium Changer device (jukebox) */
-#define	INQ_COMM	0x09		/* Communications device */
-#define	INQ_IT8_1	0x0A		/* IT8 */
-#define	INQ_IT8_2	0x0B		/* IT8 */
-#define	INQ_STARR	0x0C		/* Storage array device */
-#define	INQ_ENCL	0x0D		/* Enclosure services device */
-#define	INQ_NODEV	0x1F		/* Unknown or no device */
-#define	INQ_NOTPR	0x1F		/* Logical unit not present (SCSI-1) */
+#define INQ_DASD    0x00        /* Direct-access device (disk) */
+#define INQ_SEQD    0x01        /* Sequential-access device (tape) */
+#define INQ_PRTD    0x02        /* Printer device */
+#define INQ_PROCD   0x03        /* Processor device */
+#define INQ_OPTD    0x04        /* Write once device (optical disk) */
+#define INQ_WORM    0x04        /* Write once device (optical disk) */
+#define INQ_ROMD    0x05        /* CD-ROM device */
+#define INQ_SCAN    0x06        /* Scanner device */
+#define INQ_OMEM    0x07        /* Optical Memory device */
+#define INQ_JUKE    0x08        /* Medium Changer device (jukebox) */
+#define INQ_COMM    0x09        /* Communications device */
+#define INQ_IT8_1   0x0A        /* IT8 */
+#define INQ_IT8_2   0x0B        /* IT8 */
+#define INQ_STARR   0x0C        /* Storage array device */
+#define INQ_ENCL    0x0D        /* Enclosure services device */
+#define INQ_NODEV   0x1F        /* Unknown or no device */
+#define INQ_NOTPR   0x1F        /* Logical unit not present (SCSI-1) */
 
 #define MAX_TOC_ENTRIES 103
 struct cd_toc
 {
-	uae_u8 adr, control;
-	uae_u8 tno;
-	uae_u8 point;
-	uae_u8 track;
-	int address; // LSN
-	int paddress; // LSN
-	uae_u8 zero;
-	uae_u8 crc[2];
+    uae_u8 adr, control;
+    uae_u8 tno;
+    uae_u8 point;
+    uae_u8 track;
+    int address; // LSN
+    int paddress; // LSN
+    uae_u8 zero;
+    uae_u8 crc[2];
 };
 struct cd_toc_head
 {
-	int first_track, first_track_offset;
-	int last_track, last_track_offset;
-	int firstaddress; // LSN
-	int lastaddress; // LSN
-	int tracks;
-	int points;
-	struct cd_toc toc[MAX_TOC_ENTRIES];
+    int first_track, first_track_offset;
+    int last_track, last_track_offset;
+    int firstaddress; // LSN
+    int lastaddress; // LSN
+    int tracks;
+    int points;
+    struct cd_toc toc[MAX_TOC_ENTRIES];
 };
 
 #define SUB_ENTRY_SIZE 12
@@ -66,7 +66,7 @@ struct cd_toc_head
 #define AUDIO_STATUS_NO_STATUS      0x15
 
 struct device_info {
-	bool open;
+    bool open;
     int type;
     int media_inserted;
     int removable;
@@ -78,12 +78,12 @@ struct device_info {
     int bus, target, lun;
     int unitnum;
     TCHAR label[MAX_DPATH];
-	TCHAR mediapath[MAX_DPATH];
-	TCHAR vendorid[10];
-	TCHAR productid[18];
-	TCHAR revision[6];
-	TCHAR *backend;
-	struct cd_toc_head toc;
+    TCHAR mediapath[MAX_DPATH];
+    TCHAR vendorid[10];
+    TCHAR productid[18];
+    TCHAR revision[6];
+    TCHAR *backend;
+    struct cd_toc_head toc;
 };
 
 struct amigascsi
@@ -128,30 +128,30 @@ typedef int (*ismedia_func)(int, int);
 typedef int (*scsiemu_func)(int, uae_u8*);
 
 struct device_functions {
-	const TCHAR *name;
-	open_bus_func openbus;
-	close_bus_func closebus;
-	open_device_func opendev;
-	close_device_func closedev;
-	info_device_func info;
-	execscsicmd_out_func exec_out;
-	execscsicmd_in_func exec_in;
-	execscsicmd_direct_func exec_direct;
+    const TCHAR *name;
+    open_bus_func openbus;
+    close_bus_func closebus;
+    open_device_func opendev;
+    close_device_func closedev;
+    info_device_func info;
+    execscsicmd_out_func exec_out;
+    execscsicmd_in_func exec_in;
+    execscsicmd_direct_func exec_direct;
 
-	pause_func pause;
-	stop_func stop;
-	play_func play;
-	volume_func volume;
-	qcode_func qcode;
-	toc_func toc;
-	read_func read;
-	rawread_func rawread;
-	write_func write;
+    pause_func pause;
+    stop_func stop;
+    play_func play;
+    volume_func volume;
+    qcode_func qcode;
+    toc_func toc;
+    read_func read;
+    rawread_func rawread;
+    write_func write;
 
-	isatapi_func isatapi;
-	ismedia_func ismedia;
+    isatapi_func isatapi;
+    ismedia_func ismedia;
 
-	scsiemu_func scsiemu;
+    scsiemu_func scsiemu;
 
 };
 
@@ -186,7 +186,7 @@ extern void scsi_log_before (uae_u8 *cdb, int cdblen, uae_u8 *data, int datalen)
 extern void scsi_log_after (uae_u8 *data, int datalen, uae_u8 *sense, int senselen);
 
 extern int scsi_cd_emulate (int unitnum, uae_u8 *cmdbuf, int scsi_cmd_len,
-	uae_u8 *scsi_data, int *data_len, uae_u8 *r, int *reply_len, uae_u8 *s, int *sense_len, bool atapi);
+    uae_u8 *scsi_data, int *data_len, uae_u8 *r, int *reply_len, uae_u8 *s, int *sense_len, bool atapi);
 
 extern void blkdev_vsync (void);
 

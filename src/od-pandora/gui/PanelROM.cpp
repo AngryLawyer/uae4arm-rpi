@@ -171,7 +171,7 @@ void InitPanelROM(const struct _ConfigCategory& category)
   
   lblMainROM = new gcn::Label("Main ROM File:");
   lblMainROM->setSize(200, LABEL_HEIGHT);
-	cboMainROM = new gcn::UaeDropDown(mainROMList);
+    cboMainROM = new gcn::UaeDropDown(mainROMList);
   cboMainROM->setSize(400, DROPDOWN_HEIGHT);
   cboMainROM->setBaseColor(gui_baseCol);
   cboMainROM->setId("cboMainROM");
@@ -184,7 +184,7 @@ void InitPanelROM(const struct _ConfigCategory& category)
 
   lblExtROM = new gcn::Label("Extended ROM File:");
   lblExtROM->setSize(200, LABEL_HEIGHT);
-	cboExtROM = new gcn::UaeDropDown(extROMList);
+    cboExtROM = new gcn::UaeDropDown(extROMList);
   cboExtROM->setSize(400, DROPDOWN_HEIGHT);
   cboExtROM->setBaseColor(gui_baseCol);
   cboExtROM->setId("cboExtROM");
@@ -195,8 +195,8 @@ void InitPanelROM(const struct _ConfigCategory& category)
   cmdExtROM->setBaseColor(gui_baseCol);
   cmdExtROM->addActionListener(romButtonActionListener);
 
-	chkMapROM = new gcn::UaeCheckBox("MapROM emulation", true);
-	chkMapROM->setEnabled(false);
+    chkMapROM = new gcn::UaeCheckBox("MapROM emulation", true);
+    chkMapROM->setEnabled(false);
   
   int posY = DISTANCE_BORDER;
   category.panel->add(lblMainROM, DISTANCE_BORDER, posY);

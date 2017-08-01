@@ -159,38 +159,38 @@ static struct romdata *scan_single_rom_2 (struct zfile *f)
   size = zfile_ftell (f);
   zfile_fseek (f, 0, SEEK_SET);
   if (size > 524288 * 2) /* don't skip KICK disks or 1M ROMs */
-  	return 0;
+    return 0;
   zfile_fread (buffer, 1, 11, f);
   if (!memcmp (buffer, "KICK", 4)) {
-	  zfile_fseek (f, 512, SEEK_SET);
-	  if (size > 262144)
-	    size = 262144;
+      zfile_fseek (f, 512, SEEK_SET);
+      if (size > 262144)
+        size = 262144;
   } else if (!memcmp (buffer, "AMIROMTYPE1", 11)) {
-  	cl = 1;
-	  size -= 11;
+    cl = 1;
+      size -= 11;
   } else {
-	  zfile_fseek (f, 0, SEEK_SET);
+      zfile_fseek (f, 0, SEEK_SET);
   }
   rombuf = xcalloc (uae_u8, size);
   if (!rombuf)
-  	return 0;
+    return 0;
   zfile_fread (rombuf, 1, size, f);
   if (cl > 0) {
-  	decode_cloanto_rom_do (rombuf, size, size);
-	  cl = 0;
+    decode_cloanto_rom_do (rombuf, size, size);
+      cl = 0;
   }
   if (!cl) {
-  	rd = getromdatabydata (rombuf, size);
-  	if (!rd && (size & 65535) == 0) {
-	    /* check byteswap */
-	    int i;
-	    for (i = 0; i < size; i+=2) {
-    		uae_u8 b = rombuf[i];
-    		rombuf[i] = rombuf[i + 1];
-    		rombuf[i + 1] = b;
- 	    }
- 	    rd = getromdatabydata (rombuf, size);
-  	}
+    rd = getromdatabydata (rombuf, size);
+    if (!rd && (size & 65535) == 0) {
+        /* check byteswap */
+        int i;
+        for (i = 0; i < size; i+=2) {
+            uae_u8 b = rombuf[i];
+            rombuf[i] = rombuf[i + 1];
+            rombuf[i + 1] = b;
+        }
+        rd = getromdatabydata (rombuf, size);
+    }
   }
   free (rombuf);
   return rd;
@@ -205,10 +205,10 @@ static struct romdata *scan_single_rom (char *path)
     strcpy (tmp, path);
     rd = getromdatabypath(path);
     if (rd && rd->crc32 == 0xffffffff)
-	return rd;
+    return rd;
     z = zfile_fopen (path, "rb", ZFD_NORMAL);
     if (!z)
-	return 0;
+    return 0;
     return scan_single_rom_2 (z);
 }
 
@@ -218,18 +218,18 @@ static int isromext(char *path)
   int i;
 
   if (!path)
-	  return 0;
+      return 0;
   ext = strrchr (path, '.');
   if (!ext)
-  	return 0;
+    return 0;
   ext++;
 
   if (!stricmp (ext, "rom") ||  !stricmp (ext, "adf") || !stricmp (ext, "key")
-	|| !stricmp (ext, "a500") || !stricmp (ext, "a1200") || !stricmp (ext, "a4000"))
+    || !stricmp (ext, "a500") || !stricmp (ext, "a1200") || !stricmp (ext, "a4000"))
     return 1;
   for (i = 0; uae_archive_extensions[i]; i++) {
-	  if (!stricmp (ext, uae_archive_extensions[i]))
-	    return 1;
+      if (!stricmp (ext, uae_archive_extensions[i]))
+        return 1;
   }
   return 0;
 }
@@ -240,7 +240,7 @@ static int scan_rom_2 (struct zfile *f, void *dummy)
   struct romdata *rd;
 
   if (!isromext(path))
-	  return 0;
+      return 0;
   rd = scan_single_rom_2(f);
   if (rd)
     addrom (rd, path);
@@ -252,8 +252,8 @@ static void scan_rom(char *path)
   struct romdata *rd;
 
   if (!isromext(path)) {
-	  //write_log("ROMSCAN: skipping file '%s', unknown extension\n", path);
-	  return;
+      //write_log("ROMSCAN: skipping file '%s', unknown extension\n", path);
+      return;
   }
   rd = getarcadiarombyname(path);
   if (rd) 
@@ -283,15 +283,15 @@ void RescanROMs(void)
     scan_rom (tmppath);
   }
   
-	int id = 1;
-	for (;;) {
-		struct romdata *rd = getromdatabyid (id);
-		if (!rd)
-			break;
-		if (rd->crc32 == 0xffffffff && strncmp(rd->model, "AROS", 4) == 0)
-			addrom (rd, ":AROS");
-		id++;
-	}
+    int id = 1;
+    for (;;) {
+        struct romdata *rd = getromdatabyid (id);
+        if (!rd)
+            break;
+        if (rd->crc32 == 0xffffffff && strncmp(rd->model, "AROS", 4) == 0)
+            addrom (rd, ":AROS");
+        id++;
+    }
 }
 
 static void ClearConfigFileList(void)
@@ -453,7 +453,7 @@ int gui_init (void)
 {
   int ret = 0;
   
-	emulating=0;
+    emulating=0;
 
   if(lstAvailableROMs.size() == 0)
     RescanROMs();
@@ -467,39 +467,39 @@ int gui_init (void)
   if(quit_program == UAE_QUIT)
     ret = -2; // Quit without start of emulator
 
-	setCpuSpeed();
+    setCpuSpeed();
   update_display(&changed_prefs);
 
   after_leave_gui();
     
-	emulating=1;
+    emulating=1;
   return ret;
 }
 
 void gui_exit(void)
 {
-	resetCpuSpeed();
-	sync();
-	pandora_stop_sound();
-	saveAdfDir();
-	ClearConfigFileList();
-	ClearAvailableROMList();
+    resetCpuSpeed();
+    sync();
+    pandora_stop_sound();
+    saveAdfDir();
+    ClearConfigFileList();
+    ClearAvailableROMList();
 }
 
 
 void gui_purge_events(void)
 {
-	int counter = 0;
+    int counter = 0;
 
-	SDL_Event event;
-	SDL_Delay(150);
-	// Strangely PS3 controller always send events, so we need a maximum number of event to purge.
-	while(SDL_PollEvent(&event) && counter < 50)
-	{
-		counter++;
-		SDL_Delay(10);
-	}
-	keybuf_init();
+    SDL_Event event;
+    SDL_Delay(150);
+    // Strangely PS3 controller always send events, so we need a maximum number of event to purge.
+    while(SDL_PollEvent(&event) && counter < 50)
+    {
+        counter++;
+        SDL_Delay(10);
+    }
+    keybuf_init();
 }
 
 
@@ -523,20 +523,20 @@ int gui_update (void)
   switch(currentStateNum)
   {
     case 1:
-  		strcat(savestate_fname,"-1.uss");
-	    strcat(screenshot_filename,"-1.png");
-	    break;
+        strcat(savestate_fname,"-1.uss");
+        strcat(screenshot_filename,"-1.png");
+        break;
     case 2:
-  		strcat(savestate_fname,"-2.uss");
-  		strcat(screenshot_filename,"-2.png");
-  		break;
+        strcat(savestate_fname,"-2.uss");
+        strcat(screenshot_filename,"-2.png");
+        break;
     case 3:
-  		strcat(savestate_fname,"-3.uss");
-  		strcat(screenshot_filename,"-3.png");
-  		break;
+        strcat(savestate_fname,"-3.uss");
+        strcat(screenshot_filename,"-3.png");
+        break;
     default: 
-  	   	strcat(savestate_fname,".uss");
-    		strcat(screenshot_filename,".png");
+        strcat(savestate_fname,".uss");
+            strcat(screenshot_filename,".png");
   }
   return 0;
 }
@@ -544,10 +544,10 @@ int gui_update (void)
 
 void gui_display (int shortcut)
 {
-	if (quit_program != 0)
-		return;
-	emulating=1;
-	pause_sound();
+    if (quit_program != 0)
+        return;
+    emulating=1;
+    pause_sound();
   blkdev_entergui();
 
   if(lstAvailableROMs.size() == 0)
@@ -556,17 +556,17 @@ void gui_display (int shortcut)
   prefs_to_gui();
   run_gui();
   gui_to_prefs();
-	setCpuSpeed();
-//	if(quit_program)
-//		screen_is_picasso = 0;
+    setCpuSpeed();
+//  if(quit_program)
+//      screen_is_picasso = 0;
 
   update_display(&changed_prefs);
 
-	/* Clear menu garbage at the bottom of the screen */
-	black_screen_now();
-	/* Empty audio buffer */
-	reset_sound();
-	resume_sound();
+    /* Clear menu garbage at the bottom of the screen */
+    black_screen_now();
+    /* Empty audio buffer */
+    reset_sound();
+    resume_sound();
   blkdev_exitgui();
 
   after_leave_gui();
@@ -580,11 +580,11 @@ void gui_display (int shortcut)
   
 void moveVertical(int value)
 {
-	changed_prefs.pandora_vertical_offset += value;
-	if(changed_prefs.pandora_vertical_offset < -16)
-		changed_prefs.pandora_vertical_offset = -16;
-	else if(changed_prefs.pandora_vertical_offset > 16)
-		changed_prefs.pandora_vertical_offset = 16;
+    changed_prefs.pandora_vertical_offset += value;
+    if(changed_prefs.pandora_vertical_offset < -16)
+        changed_prefs.pandora_vertical_offset = -16;
+    else if(changed_prefs.pandora_vertical_offset > 16)
+        changed_prefs.pandora_vertical_offset = 16;
 }
 
 
@@ -592,18 +592,18 @@ extern char keyboard_type;
 
 void gui_handle_events (void)
 {
-	Uint8 *keystate = SDL_GetKeyState(NULL);
+    Uint8 *keystate = SDL_GetKeyState(NULL);
 
-	// Strangely in FBCON left window is seen as left alt ??
-	if (keyboard_type == 2) // KEYCODE_FBCON
-	{
-		if(keystate[SDLK_LCTRL] && (keystate[SDLK_LSUPER] || keystate[SDLK_LALT]) && (keystate[SDLK_RSUPER] ||keystate[SDLK_MENU]))
-			uae_reset(0,1);
-	} else
-	{
-		if(keystate[SDLK_LCTRL] && keystate[SDLK_LSUPER] && (keystate[SDLK_RSUPER] ||keystate[SDLK_MENU]))
-			uae_reset(0,1);
-	}
+    // Strangely in FBCON left window is seen as left alt ??
+    if (keyboard_type == 2) // KEYCODE_FBCON
+    {
+        if(keystate[SDLK_LCTRL] && (keystate[SDLK_LSUPER] || keystate[SDLK_LALT]) && (keystate[SDLK_RSUPER] ||keystate[SDLK_MENU]))
+            uae_reset(0,1);
+    } else
+    {
+        if(keystate[SDLK_LCTRL] && keystate[SDLK_LSUPER] && (keystate[SDLK_RSUPER] ||keystate[SDLK_MENU]))
+            uae_reset(0,1);
+    }
 }
 
 void gui_disk_image_change (int unitnum, const char *name, bool writeprotected)
@@ -698,7 +698,7 @@ void notify_user (int msg)
 }
 
 
-int translate_message (int msg,	TCHAR *out)
+int translate_message (int msg, TCHAR *out)
 {
   int i=0;
   while(gui_msglist[i].num >= 0)
@@ -782,34 +782,34 @@ void CreateDefaultDevicename(char *name)
 int tweakbootpri (int bp, int ab, int dnm)
 {
   if (dnm)
-  	return BOOTPRI_NOAUTOMOUNT;
+    return BOOTPRI_NOAUTOMOUNT;
   if (!ab)
-  	return BOOTPRI_NOAUTOBOOT;
+    return BOOTPRI_NOAUTOBOOT;
   if (bp < -127)
-  	bp = -127;
+    bp = -127;
   return bp;
 }
 
 
 bool hardfile_testrdb (const TCHAR *filename)
 {
-	bool isrdb = false;
-	struct zfile *f = zfile_fopen (filename, _T("rb"), ZFD_NORMAL);
-	uae_u8 tmp[8];
-	int i;
+    bool isrdb = false;
+    struct zfile *f = zfile_fopen (filename, _T("rb"), ZFD_NORMAL);
+    uae_u8 tmp[8];
+    int i;
 
-	if (!f)
-		return false;
-	for (i = 0; i < 16; i++) {
-		zfile_fseek (f, i * 512, SEEK_SET);
-		memset (tmp, 0, sizeof tmp);
-		zfile_fread (tmp, 1, sizeof tmp, f);
-		if (!memcmp (tmp, "RDSK\0\0\0", 7) || !memcmp (tmp, "DRKS\0\0", 6) || (tmp[0] == 0x53 && tmp[1] == 0x10 && tmp[2] == 0x9b && tmp[3] == 0x13 && tmp[4] == 0 && tmp[5] == 0)) {
-			// RDSK or ADIDE "encoded" RDSK
-			isrdb = true;
-			break;
-		}
-	}
-	zfile_fclose (f);
+    if (!f)
+        return false;
+    for (i = 0; i < 16; i++) {
+        zfile_fseek (f, i * 512, SEEK_SET);
+        memset (tmp, 0, sizeof tmp);
+        zfile_fread (tmp, 1, sizeof tmp, f);
+        if (!memcmp (tmp, "RDSK\0\0\0", 7) || !memcmp (tmp, "DRKS\0\0", 6) || (tmp[0] == 0x53 && tmp[1] == 0x10 && tmp[2] == 0x9b && tmp[3] == 0x13 && tmp[4] == 0 && tmp[5] == 0)) {
+            // RDSK or ADIDE "encoded" RDSK
+            isrdb = true;
+            break;
+        }
+    }
+    zfile_fclose (f);
   return isrdb;
 }

@@ -136,7 +136,7 @@ void reinit_amiga(void)
   write_log("reinit_amiga() called\n");
   DISK_free ();
 #ifdef CD32
-	akiko_free ();
+    akiko_free ();
 #endif
 #ifdef FILESYS
   filesys_cleanup ();
@@ -148,7 +148,7 @@ void reinit_amiga(void)
 #endif
   expansion_cleanup ();
 #endif
-	device_func_reset ();
+    device_func_reset ();
   memory_cleanup ();
   
   /* At this point, there might run some threads from bsdsocket.*/
@@ -181,7 +181,7 @@ void reinit_amiga(void)
 
 #ifdef AUTOCONFIG
 #if defined (BSDSOCKET)
-	bsdlib_install ();
+    bsdlib_install ();
 #endif
   emulib_install ();
   native2amiga_install ();
@@ -214,17 +214,17 @@ void logging_init( void )
   char debugfilename[MAX_DPATH];
 
   if (first > 1) {
-  	write_log ("***** RESTART *****\n");
-	  return;
+    write_log ("***** RESTART *****\n");
+      return;
   }
   if (first == 1) {
-  	if (debugfile)
-	    fclose (debugfile);
+    if (debugfile)
+        fclose (debugfile);
     debugfile = 0;
   }
 
-	sprintf(debugfilename, "%s/uae4arm_log.txt", start_path_data);
-	if(!debugfile)
+    sprintf(debugfilename, "%s/uae4arm_log.txt", start_path_data);
+    if(!debugfile)
     debugfile = fopen(debugfilename, "wt");
 
   first++;
@@ -244,34 +244,34 @@ void logging_cleanup( void )
 
 void stripslashes (TCHAR *p)
 {
-	while (_tcslen (p) > 0 && (p[_tcslen (p) - 1] == '\\' || p[_tcslen (p) - 1] == '/'))
-		p[_tcslen (p) - 1] = 0;
+    while (_tcslen (p) > 0 && (p[_tcslen (p) - 1] == '\\' || p[_tcslen (p) - 1] == '/'))
+        p[_tcslen (p) - 1] = 0;
 }
 void fixtrailing (TCHAR *p)
 {
-	if (_tcslen(p) == 0)
-		return;
-	if (p[_tcslen(p) - 1] == '/' || p[_tcslen(p) - 1] == '\\')
-		return;
-	_tcscat(p, "/");
+    if (_tcslen(p) == 0)
+        return;
+    if (p[_tcslen(p) - 1] == '/' || p[_tcslen(p) - 1] == '\\')
+        return;
+    _tcscat(p, "/");
 }
 
 void getpathpart (TCHAR *outpath, int size, const TCHAR *inpath)
 {
-	_tcscpy (outpath, inpath);
-	TCHAR *p = _tcsrchr (outpath, '/');
-	if (p)
-		p[0] = 0;
-	fixtrailing (outpath);
+    _tcscpy (outpath, inpath);
+    TCHAR *p = _tcsrchr (outpath, '/');
+    if (p)
+        p[0] = 0;
+    fixtrailing (outpath);
 }
 void getfilepart (TCHAR *out, int size, const TCHAR *path)
 {
-	out[0] = 0;
-	const TCHAR *p = _tcsrchr (path, '/');
-	if (p)
-		_tcscpy (out, p + 1);
-	else
-		_tcscpy (out, path);
+    out[0] = 0;
+    const TCHAR *p = _tcsrchr (path, '/');
+    if (p)
+        _tcscpy (out, p + 1);
+    else
+        _tcscpy (out, path);
 }
 
 
@@ -291,11 +291,11 @@ void target_quit (void)
 
 void target_fixup_options (struct uae_prefs *p)
 {
-	p->rtgmem_type = 1;
+    p->rtgmem_type = 1;
   if (p->z3fastmem_start != z3_start_adr)
-  	p->z3fastmem_start = z3_start_adr;
+    p->z3fastmem_start = z3_start_adr;
 
-	p->picasso96_modeflags = RGBFF_CLUT | RGBFF_R5G6B5 | RGBFF_R8G8B8A8;
+    p->picasso96_modeflags = RGBFF_CLUT | RGBFF_R5G6B5 | RGBFF_R8G8B8A8;
   p->gfx_resolution = p->gfx_size.width > 600 ? 1 : 0;
 }
 
@@ -308,11 +308,11 @@ void target_default_options (struct uae_prefs *p, int type)
   p->pandora_hide_idle_led = 0;
   
   p->pandora_tapDelay = 10;
-	p->pandora_customControls = 0;
+    p->pandora_customControls = 0;
 
-	p->picasso96_modeflags = RGBFF_CLUT | RGBFF_R5G6B5 | RGBFF_R8G8B8A8;
-	
-	memset(customControlMap, 0, sizeof(customControlMap));
+    p->picasso96_modeflags = RGBFF_CLUT | RGBFF_R5G6B5 | RGBFF_R8G8B8A8;
+    
+    memset(customControlMap, 0, sizeof(customControlMap));
 }
 
 
@@ -438,7 +438,7 @@ int target_cfgfile_load (struct uae_prefs *p, const char *filename, int type, in
   discard_prefs(p, type);
   default_prefs(p, 0);
   
-	char *ptr = strstr(filename, ".rp9");
+    char *ptr = strstr(filename, ".rp9");
   if(ptr > 0)
   {
     // Load rp9 config
@@ -447,8 +447,8 @@ int target_cfgfile_load (struct uae_prefs *p, const char *filename, int type, in
       extractFileName(filename, last_loaded_config);
   }
   else 
-	{
-  	ptr = strstr(filename, ".uae");
+    {
+    ptr = strstr(filename, ".uae");
     if(ptr > 0)
     {
       int type = CONFIG_TYPE_HARDWARE | CONFIG_TYPE_HOST;
@@ -496,8 +496,8 @@ int check_configfile(char *file)
   }
   
   strcpy(tmp, file);
-	char *ptr = strstr(tmp, ".uae");
-	if(ptr > 0)
+    char *ptr = strstr(tmp, ".uae");
+    if(ptr > 0)
   {
     *(ptr + 1) = '\0';
     strcat(tmp, "conf");
@@ -515,21 +515,21 @@ int check_configfile(char *file)
 
 void extractFileName(const char * str,char *buffer)
 {
-	const char *p=str+strlen(str)-1;
-	while(*p != '/' && p > str)
-		p--;
-	p++;
-	strcpy(buffer,p);
+    const char *p=str+strlen(str)-1;
+    while(*p != '/' && p > str)
+        p--;
+    p++;
+    strcpy(buffer,p);
 }
 
 
 void extractPath(char *str, char *buffer)
 {
-	strcpy(buffer, str);
-	char *p = buffer + strlen(buffer) - 1;
-	while(*p != '/' && p > buffer)
-		p--;
-	p[1] = '\0';
+    strcpy(buffer, str);
+    char *p = buffer + strlen(buffer) - 1;
+    while(*p != '/' && p > buffer)
+        p--;
+    p[1] = '\0';
 }
 
 
@@ -582,23 +582,23 @@ void ReadDirectory(const char *path, std::vector<std::string> *dirs, std::vector
 
 void saveAdfDir(void)
 {
-	char path[MAX_DPATH];
-	int i;
-	
-	snprintf(path, MAX_DPATH, "%s/conf/adfdir.conf", start_path_data);
-	FILE *f=fopen(path,"w");
-	if (!f)
-	  return;
-	  
-	char buffer[MAX_DPATH];
-	snprintf(buffer, MAX_DPATH, "path=%s\n", currentDir);
-	fputs(buffer,f);
+    char path[MAX_DPATH];
+    int i;
+    
+    snprintf(path, MAX_DPATH, "%s/conf/adfdir.conf", start_path_data);
+    FILE *f=fopen(path,"w");
+    if (!f)
+      return;
+      
+    char buffer[MAX_DPATH];
+    snprintf(buffer, MAX_DPATH, "path=%s\n", currentDir);
+    fputs(buffer,f);
 
-	snprintf(buffer, MAX_DPATH, "config_path=%s\n", config_path);
-	fputs(buffer, f);
+    snprintf(buffer, MAX_DPATH, "config_path=%s\n", config_path);
+    fputs(buffer, f);
 
-	snprintf(buffer, MAX_DPATH, "rom_path=%s\n", rom_path);
-	fputs(buffer, f);
+    snprintf(buffer, MAX_DPATH, "rom_path=%s\n", rom_path);
+    fputs(buffer, f);
 
   snprintf(buffer, MAX_DPATH, "ROMs=%d\n", lstAvailableROMs.size());
   fputs(buffer, f);
@@ -628,8 +628,8 @@ void saveAdfDir(void)
     fputs(buffer, f);
   }
 
-	fclose(f);
-	return;
+    fclose(f);
+    return;
 }
 
 
@@ -640,32 +640,32 @@ void get_string(FILE *f, char *dst, int size)
   int i = strlen (buffer);
   while (i > 0 && (buffer[i - 1] == '\t' || buffer[i - 1] == ' ' 
   || buffer[i - 1] == '\r' || buffer[i - 1] == '\n'))
-	  buffer[--i] = '\0';
+      buffer[--i] = '\0';
   strncpy(dst, buffer, size);
 }
 
 
 void loadAdfDir(void)
 {
-	char path[MAX_DPATH];
+    char path[MAX_DPATH];
   int i;
 
-	strcpy(currentDir, start_path_data);
-	snprintf(config_path, MAX_DPATH, "%s/conf/", start_path_data);
-	snprintf(rom_path, MAX_DPATH, "%s/kickstarts/", start_path_data);
-	snprintf(rp9_path, MAX_DPATH, "%s/rp9/", start_path_data);
+    strcpy(currentDir, start_path_data);
+    snprintf(config_path, MAX_DPATH, "%s/conf/", start_path_data);
+    snprintf(rom_path, MAX_DPATH, "%s/kickstarts/", start_path_data);
+    snprintf(rp9_path, MAX_DPATH, "%s/rp9/", start_path_data);
 
-	snprintf(path, MAX_DPATH, "%s/conf/adfdir.conf", start_path_data);
-	FILE *f1=fopen(path,"rt");
-	if(f1)
-	{
-		fscanf(f1, "path=");
-		get_string(f1, currentDir, sizeof(currentDir));
-		if(!feof(f1))
-		{
-		  fscanf(f1, "config_path=");
-		  get_string(f1, config_path, sizeof(config_path));
-		  fscanf(f1, "rom_path=");
+    snprintf(path, MAX_DPATH, "%s/conf/adfdir.conf", start_path_data);
+    FILE *f1=fopen(path,"rt");
+    if(f1)
+    {
+        fscanf(f1, "path=");
+        get_string(f1, currentDir, sizeof(currentDir));
+        if(!feof(f1))
+        {
+          fscanf(f1, "config_path=");
+          get_string(f1, config_path, sizeof(config_path));
+          fscanf(f1, "rom_path=");
       get_string(f1, rom_path, sizeof(rom_path));
       
       int numROMs;
@@ -713,16 +713,16 @@ void loadAdfDir(void)
           lstMRUCDList.push_back(cd);
         }
       }
-	  }
-		fclose(f1);
-	}
+      }
+        fclose(f1);
+    }
 }
 
 
 int currVSyncRate = 0;
 bool SetVSyncRate(int hz)
 {
-	char cmd[64];
+    char cmd[64];
   
   if(currVSyncRate != hz)
   {
@@ -741,20 +741,20 @@ void setCpuSpeed()
 
   currprefs.pandora_cpu_speed = changed_prefs.pandora_cpu_speed;
 
-	if(currprefs.pandora_cpu_speed != lastCpuSpeed)
-	{
-		snprintf((char*)speedCmd, 128, "unset DISPLAY; echo y | sudo -n /usr/pandora/scripts/op_cpuspeed.sh %d", currprefs.pandora_cpu_speed);
-		system(speedCmd);
-		lastCpuSpeed = currprefs.pandora_cpu_speed;
-		cpuSpeedChanged = true;
-	}
-	if(changed_prefs.ntscmode != currprefs.ntscmode)
-	{
-		if(changed_prefs.ntscmode)
-			SetVSyncRate(60);
-		else
-			SetVSyncRate(50);
-	}
+    if(currprefs.pandora_cpu_speed != lastCpuSpeed)
+    {
+        snprintf((char*)speedCmd, 128, "unset DISPLAY; echo y | sudo -n /usr/pandora/scripts/op_cpuspeed.sh %d", currprefs.pandora_cpu_speed);
+        system(speedCmd);
+        lastCpuSpeed = currprefs.pandora_cpu_speed;
+        cpuSpeedChanged = true;
+    }
+    if(changed_prefs.ntscmode != currprefs.ntscmode)
+    {
+        if(changed_prefs.ntscmode)
+            SetVSyncRate(60);
+        else
+            SetVSyncRate(50);
+    }
 #else
   return;
 #endif
@@ -831,18 +831,18 @@ int main (int argc, char *argv[])
 {
   struct sigaction action;
   
-	max_uae_width = 768;
-	max_uae_height = 270;
+    max_uae_width = 768;
+    max_uae_height = 270;
 
   defaultCpuSpeed = getDefaultCpuSpeed();
   
   // Get startup path
-	getcwd(start_path_data, MAX_DPATH);
-	loadAdfDir();
+    getcwd(start_path_data, MAX_DPATH);
+    loadAdfDir();
   rp9_init();
 
   snprintf(savestate_fname, MAX_PATH, "%s/saves/default.ads", start_path_data);
-	logging_init ();
+    logging_init ();
   
   memset(&action, 0, sizeof(action));
   action.sa_sigaction = signal_segv;
@@ -905,7 +905,7 @@ int main (int argc, char *argv[])
 
 int handle_msgpump (void)
 {
-	int got = 0;
+    int got = 0;
   SDL_Event rEvent;
   int keycode;
   int modifier;
@@ -918,24 +918,24 @@ int handle_msgpump (void)
       setmousebuttonstate (0, 0, 1);
   }
   
-	while (SDL_PollEvent(&rEvent)) {
-		got = 1;
-		
-		switch (rEvent.type)
-		{
-  		case SDL_QUIT:
-  			uae_quit();
-  			break;
-  			
-  		case SDL_KEYDOWN:
+    while (SDL_PollEvent(&rEvent)) {
+        got = 1;
+        
+        switch (rEvent.type)
+        {
+        case SDL_QUIT:
+            uae_quit();
+            break;
+            
+        case SDL_KEYDOWN:
 
-  		  if(rEvent.key.keysym.sym == currprefs.key_for_menu)
-  		    inputdevice_add_inputcode (AKS_ENTERGUI, 1);
-  		  switch(rEvent.key.keysym.sym)
-  		  {
- 		#ifdef CAPSLOCK_DEBIAN_WORKAROUND
-		case SDLK_CAPSLOCK: // capslock
-		     // Treat CAPSLOCK as a toggle. If on, set off and vice/versa
+          if(rEvent.key.keysym.sym == currprefs.key_for_menu)
+            inputdevice_add_inputcode (AKS_ENTERGUI, 1);
+          switch(rEvent.key.keysym.sym)
+          {
+        #ifdef CAPSLOCK_DEBIAN_WORKAROUND
+        case SDLK_CAPSLOCK: // capslock
+             // Treat CAPSLOCK as a toggle. If on, set off and vice/versa
                      ioctl(0, KDGKBLED, &kbd_flags);
                      ioctl(0, KDGETLED, &kbd_led_status);
                      if ((kbd_flags & 07) & LED_CAP)
@@ -955,57 +955,57 @@ int handle_msgpump (void)
                      break;
                  #endif
 
-				  case SDLK_LSHIFT: // Shift key
-				  inputdevice_do_keyboard(AK_LSH, 1);
-				  break;
+                  case SDLK_LSHIFT: // Shift key
+                  inputdevice_do_keyboard(AK_LSH, 1);
+                  break;
             
-				  case VK_L: // Left shoulder button
-				  case VK_R:  // Right shoulder button
-  					if(currprefs.input_tablet > TABLET_OFF) {
-  					  // Holding left or right shoulder button -> stylus does right mousebutton
-  					  doStylusRightClick = 1;
+                  case VK_L: // Left shoulder button
+                  case VK_R:  // Right shoulder button
+                    if(currprefs.input_tablet > TABLET_OFF) {
+                      // Holding left or right shoulder button -> stylus does right mousebutton
+                      doStylusRightClick = 1;
             }
             // Fall through...
             
-  				default:
-  				  if(currprefs.pandora_customControls) {
-  				    keycode = customControlMap[rEvent.key.keysym.sym];
-  				    if(keycode < 0) {
-  				      // Simulate mouse or joystick
-  				      SimulateMouseOrJoy(keycode, 1);
-  				      break;
-  				    }
-  				    else if(keycode > 0) {
-  				      // Send mapped key press
-  				      inputdevice_do_keyboard(keycode, 1);
-  				      break;
-  				    }
-  				  }
-  				  else
-  				    
-  				  modifier = rEvent.key.keysym.mod;
-  				  keycode = translate_pandora_keys(rEvent.key.keysym.sym, &modifier);
-  				  if(keycode)
-  				  {
-				      if(modifier == KMOD_SHIFT)
-  				      inputdevice_do_keyboard(AK_LSH, 1);
-  				    else
-  				      inputdevice_do_keyboard(AK_LSH, 0);
-				      inputdevice_do_keyboard(keycode, 1);
-  				  } else {
-				      if (keyboard_type == KEYCODE_UNK)
-				        inputdevice_translatekeycode(0, rEvent.key.keysym.sym, 1);
-				      else
-				        inputdevice_translatekeycode(0, rEvent.key.keysym.scancode, 1);
+                default:
+                  if(currprefs.pandora_customControls) {
+                    keycode = customControlMap[rEvent.key.keysym.sym];
+                    if(keycode < 0) {
+                      // Simulate mouse or joystick
+                      SimulateMouseOrJoy(keycode, 1);
+                      break;
+                    }
+                    else if(keycode > 0) {
+                      // Send mapped key press
+                      inputdevice_do_keyboard(keycode, 1);
+                      break;
+                    }
+                  }
+                  else
+                    
+                  modifier = rEvent.key.keysym.mod;
+                  keycode = translate_pandora_keys(rEvent.key.keysym.sym, &modifier);
+                  if(keycode)
+                  {
+                      if(modifier == KMOD_SHIFT)
+                      inputdevice_do_keyboard(AK_LSH, 1);
+                    else
+                      inputdevice_do_keyboard(AK_LSH, 0);
+                      inputdevice_do_keyboard(keycode, 1);
+                  } else {
+                      if (keyboard_type == KEYCODE_UNK)
+                        inputdevice_translatekeycode(0, rEvent.key.keysym.sym, 1);
+                      else
+                        inputdevice_translatekeycode(0, rEvent.key.keysym.scancode, 1);
 
-				    }
+                    }
                                   break;
-				}
+                }
         break;
         
-  	  case SDL_KEYUP:
-  	    switch(rEvent.key.keysym.sym)
-  	    {
+      case SDL_KEYUP:
+        switch(rEvent.key.keysym.sym)
+        {
                 #ifdef CAPSLOCK_DEBIAN_WORKAROUND
                 case SDLK_CAPSLOCK: // capslock
                      // Treat CAPSLOCK as a toggle. If on, set off and vice/versa
@@ -1028,100 +1028,100 @@ int handle_msgpump (void)
                      break;
                  #endif
 
-				  case SDLK_LSHIFT: // Shift key
+                  case SDLK_LSHIFT: // Shift key
             inputdevice_do_keyboard(AK_LSH, 0);
             break;
             
-				  case VK_L: // Left shoulder button
-				  case VK_R:  // Right shoulder button
-  					if(currprefs.input_tablet > TABLET_OFF) {
-  					  // Release left or right shoulder button -> stylus does left mousebutton
-    					doStylusRightClick = 0;
+                  case VK_L: // Left shoulder button
+                  case VK_R:  // Right shoulder button
+                    if(currprefs.input_tablet > TABLET_OFF) {
+                      // Release left or right shoulder button -> stylus does left mousebutton
+                        doStylusRightClick = 0;
             }
             // Fall through...
-  				
-  				default:
-  				  if(currprefs.pandora_customControls) {
-  				    keycode = customControlMap[rEvent.key.keysym.sym];
-  				    if(keycode < 0) {
-  				      // Simulate mouse or joystick
-  				      SimulateMouseOrJoy(keycode, 0);
-  				      break;
-  				    }
-  				    else if(keycode > 0) {
-  				      // Send mapped key release
-				      inputdevice_do_keyboard(keycode, 0);
-  				      break;
-  				    }
-  				  }
+                
+                default:
+                  if(currprefs.pandora_customControls) {
+                    keycode = customControlMap[rEvent.key.keysym.sym];
+                    if(keycode < 0) {
+                      // Simulate mouse or joystick
+                      SimulateMouseOrJoy(keycode, 0);
+                      break;
+                    }
+                    else if(keycode > 0) {
+                      // Send mapped key release
+                      inputdevice_do_keyboard(keycode, 0);
+                      break;
+                    }
+                  }
 
-  				  modifier = rEvent.key.keysym.mod;
-  				  keycode = translate_pandora_keys(rEvent.key.keysym.sym, &modifier);
-  				  if(keycode)
-  				  {
-				      inputdevice_do_keyboard(keycode, 0);
-				      if(modifier == KMOD_SHIFT)
-  				      inputdevice_do_keyboard(AK_LSH, 0);
+                  modifier = rEvent.key.keysym.mod;
+                  keycode = translate_pandora_keys(rEvent.key.keysym.sym, &modifier);
+                  if(keycode)
+                  {
+                      inputdevice_do_keyboard(keycode, 0);
+                      if(modifier == KMOD_SHIFT)
+                      inputdevice_do_keyboard(AK_LSH, 0);
             } else {
-				      if (keyboard_type == KEYCODE_UNK)
-				        inputdevice_translatekeycode(0, rEvent.key.keysym.sym, 0);
-				      else
-				        inputdevice_translatekeycode(0, rEvent.key.keysym.scancode, 0);
-				    }
-  				  break;
-  	    }
-  	    break;
-  	    
-  	  case SDL_MOUSEBUTTONDOWN:
-        if(currprefs.jports[0].id == JSEM_MICE || currprefs.jports[1].id == JSEM_MICE) {
-    	    if(rEvent.button.button == SDL_BUTTON_LEFT) {
-    	      if(currprefs.input_tablet > TABLET_OFF && !doStylusRightClick) {
-    	        // Delay mousebutton, we need new position first...
-    	        delayed_mousebutton = currprefs.pandora_tapDelay << 1;
-    	      } else {
-      	      setmousebuttonstate (0, doStylusRightClick, 1);
-      	    }
-    	    }
-    	    else if(rEvent.button.button == SDL_BUTTON_RIGHT)
-    	      setmousebuttonstate (0, 1, 1);
+                      if (keyboard_type == KEYCODE_UNK)
+                        inputdevice_translatekeycode(0, rEvent.key.keysym.sym, 0);
+                      else
+                        inputdevice_translatekeycode(0, rEvent.key.keysym.scancode, 0);
+                    }
+                  break;
         }
-  	    break;
+        break;
+        
+      case SDL_MOUSEBUTTONDOWN:
+        if(currprefs.jports[0].id == JSEM_MICE || currprefs.jports[1].id == JSEM_MICE) {
+            if(rEvent.button.button == SDL_BUTTON_LEFT) {
+              if(currprefs.input_tablet > TABLET_OFF && !doStylusRightClick) {
+                // Delay mousebutton, we need new position first...
+                delayed_mousebutton = currprefs.pandora_tapDelay << 1;
+              } else {
+              setmousebuttonstate (0, doStylusRightClick, 1);
+            }
+            }
+            else if(rEvent.button.button == SDL_BUTTON_RIGHT)
+              setmousebuttonstate (0, 1, 1);
+        }
+        break;
 
-  	  case SDL_MOUSEBUTTONUP:
+      case SDL_MOUSEBUTTONUP:
         if(currprefs.jports[0].id == JSEM_MICE || currprefs.jports[1].id == JSEM_MICE) {
-    	    if(rEvent.button.button == SDL_BUTTON_LEFT) {
-  	        setmousebuttonstate (0, doStylusRightClick, 0);
+            if(rEvent.button.button == SDL_BUTTON_LEFT) {
+            setmousebuttonstate (0, doStylusRightClick, 0);
           }
-    	    else if(rEvent.button.button == SDL_BUTTON_RIGHT)
-    	      setmousebuttonstate (0, 1, 0);
+            else if(rEvent.button.button == SDL_BUTTON_RIGHT)
+              setmousebuttonstate (0, 1, 0);
         }
-  	    break;
-  	    
-  		case SDL_MOUSEMOTION:
-  		  if(currprefs.input_tablet == TABLET_OFF) {
+        break;
+        
+        case SDL_MOUSEMOTION:
+          if(currprefs.input_tablet == TABLET_OFF) {
           if(currprefs.jports[0].id == JSEM_MICE || currprefs.jports[1].id == JSEM_MICE) {
-  			    int x, y;
-    		    int mouseScale = currprefs.input_joymouse_multiplier / 2;
+                int x, y;
+                int mouseScale = currprefs.input_joymouse_multiplier / 2;
             x = rEvent.motion.xrel;
-    				y = rEvent.motion.yrel;
+                    y = rEvent.motion.yrel;
 #ifdef PANDORA_SPECIFIC
-    				if(rEvent.motion.x == 0 && x > -4)
-    					x = -4;
-    				if(rEvent.motion.y == 0 && y > -4)
-    					y = -4;
-    				if(rEvent.motion.x == currprefs.gfx_size.width - 1 && x < 4)
-    					x = 4;
-    				if(rEvent.motion.y == currprefs.gfx_size.height - 1 && y < 4)
-    					y = 4;
+                    if(rEvent.motion.x == 0 && x > -4)
+                        x = -4;
+                    if(rEvent.motion.y == 0 && y > -4)
+                        y = -4;
+                    if(rEvent.motion.x == currprefs.gfx_size.width - 1 && x < 4)
+                        x = 4;
+                    if(rEvent.motion.y == currprefs.gfx_size.height - 1 && y < 4)
+                        y = 4;
 #endif
-  				  setmousestate(0, 0, x * mouseScale, 0);
-        	  setmousestate(0, 1, y * mouseScale, 0);
+                  setmousestate(0, 0, x * mouseScale, 0);
+              setmousestate(0, 1, y * mouseScale, 0);
           }
         }
         break;
-		}
-	}
-	return got;
+        }
+    }
+    return got;
 }
 
 

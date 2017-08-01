@@ -345,7 +345,7 @@ static void parse_boot(struct uae_prefs *p, xmlNode *node)
             if(f != NULL)
             {
               struct uaedev_config_data *uci;
-            	struct uaedev_config_info ci;
+                struct uaedev_config_info ci;
               
               fclose(f);
 
@@ -370,7 +370,7 @@ static void parse_boot(struct uae_prefs *p, xmlNode *node)
               
               uci = add_filesys_config(p, -1, &ci);
               if (uci) {
-            		struct hardfiledata *hfd = get_hardfile_data (uci->configoffset);
+                    struct hardfiledata *hfd = get_hardfile_data (uci->configoffset);
                 hardfile_media_change (hfd, &ci, true, false);
               }
               gui_force_rtarea_hdchange();
@@ -409,8 +409,8 @@ static void extract_media(struct uae_prefs *p, unzFile uz, xmlNode *node)
             priority = atoi((const char *)attr);
             xmlFree(attr);
           }
-        	
-        	if (unzLocateFile (uz, (char *)content, 1) == UNZ_OK)
+            
+            if (unzLocateFile (uz, (char *)content, 1) == UNZ_OK)
           {
             unz_file_info file_info;
             if (unzGetCurrentFileInfo (uz, &file_info, NULL, 0, NULL, 0, NULL, 0) == UNZ_OK)
@@ -438,31 +438,31 @@ static void extract_media(struct uae_prefs *p, unzFile uz, xmlNode *node)
                         // Add floppy
                         if(priority < 2)
                         {
-                  	      strncpy(p->floppyslots[0].df, target_file, sizeof(p->floppyslots[0].df));
-                  	      disk_insert(0, p->floppyslots[0].df);
-                  	    }
-                  	    else if(priority == 2 && p->nr_floppies > 1)
-                	      {
-                  	      strncpy(p->floppyslots[1].df, target_file, sizeof(p->floppyslots[1].df));
-                  	      disk_insert(1, p->floppyslots[1].df);
-                	      }
-                  	    else if(priority == 3 && p->nr_floppies > 2)
-                	      {
-                  	      strncpy(p->floppyslots[2].df, target_file, sizeof(p->floppyslots[2].df));
-                  	      disk_insert(2, p->floppyslots[2].df);
-                	      }
-                  	    else if(priority == 4 && p->nr_floppies > 3)
-                	      {
-                  	      strncpy(p->floppyslots[3].df, target_file, sizeof(p->floppyslots[3].df));
-                  	      disk_insert(3, p->floppyslots[3].df);
-                	      }
+                          strncpy(p->floppyslots[0].df, target_file, sizeof(p->floppyslots[0].df));
+                          disk_insert(0, p->floppyslots[0].df);
+                        }
+                        else if(priority == 2 && p->nr_floppies > 1)
+                          {
+                          strncpy(p->floppyslots[1].df, target_file, sizeof(p->floppyslots[1].df));
+                          disk_insert(1, p->floppyslots[1].df);
+                          }
+                        else if(priority == 3 && p->nr_floppies > 2)
+                          {
+                          strncpy(p->floppyslots[2].df, target_file, sizeof(p->floppyslots[2].df));
+                          disk_insert(2, p->floppyslots[2].df);
+                          }
+                        else if(priority == 4 && p->nr_floppies > 3)
+                          {
+                          strncpy(p->floppyslots[3].df, target_file, sizeof(p->floppyslots[3].df));
+                          disk_insert(3, p->floppyslots[3].df);
+                          }
                         AddFileToDiskList(target_file, 1);
                       }
                       else
                       {
                         // Add hardfile
                         struct uaedev_config_data *uci;
-                      	struct uaedev_config_info ci;
+                        struct uaedev_config_info ci;
           
                         if(hardfile_testrdb (target_file))                        
                           uci_set_defaults(&ci, true);
@@ -478,11 +478,11 @@ static void extract_media(struct uae_prefs *p, unzFile uz, xmlNode *node)
                         
                         uci = add_filesys_config(p, -1, &ci);
                         if (uci) {
-                      		struct hardfiledata *hfd = get_hardfile_data (uci->configoffset);
+                            struct hardfiledata *hfd = get_hardfile_data (uci->configoffset);
                           hardfile_media_change (hfd, &ci, true, false);
                         }
 
-    	                  gui_force_rtarea_hdchange();
+                          gui_force_rtarea_hdchange();
                       }
                       lstTmpRP9Files.push_back(target_file);
                     }
@@ -546,8 +546,8 @@ static bool parse_manifest(struct uae_prefs *p, unzFile uz, const char *manifest
 bool rp9_parse_file(struct uae_prefs *p, const char *filename)
 {
   bool bResult = false;
-	struct zfile *zf;
-	unzFile uz;
+    struct zfile *zf;
+    unzFile uz;
   unz_file_info file_info;
   char *manifest;
   
@@ -558,12 +558,12 @@ bool rp9_parse_file(struct uae_prefs *p, const char *filename)
   if(zf != NULL)
   {
     uz = unzOpen(zf);
-  	if (uz != NULL)
-	  {
-    	if (unzLocateFile (uz, RP9_MANIFEST, 1) == UNZ_OK)
+    if (uz != NULL)
       {
-      	if (unzGetCurrentFileInfo (uz, &file_info, NULL, 0, NULL, 0, NULL, 0) == UNZ_OK)
-      	{
+        if (unzLocateFile (uz, RP9_MANIFEST, 1) == UNZ_OK)
+      {
+        if (unzGetCurrentFileInfo (uz, &file_info, NULL, 0, NULL, 0, NULL, 0) == UNZ_OK)
+        {
           manifest = (char *)malloc(file_info.uncompressed_size + 1);
           if(manifest != NULL)
           {
@@ -591,7 +591,7 @@ bool rp9_parse_file(struct uae_prefs *p, const char *filename)
         }
       }
   
-    	unzClose (uz);
+        unzClose (uz);
     }
     zfile_fclose(zf);  
   }

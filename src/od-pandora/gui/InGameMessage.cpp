@@ -66,15 +66,15 @@ void InGameMessage(const char *msg)
 
   doneActionListener = new DoneActionListener();
   
-	wndMsg = new gcn::Window("Load");
-	wndMsg->setSize(msgWidth, msgHeight);
+    wndMsg = new gcn::Window("Load");
+    wndMsg->setSize(msgWidth, msgHeight);
   wndMsg->setPosition(0, 0);
   wndMsg->setBaseColor(msg_baseCol + 0x202020);
   wndMsg->setCaption("Information");
   wndMsg->setTitleBarHeight(12);
 
-	cmdDone = new gcn::Button("Ok");
-	cmdDone->setSize(40, 20);
+    cmdDone = new gcn::Button("Ok");
+    cmdDone->setSize(40, 20);
   cmdDone->setBaseColor(msg_baseCol + 0x202020);
   cmdDone->addActionListener(doneActionListener);
   

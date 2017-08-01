@@ -11,8 +11,8 @@
 #include "blitfunc.h"
 
 /*
-	gno: optimized..
-	notaz: too :)
+    gno: optimized..
+    notaz: too :)
 */
 
 void blitdofast_0 (uaecptr pta, uaecptr ptb, uaecptr ptc, uaecptr ptd, struct bltinfo *b)
@@ -23,12 +23,12 @@ hblitsize = b->hblitsize;
 bltdmod = b->bltdmod;
 j = b->vblitsize;
 do {
-	i = hblitsize;
-	do {
-		chipmem_agnus_wput (ptd, 0);
-		ptd += 2;
-	} while (--i);
-	ptd += bltdmod;
+    i = hblitsize;
+    do {
+        chipmem_agnus_wput (ptd, 0);
+        ptd += 2;
+    } while (--i);
+    ptd += bltdmod;
 } while (--j);
 }
 void blitdofast_desc_0 (uaecptr pta, uaecptr ptb, uaecptr ptc, uaecptr ptd, struct bltinfo *b)
@@ -39,12 +39,12 @@ hblitsize = b->hblitsize;
 bltdmod = b->bltdmod;
 j = b->vblitsize;
 do {
-	i = hblitsize;
-	do {
-		chipmem_agnus_wput (ptd, 0);
-		ptd -= 2;
-	} while (--i);
-	ptd -= bltdmod;
+    i = hblitsize;
+    do {
+        chipmem_agnus_wput (ptd, 0);
+        ptd -= 2;
+    } while (--i);
+    ptd -= bltdmod;
 } while (--j);
 }
 void blitdofast_a (uaecptr pta, uaecptr ptb, uaecptr ptc, uaecptr ptd, struct bltinfo *b)
@@ -59,23 +59,23 @@ uae_u32 hblitsize = b->hblitsize;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - hblitsize;
 if (!hblitsize) return;
 for (j = b->vblitsize; j--;) {
-	for (i = hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((~srca & srcc));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((~srca & srcc));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltcdat = srcc;
 if (dstp)
@@ -93,22 +93,22 @@ uaecptr dstp = 0;
 uae_u32 hblitsize = b->hblitsize;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((~srca & srcc));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((~srca & srcc));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltcdat = srcc;
 if (dstp)
@@ -126,29 +126,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc & ~(srca & srcb)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc & ~(srca & srcb)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -167,28 +167,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc & ~(srca & srcb)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc & ~(srca & srcb)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -206,27 +206,27 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srca & ~srcb));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srca & ~srcb));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 if (dstp)
@@ -243,26 +243,26 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srca & ~srcb));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srca & ~srcb));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 if (dstp)
@@ -280,29 +280,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcb ^ (srca | (srcb ^ srcc))));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcb ^ (srca | (srcb ^ srcc))));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -321,28 +321,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcb ^ (srca | (srcb ^ srcc))));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcb ^ (srca | (srcb ^ srcc))));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -360,27 +360,27 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srca ^ srcb));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srca ^ srcb));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 if (dstp)
@@ -397,26 +397,26 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srca ^ srcb));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srca ^ srcb));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 if (dstp)
@@ -434,29 +434,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc ^ (srca & (srcb | srcc))));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc ^ (srca & (srcb | srcc))));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -475,28 +475,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc ^ (srca & (srcb | srcc))));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc ^ (srca & (srcb | srcc))));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -515,29 +515,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc ^ (srca & srcb)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc ^ (srca & srcb)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -556,28 +556,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc ^ (srca & srcb)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc ^ (srca & srcb)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -596,29 +596,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc & (~srca | srcb)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc & (~srca | srcb)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -637,28 +637,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc & (~srca | srcb)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc & (~srca | srcb)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -677,29 +677,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcb & (~srca | srcc)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcb & (~srca | srcc)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -718,28 +718,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcb & (~srca | srcc)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcb & (~srca | srcc)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -758,29 +758,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc ^ (srca & ~srcb)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc ^ (srca & ~srcb)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -799,28 +799,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc ^ (srca & ~srcb)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc ^ (srca & ~srcb)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -839,29 +839,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc & (srca | srcb)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc & (srca | srcb)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -880,28 +880,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc & (srca | srcb)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc & (srca | srcb)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -917,18 +917,18 @@ uae_u32 srcc = b->bltcdat;
 uae_u32 dstd=0;
 uaecptr dstp = 0;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = (srcc);
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = (srcc);
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltcdat = srcc;
 if (dstp)
@@ -943,17 +943,17 @@ uae_u32 srcc = b->bltcdat;
 uae_u32 dstd=0;
 uaecptr dstp = 0;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = (srcc);
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = (srcc);
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltcdat = srcc;
 if (dstp)
@@ -971,29 +971,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = (~(srca ^ (srcc | (srca ^ srcb))));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = (~(srca ^ (srcc | (srca ^ srcb))));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -1012,28 +1012,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = (~(srca ^ (srcc | (srca ^ srcb))));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = (~(srca ^ (srcc | (srca ^ srcb))));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -1052,29 +1052,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc ^ (srca & (srcb ^ srcc))));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc ^ (srca & (srcb ^ srcc))));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -1093,28 +1093,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc ^ (srca & (srcb ^ srcc))));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc ^ (srca & (srcb ^ srcc))));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -1131,22 +1131,22 @@ uae_u32 srcb = b->bltbhold;
 uae_u32 dstd=0;
 uaecptr dstp = 0;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = (srcb);
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (ptb) ptb += b->bltbmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = (srcb);
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (ptb) ptb += b->bltbmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 if (dstp)
@@ -1162,21 +1162,21 @@ uae_u32 srcb = b->bltbhold;
 uae_u32 dstd=0;
 uaecptr dstp = 0;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = (srcb);
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (ptb) ptb -= b->bltbmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = (srcb);
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (ptb) ptb -= b->bltbmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 if (dstp)
@@ -1194,29 +1194,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srca ^ (srcc & (srca ^ srcb))));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srca ^ (srcc & (srca ^ srcb))));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -1235,28 +1235,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srca ^ (srcc & (srca ^ srcb))));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srca ^ (srcc & (srca ^ srcb))));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -1275,29 +1275,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc ^ (srcb & (srca ^ srcc))));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc ^ (srcb & (srca ^ srcc))));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -1316,28 +1316,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc ^ (srcb & (srca ^ srcc))));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc ^ (srcb & (srca ^ srcc))));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -1356,29 +1356,29 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc | (srca & srcb)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc | (srca & srcb)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -1397,28 +1397,28 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srcc | (srca & srcb)));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srcc | (srca & srcb)));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 b->bltcdat = srcc;
@@ -1435,21 +1435,21 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = (srca);
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptd) ptd += b->bltdmod;
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = (srca);
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptd) ptd += b->bltdmod;
 }
 if (dstp)
   chipmem_agnus_wput (dstp, dstd);
@@ -1464,20 +1464,20 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = (srca);
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = (srca);
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptd) ptd -= b->bltdmod;
 }
 if (dstp)
   chipmem_agnus_wput (dstp, dstd);
@@ -1493,23 +1493,23 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srca | srcc));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptc) ptc += b->bltcmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc += 2; }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srca | srcc));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptc) ptc += b->bltcmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltcdat = srcc;
 if (dstp)
@@ -1526,22 +1526,22 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srca | srcc));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptc) ptc -= b->bltcmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptc) { srcc = do_get_mem_word ((uae_u16 *)ptc); ptc -= 2; }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srca | srcc));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptc) ptc -= b->bltcmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltcdat = srcc;
 if (dstp)
@@ -1558,27 +1558,27 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
 
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
-			srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srca | srcb));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd += 2; }
-	}
-	if (pta) pta += b->bltamod;
-	if (ptb) ptb += b->bltbmod;
-	if (ptd) ptd += b->bltdmod;
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb += 2;
+            srcb = (((uae_u32)prevb << 16) | bltbdat) >> b->blitbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta += 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)preva << 16) | bltadat) >> b->blitashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srca | srcb));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd += 2; }
+    }
+    if (pta) pta += b->bltamod;
+    if (ptb) ptb += b->bltbmod;
+    if (ptd) ptd += b->bltdmod;
 }
 b->bltbhold = srcb;
 if (dstp)
@@ -1595,26 +1595,26 @@ uae_u32 dstd=0;
 uaecptr dstp = 0;
 uae_u32 *blit_masktable_p = blit_masktable + BLITTER_MAX_WORDS - b->hblitsize;
 for (j = b->vblitsize; j--;) {
-	for (i = b->hblitsize; i--;) {
-		uae_u32 bltadat, srca;
-		if (ptb) {
-			uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
-			srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
-			prevb = bltbdat;
-		}
-		if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
-		bltadat &= blit_masktable_p[i];
-		srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
-		preva = bltadat;
-		if (dstp)
-		  chipmem_agnus_wput (dstp, dstd);
-		dstd = ((srca | srcb));
-		totald |= dstd;
-		if (ptd) { dstp = ptd; ptd -= 2; }
-	}
-	if (pta) pta -= b->bltamod;
-	if (ptb) ptb -= b->bltbmod;
-	if (ptd) ptd -= b->bltdmod;
+    for (i = b->hblitsize; i--;) {
+        uae_u32 bltadat, srca;
+        if (ptb) {
+            uae_u32 bltbdat; b->bltbdat = bltbdat = do_get_mem_word ((uae_u16 *)ptb); ptb -= 2;
+            srcb = ((bltbdat << 16) | prevb) >> b->blitdownbshift;
+            prevb = bltbdat;
+        }
+        if (pta) { b->bltadat = bltadat = do_get_mem_word ((uae_u16 *)pta); pta -= 2; } else { bltadat = b->bltadat; }
+        bltadat &= blit_masktable_p[i];
+        srca = (((uae_u32)bltadat << 16) | preva) >> b->blitdownashift;
+        preva = bltadat;
+        if (dstp)
+          chipmem_agnus_wput (dstp, dstd);
+        dstd = ((srca | srcb));
+        totald |= dstd;
+        if (ptd) { dstp = ptd; ptd -= 2; }
+    }
+    if (pta) pta -= b->bltamod;
+    if (ptb) ptb -= b->bltbmod;
+    if (ptd) ptd -= b->bltdmod;
 }
 b->bltbhold = srcb;
 if (dstp)

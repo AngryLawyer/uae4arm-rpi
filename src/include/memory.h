@@ -78,83 +78,83 @@ typedef struct {
   /* for instruction opcode/operand fetches */
   mem_get_func lgeti, wgeti;
   int flags;
-	uae_u32 mask;
-	uae_u32 startmask;
-	uae_u32 start;
-	uae_u32 allocated;
+    uae_u32 mask;
+    uae_u32 startmask;
+    uae_u32 start;
+    uae_u32 allocated;
 } addrbank;
 
 #define MEMORY_LGET(name) \
 static uae_u32 REGPARAM3 name ## _lget (uaecptr) REGPARAM; \
 static uae_u32 REGPARAM2 name ## _lget (uaecptr addr) \
 { \
-	uae_u8 *m; \
-	addr -= name ## _bank.start & name ## _bank.mask; \
-	addr &= name ## _bank.mask; \
-	m = name ## _bank.baseaddr + addr; \
-	return do_get_mem_long ((uae_u32 *)m); \
+    uae_u8 *m; \
+    addr -= name ## _bank.start & name ## _bank.mask; \
+    addr &= name ## _bank.mask; \
+    m = name ## _bank.baseaddr + addr; \
+    return do_get_mem_long ((uae_u32 *)m); \
 }
 #define MEMORY_WGET(name) \
 static uae_u32 REGPARAM3 name ## _wget (uaecptr) REGPARAM; \
 static uae_u32 REGPARAM2 name ## _wget (uaecptr addr) \
 { \
-	uae_u8 *m; \
-	addr -= name ## _bank.start & name ## _bank.mask; \
-	addr &= name ## _bank.mask; \
-	m = name ## _bank.baseaddr + addr; \
-	return do_get_mem_word ((uae_u16 *)m); \
+    uae_u8 *m; \
+    addr -= name ## _bank.start & name ## _bank.mask; \
+    addr &= name ## _bank.mask; \
+    m = name ## _bank.baseaddr + addr; \
+    return do_get_mem_word ((uae_u16 *)m); \
 }
 #define MEMORY_BGET(name) \
 static uae_u32 REGPARAM3 name ## _bget (uaecptr) REGPARAM; \
 static uae_u32 REGPARAM2 name ## _bget (uaecptr addr) \
 { \
-	addr -= name ## _bank.start & name ## _bank.mask; \
-	addr &= name ## _bank.mask; \
-	return name ## _bank.baseaddr[addr]; \
+    addr -= name ## _bank.start & name ## _bank.mask; \
+    addr &= name ## _bank.mask; \
+    return name ## _bank.baseaddr[addr]; \
 }
 #define MEMORY_LPUT(name) \
 static void REGPARAM3 name ## _lput (uaecptr, uae_u32) REGPARAM; \
 static void REGPARAM2 name ## _lput (uaecptr addr, uae_u32 l) \
 { \
-	uae_u8 *m;  \
-	addr -= name ## _bank.start & name ## _bank.mask; \
-	addr &= name ## _bank.mask; \
-	m = name ## _bank.baseaddr + addr; \
-	do_put_mem_long ((uae_u32 *)m, l); \
+    uae_u8 *m;  \
+    addr -= name ## _bank.start & name ## _bank.mask; \
+    addr &= name ## _bank.mask; \
+    m = name ## _bank.baseaddr + addr; \
+    do_put_mem_long ((uae_u32 *)m, l); \
 }
 #define MEMORY_WPUT(name) \
 static void REGPARAM3 name ## _wput (uaecptr, uae_u32) REGPARAM; \
 static void REGPARAM2 name ## _wput (uaecptr addr, uae_u32 w) \
 { \
-	uae_u8 *m;  \
-	addr -= name ## _bank.start & name ## _bank.mask; \
-	addr &= name ## _bank.mask; \
-	m = name ## _bank.baseaddr + addr; \
-	do_put_mem_word ((uae_u16 *)m, w); \
+    uae_u8 *m;  \
+    addr -= name ## _bank.start & name ## _bank.mask; \
+    addr &= name ## _bank.mask; \
+    m = name ## _bank.baseaddr + addr; \
+    do_put_mem_word ((uae_u16 *)m, w); \
 }
 #define MEMORY_BPUT(name) \
 static void REGPARAM3 name ## _bput (uaecptr, uae_u32) REGPARAM; \
 static void REGPARAM2 name ## _bput (uaecptr addr, uae_u32 b) \
 { \
-	addr -= name ## _bank.start & name ## _bank.mask; \
-	addr &= name ## _bank.mask; \
-	name ## _bank.baseaddr[addr] = b; \
+    addr -= name ## _bank.start & name ## _bank.mask; \
+    addr &= name ## _bank.mask; \
+    name ## _bank.baseaddr[addr] = b; \
 }
 #define MEMORY_CHECK(name) \
 static int REGPARAM3 name ## _check (uaecptr addr, uae_u32 size) REGPARAM; \
 static int REGPARAM2 name ## _check (uaecptr addr, uae_u32 size) \
 { \
-	addr -= name ## _bank.start & name ## _bank.mask; \
-	addr &= name ## _bank.mask; \
-	return (addr + size) <= name ## _bank.allocated; \
+    addr -= name ## _bank.start & name ## _bank.mask; \
+    addr &= name ## _bank.mask; \
+    return (addr + size) <= name ## _bank.allocated; \
 }
 #define MEMORY_XLATE(name) \
 static uae_u8 *REGPARAM3 name ## _xlate (uaecptr addr) REGPARAM; \
 static uae_u8 *REGPARAM2 name ## _xlate (uaecptr addr) \
 { \
-	addr -= name ## _bank.start & name ## _bank.mask; \
-	addr &= name ## _bank.mask; \
-	return name ## _bank.baseaddr + addr; \
+    addr -= name ## _bank.start & name ## _bank.mask; \
+    addr &= name ## _bank.mask; \
+    return name ## _bank.baseaddr + addr; \
 }
 
 #define MEMORY_FUNCTIONS(name) \
@@ -254,16 +254,16 @@ STATIC_INLINE void *get_pointer (uaecptr addr)
 {
     const unsigned int n = SIZEOF_VOID_P / 4;
     union {
-	void    *ptr;
-	uae_u32  longs[SIZEOF_VOID_P / 4];
+    void    *ptr;
+    uae_u32  longs[SIZEOF_VOID_P / 4];
     } p;
     unsigned int i;
 
     for (i = 0; i < n; i++) {
 #ifdef WORDS_BIGENDIAN
-	p.longs[i]     = get_long (addr + i * 4);
+    p.longs[i]     = get_long (addr + i * 4);
 #else
-	p.longs[n - 1 - i] = get_long (addr + i * 4);
+    p.longs[n - 1 - i] = get_long (addr + i * 4);
 #endif
     }
     return p.ptr;
@@ -297,8 +297,8 @@ STATIC_INLINE void put_pointer (uaecptr addr, void *v)
 {
     const unsigned int n = SIZEOF_VOID_P / 4;
     union {
-	void    *ptr;
-	uae_u32  longs[SIZEOF_VOID_P / 4];
+    void    *ptr;
+    uae_u32  longs[SIZEOF_VOID_P / 4];
     } p;
     unsigned int i;
 
@@ -306,9 +306,9 @@ STATIC_INLINE void put_pointer (uaecptr addr, void *v)
 
     for (i = 0; i < n; i++) {
 #ifdef WORDS_BIGENDIAN
-	put_long (addr + i * 4, p.longs[i]);
+    put_long (addr + i * 4, p.longs[i]);
 #else
-	put_long (addr + i * 4, p.longs[n - 1 - i]);
+    put_long (addr + i * 4, p.longs[n - 1 - i]);
 #endif
     }
 }

@@ -41,7 +41,7 @@ enum {
 STATIC_INLINE int get_audio_ismono (int stereomode)
 {
     if (stereomode == 0)
-	return 1;
+    return 1;
     return 0;
 }
 

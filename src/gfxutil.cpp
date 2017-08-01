@@ -13,9 +13,9 @@
 #include "rtgmodes.h"
 #include "xwin.h"
 
-#define	RED 	0
-#define	GRN	1
-#define	BLU	2
+#define RED     0
+#define GRN 1
+#define BLU 2
 
 
 unsigned int doMask (int p, int bits, int shift)
@@ -39,8 +39,8 @@ unsigned int doMask256 (int p, int bits, int shift)
    * shift to align msb with mask, and apply mask */
 
   unsigned long val = p * 0x01010101UL;
-	if (bits == 0)
-		return 0;
+    if (bits == 0)
+        return 0;
   val >>= (32 - bits);
   val <<= shift;
 
@@ -66,17 +66,17 @@ static uae_u32 lowbits (int v, int shift, int lsize)
 
 void alloc_colors64k (int rw, int gw, int bw, int rs, int gs, int bs, int byte_swap)
 {
-	int i;
-	for (i = 0; i < 4096; i++) {
-		int r = i >> 8;
-		int g = (i >> 4) & 0xf;
-		int b = i & 0xf;
-		xcolors[i] = doMask(r, rw, rs) | doMask(g, gw, gs) | doMask(b, bw, bs);
-	}
-	/* create AGA color tables */
-	for(i=0; i<256; i++) {
-		xredcolors[i] = doColor(i, rw, rs);
-		xgreencolors[i] = doColor(i, gw, gs);
-		xbluecolors[i] = doColor(i, bw, bs);
-	}
+    int i;
+    for (i = 0; i < 4096; i++) {
+        int r = i >> 8;
+        int g = (i >> 4) & 0xf;
+        int b = i & 0xf;
+        xcolors[i] = doMask(r, rw, rs) | doMask(g, gw, gs) | doMask(b, bw, bs);
+    }
+    /* create AGA color tables */
+    for(i=0; i<256; i++) {
+        xredcolors[i] = doColor(i, rw, rs);
+        xgreencolors[i] = doColor(i, gw, gs);
+        xbluecolors[i] = doColor(i, bw, bs);
+    }
 }

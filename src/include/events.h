@@ -69,14 +69,14 @@ extern struct ev2 eventtab2[ev2_max];
 STATIC_INLINE void cycles_do_special (void)
 {
 #ifdef JIT
-	if (currprefs.cachesize) {
-		if (regs.pissoff >= 0)
-			regs.pissoff = -1;
-	} else 
+    if (currprefs.cachesize) {
+        if (regs.pissoff >= 0)
+            regs.pissoff = -1;
+    } else 
 #endif
   {
-		regs.pissoff = 0;
-	}
+        regs.pissoff = 0;
+    }
 }
 
 STATIC_INLINE unsigned long int get_cycles (void)
@@ -87,32 +87,32 @@ STATIC_INLINE unsigned long int get_cycles (void)
 STATIC_INLINE void set_cycles (unsigned long int x)
 {
   currcycle = x;
-	eventtab[ev_hsync].oldcycles = x;
+    eventtab[ev_hsync].oldcycles = x;
 }
 
 STATIC_INLINE int current_hpos_safe (void)
 {
   int hp = (get_cycles () - eventtab[ev_hsync].oldcycles) / CYCLE_UNIT;
-	return hp;
+    return hp;
 }
 
 STATIC_INLINE int current_hpos (void)
 {
   int hp = (get_cycles () - eventtab[ev_hsync].oldcycles) / CYCLE_UNIT;
-	return hp;
+    return hp;
 }
 
 STATIC_INLINE bool cycles_in_range (unsigned long endcycles)
 {
-	signed long c = get_cycles ();
-	return (signed long)endcycles - c > 0;
+    signed long c = get_cycles ();
+    return (signed long)endcycles - c > 0;
 }
 
 extern void MISC_handler(void);
 
 STATIC_INLINE void event2_newevent (int no, evt t, uae_u32 data)
 {
-	eventtab2[no].active = true;
+    eventtab2[no].active = true;
   eventtab2[no].evtime = (t * CYCLE_UNIT) + get_cycles();
   eventtab2[no].data = data;
   MISC_handler();
@@ -120,20 +120,20 @@ STATIC_INLINE void event2_newevent (int no, evt t, uae_u32 data)
 
 STATIC_INLINE void event2_remevent (int no)
 {
-	eventtab2[no].active = 0;
+    eventtab2[no].active = 0;
 }
 
 STATIC_INLINE void event_newevent (int no, evt t)
 {
   evt ct = get_cycles();
-	eventtab[no].active = true;
+    eventtab[no].active = true;
   eventtab[no].evtime = ct + t * CYCLE_UNIT;
   events_schedule();
 }
 
 STATIC_INLINE void event_remevent (int no)
 {
-	eventtab[no].active = 0;
+    eventtab[no].active = 0;
 }
 
 #endif

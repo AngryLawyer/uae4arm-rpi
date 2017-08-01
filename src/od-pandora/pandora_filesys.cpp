@@ -9,12 +9,12 @@
 
 int my_setcurrentdir (const TCHAR *curdir, TCHAR *oldcur)
 {
-	int ret = 0;
-	if (oldcur)
-		getcwd(oldcur, MAX_DPATH);
-	if (curdir)
-		chdir (curdir);
-	return ret;
+    int ret = 0;
+    if (oldcur)
+        getcwd(oldcur, MAX_DPATH);
+    if (curdir)
+        chdir (curdir);
+    return ret;
 }
 
 
@@ -43,31 +43,31 @@ int my_rename (const char* oldname, const char* newname)
 
 
 struct my_opendir_s {
-	void *h;
+    void *h;
 };
 
 
 struct my_opendir_s *my_opendir (const char* name)
 {
-	struct my_opendir_s *mod;
+    struct my_opendir_s *mod;
 
-	mod = xmalloc (struct my_opendir_s, 1);
-	if (!mod)
-		return NULL;
+    mod = xmalloc (struct my_opendir_s, 1);
+    if (!mod)
+        return NULL;
   mod->h = opendir(name);
-	if (mod->h == NULL) {
-		xfree (mod);
-		return NULL;
-	}
-	return mod;
+    if (mod->h == NULL) {
+        xfree (mod);
+        return NULL;
+    }
+    return mod;
 }
 
 
 void my_closedir (struct my_opendir_s *mod)
 {
-	if (mod)
-		closedir((DIR *) mod->h);
-	xfree (mod);
+    if (mod)
+        closedir((DIR *) mod->h);
+    xfree (mod);
 }
 
 
@@ -76,18 +76,18 @@ int my_readdir (struct my_opendir_s *mod, char* name)
   struct dirent *de;
   
   if (!mod)
-	  return 0;
-	
-	de = readdir((DIR *) mod->h);
-	if(de == 0)
-	  return 0;
-	strncpy(name, de->d_name, MAX_PATH);
-	return 1;
+      return 0;
+    
+    de = readdir((DIR *) mod->h);
+    if(de == 0)
+      return 0;
+    strncpy(name, de->d_name, MAX_PATH);
+    return 1;
 }
 
 
 struct my_openfile_s {
-	void *h;
+    void *h;
 };
 
 
@@ -110,7 +110,7 @@ uae_s64 int my_fsize (struct my_openfile_s *mos)
   uae_s64 pos = lseek((int) mos->h, 0, SEEK_CUR);
   uae_s64 size = lseek((int) mos->h, 0, SEEK_END);
   lseek((int) mos->h, pos, SEEK_SET);
-	return size;
+    return size;
 }
 
 
@@ -128,13 +128,13 @@ unsigned int my_write (struct my_openfile_s *mos, void *b, unsigned int size)
 
 int my_existsfile (const char *name)
 {
-	struct stat st;
-	if (lstat (name, &st) == -1) {
-		return 0;
-	} else {
-		if (!S_ISDIR(st.st_mode))
-			return 1;
-	}
+    struct stat st;
+    if (lstat (name, &st) == -1) {
+        return 0;
+    } else {
+        if (!S_ISDIR(st.st_mode))
+            return 1;
+    }
         return 0;
 }
 
@@ -155,15 +155,15 @@ int my_existsdir(const char *name)
 
 struct my_openfile_s *my_open (const TCHAR *name, int flags)
 {
-	struct my_openfile_s *mos;
+    struct my_openfile_s *mos;
 
-	mos = xmalloc (struct my_openfile_s, 1);
-	if (!mos)
-		return NULL;
+    mos = xmalloc (struct my_openfile_s, 1);
+    if (!mos)
+        return NULL;
   mos->h = (void *) open(name, flags);
-	if (!mos->h) {
-		xfree (mos);
-		mos = NULL;
+    if (!mos->h) {
+        xfree (mos);
+        mos = NULL;
   }
   return mos;
 }
@@ -196,6 +196,6 @@ FILE *my_opentext (const TCHAR *name)
 /* Returns 1 if an actual volume-name was found, 2 if no volume-name (so uses some defaults) */
 int target_get_volume_name(struct uaedev_mount_info *mtinf, const char *volumepath, char *volumename, int size, bool inserted, bool fullcheck)
 {
-	sprintf(volumename, "DH_%c", volumepath[0]);
+    sprintf(volumename, "DH_%c", volumepath[0]);
   return 2;
 }

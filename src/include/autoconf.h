@@ -56,7 +56,7 @@ struct mountedinfo
   bool ismounted;
   bool ismedia;
   int nrcyls;
-	TCHAR rootdir[MAX_DPATH];
+    TCHAR rootdir[MAX_DPATH];
 };
 
 extern int add_filesys_unitconfig (struct uae_prefs *p, int index, TCHAR *error);

@@ -139,65 +139,65 @@ class SoundActionListener : public gcn::ActionListener
   public:
     void action(const gcn::ActionEvent& actionEvent)
     {
-	    if (actionEvent.getSource() == optSoundDisabled)
-    		changed_prefs.produce_sound = 0;
-	    else if (actionEvent.getSource() == optSoundDisabledEmu)
-    		changed_prefs.produce_sound = 1;
-	    else if (actionEvent.getSource() == optSoundEmulated)
-    		changed_prefs.produce_sound = 2;
-	    else if (actionEvent.getSource() == optSoundEmulatedBest)
-    		changed_prefs.produce_sound = 3;
+        if (actionEvent.getSource() == optSoundDisabled)
+            changed_prefs.produce_sound = 0;
+        else if (actionEvent.getSource() == optSoundDisabledEmu)
+            changed_prefs.produce_sound = 1;
+        else if (actionEvent.getSource() == optSoundEmulated)
+            changed_prefs.produce_sound = 2;
+        else if (actionEvent.getSource() == optSoundEmulatedBest)
+            changed_prefs.produce_sound = 3;
 
-	    else if (actionEvent.getSource() == optMono)
-    		changed_prefs.sound_stereo = 0;
-	    else if (actionEvent.getSource() == optStereo)
-    		changed_prefs.sound_stereo = 1;
+        else if (actionEvent.getSource() == optMono)
+            changed_prefs.sound_stereo = 0;
+        else if (actionEvent.getSource() == optStereo)
+            changed_prefs.sound_stereo = 1;
 
-	    else if (actionEvent.getSource() == cboFrequency)
+        else if (actionEvent.getSource() == cboFrequency)
       {
         switch(cboFrequency->getSelected())
         {
           case 0:
-    		    changed_prefs.sound_freq = 11025;
+                changed_prefs.sound_freq = 11025;
             break;
           case 1:
-    		    changed_prefs.sound_freq = 22050;
+                changed_prefs.sound_freq = 22050;
             break;
           case 2:
-    		    changed_prefs.sound_freq = 32000;
+                changed_prefs.sound_freq = 32000;
             break;
           case 3:
-    		    changed_prefs.sound_freq = 44100;
+                changed_prefs.sound_freq = 44100;
             break;
         }
       }
 
-	    else if (actionEvent.getSource() == cboInterpolation)
+        else if (actionEvent.getSource() == cboInterpolation)
         changed_prefs.sound_interpol = cboInterpolation->getSelected();
 
-	    else if (actionEvent.getSource() == cboFilter)
+        else if (actionEvent.getSource() == cboFilter)
       {
         switch (cboFilter->getSelected())
         {
-        	case 0:
-          	changed_prefs.sound_filter = FILTER_SOUND_OFF;
-          	break;
-        	case 1:
-          	changed_prefs.sound_filter = FILTER_SOUND_EMUL;
-          	changed_prefs.sound_filter_type = 0;
-          	break;
-        	case 2:
-          	changed_prefs.sound_filter = FILTER_SOUND_EMUL;
-          	changed_prefs.sound_filter_type = 1;
-          	break;
-        	case 3:
-          	changed_prefs.sound_filter = FILTER_SOUND_ON;
-          	changed_prefs.sound_filter_type = 0;
-          	break;
-        	case 4:
-          	changed_prefs.sound_filter = FILTER_SOUND_ON;
-          	changed_prefs.sound_filter_type = 1;
-          	break;
+            case 0:
+            changed_prefs.sound_filter = FILTER_SOUND_OFF;
+            break;
+            case 1:
+            changed_prefs.sound_filter = FILTER_SOUND_EMUL;
+            changed_prefs.sound_filter_type = 0;
+            break;
+            case 2:
+            changed_prefs.sound_filter = FILTER_SOUND_EMUL;
+            changed_prefs.sound_filter_type = 1;
+            break;
+            case 3:
+            changed_prefs.sound_filter = FILTER_SOUND_ON;
+            changed_prefs.sound_filter_type = 0;
+            break;
+            case 4:
+            changed_prefs.sound_filter = FILTER_SOUND_ON;
+            changed_prefs.sound_filter_type = 1;
+            break;
         }
       }
 
@@ -206,9 +206,9 @@ class SoundActionListener : public gcn::ActionListener
         if(curr_separation_idx != (int)(sldSeparation->getValue())
         && changed_prefs.sound_stereo > 0)
         {
-      		curr_separation_idx = (int)(sldSeparation->getValue());
-      		changed_prefs.sound_stereo_separation = 10 - curr_separation_idx;
-    	  }
+            curr_separation_idx = (int)(sldSeparation->getValue());
+            changed_prefs.sound_stereo_separation = 10 - curr_separation_idx;
+          }
       }
 
       else if (actionEvent.getSource() == sldStereoDelay) 
@@ -216,12 +216,12 @@ class SoundActionListener : public gcn::ActionListener
         if(curr_stereodelay_idx != (int)(sldStereoDelay->getValue())
         && changed_prefs.sound_stereo > 0)
         {
-      		curr_stereodelay_idx = (int)(sldStereoDelay->getValue());
-      		if(curr_stereodelay_idx > 0)
-      		  changed_prefs.sound_mixed_stereo_delay = curr_stereodelay_idx;
-      		else
-      		  changed_prefs.sound_mixed_stereo_delay = -1;
-    	  }
+            curr_stereodelay_idx = (int)(sldStereoDelay->getValue());
+            if(curr_stereodelay_idx > 0)
+              changed_prefs.sound_mixed_stereo_delay = curr_stereodelay_idx;
+            else
+              changed_prefs.sound_mixed_stereo_delay = -1;
+          }
       }
 
       RefreshPanelSound();
@@ -234,33 +234,33 @@ void InitPanelSound(const struct _ConfigCategory& category)
 {
   soundActionListener = new SoundActionListener();
 
-	optSoundDisabled = new gcn::UaeRadioButton("Disabled", "radiosoundgroup");
-	optSoundDisabled->setId("sndDisable");
-	optSoundDisabled->addActionListener(soundActionListener);
+    optSoundDisabled = new gcn::UaeRadioButton("Disabled", "radiosoundgroup");
+    optSoundDisabled->setId("sndDisable");
+    optSoundDisabled->addActionListener(soundActionListener);
 
-	optSoundDisabledEmu = new gcn::UaeRadioButton("Disabled, but emulated", "radiosoundgroup");
-	optSoundDisabledEmu->setId("sndDisEmu");
-	optSoundDisabledEmu->addActionListener(soundActionListener);
+    optSoundDisabledEmu = new gcn::UaeRadioButton("Disabled, but emulated", "radiosoundgroup");
+    optSoundDisabledEmu->setId("sndDisEmu");
+    optSoundDisabledEmu->addActionListener(soundActionListener);
   
-	optSoundEmulated = new gcn::UaeRadioButton("Enabled", "radiosoundgroup");
-	optSoundEmulated->setId("sndEmulate");
-	optSoundEmulated->addActionListener(soundActionListener);
+    optSoundEmulated = new gcn::UaeRadioButton("Enabled", "radiosoundgroup");
+    optSoundEmulated->setId("sndEmulate");
+    optSoundEmulated->addActionListener(soundActionListener);
 
-	optSoundEmulatedBest = new gcn::UaeRadioButton("Enabled, most accurate", "radiosoundgroup");
-	optSoundEmulatedBest->setId("sndEmuBest");
-	optSoundEmulatedBest->addActionListener(soundActionListener);
+    optSoundEmulatedBest = new gcn::UaeRadioButton("Enabled, most accurate", "radiosoundgroup");
+    optSoundEmulatedBest->setId("sndEmuBest");
+    optSoundEmulatedBest->addActionListener(soundActionListener);
 
-	grpSound = new gcn::Window("Sound Emulation");
-	grpSound->add(optSoundDisabled, 5, 10);
-	grpSound->add(optSoundDisabledEmu, 5, 40);
-	grpSound->add(optSoundEmulated, 5, 70);
-	grpSound->add(optSoundEmulatedBest, 5, 100);
-	grpSound->setMovable(false);
-	grpSound->setSize(200, 150);
+    grpSound = new gcn::Window("Sound Emulation");
+    grpSound->add(optSoundDisabled, 5, 10);
+    grpSound->add(optSoundDisabledEmu, 5, 40);
+    grpSound->add(optSoundEmulated, 5, 70);
+    grpSound->add(optSoundEmulatedBest, 5, 100);
+    grpSound->setMovable(false);
+    grpSound->setSize(200, 150);
   grpSound->setBaseColor(gui_baseCol);
 
-	lblFrequency = new gcn::Label("Frequency:");
-	lblFrequency->setSize(130, LABEL_HEIGHT);
+    lblFrequency = new gcn::Label("Frequency:");
+    lblFrequency->setSize(130, LABEL_HEIGHT);
   lblFrequency->setAlignment(gcn::Graphics::RIGHT);
   cboFrequency = new gcn::UaeDropDown(&frequencyTypeList);
   cboFrequency->setSize(160, DROPDOWN_HEIGHT);
@@ -268,21 +268,21 @@ void InitPanelSound(const struct _ConfigCategory& category)
   cboFrequency->setId("cboFrequency");
   cboFrequency->addActionListener(soundActionListener);
 
-	optMono = new gcn::UaeRadioButton("Mono", "radiosoundmodegroup");
-	optMono->addActionListener(soundActionListener);
+    optMono = new gcn::UaeRadioButton("Mono", "radiosoundmodegroup");
+    optMono->addActionListener(soundActionListener);
 
-	optStereo = new gcn::UaeRadioButton("Stereo", "radiosoundmodegroup");
-	optStereo->addActionListener(soundActionListener);
+    optStereo = new gcn::UaeRadioButton("Stereo", "radiosoundmodegroup");
+    optStereo->addActionListener(soundActionListener);
 
-	grpMode = new gcn::Window("Mode");
-	grpMode->add(optMono, 5, 10);
-	grpMode->add(optStereo, 5, 40);
-	grpMode->setMovable(false);
-	grpMode->setSize(90, 90);
+    grpMode = new gcn::Window("Mode");
+    grpMode->add(optMono, 5, 10);
+    grpMode->add(optStereo, 5, 40);
+    grpMode->setMovable(false);
+    grpMode->setSize(90, 90);
   grpMode->setBaseColor(gui_baseCol);
 
-	lblInterpolation = new gcn::Label("Interpolation:");
-	lblInterpolation->setSize(130, LABEL_HEIGHT);
+    lblInterpolation = new gcn::Label("Interpolation:");
+    lblInterpolation->setSize(130, LABEL_HEIGHT);
   lblInterpolation->setAlignment(gcn::Graphics::RIGHT);
   cboInterpolation = new gcn::UaeDropDown(&interpolationTypeList);
   cboInterpolation->setSize(160, DROPDOWN_HEIGHT);
@@ -290,8 +290,8 @@ void InitPanelSound(const struct _ConfigCategory& category)
   cboInterpolation->setId("cboInterpol");
   cboInterpolation->addActionListener(soundActionListener);
 
-	lblFilter = new gcn::Label("Filter:");
-	lblFilter->setSize(130, LABEL_HEIGHT);
+    lblFilter = new gcn::Label("Filter:");
+    lblFilter->setSize(130, LABEL_HEIGHT);
   lblFilter->setAlignment(gcn::Graphics::RIGHT);
   cboFilter = new gcn::UaeDropDown(&filterTypeList);
   cboFilter->setSize(160, DROPDOWN_HEIGHT);
@@ -299,27 +299,27 @@ void InitPanelSound(const struct _ConfigCategory& category)
   cboFilter->setId("cboFilter");
   cboFilter->addActionListener(soundActionListener);
 
-	lblSeparation = new gcn::Label("Stereo separation:");
-	lblSeparation->setSize(130, LABEL_HEIGHT);
+    lblSeparation = new gcn::Label("Stereo separation:");
+    lblSeparation->setSize(130, LABEL_HEIGHT);
   lblSeparation->setAlignment(gcn::Graphics::RIGHT);
   sldSeparation = new gcn::Slider(0, 10);
   sldSeparation->setSize(160, SLIDER_HEIGHT);
   sldSeparation->setBaseColor(gui_baseCol);
-	sldSeparation->setMarkerLength(20);
-	sldSeparation->setStepLength(1);
-	sldSeparation->setId("sldSeparation");
+    sldSeparation->setMarkerLength(20);
+    sldSeparation->setStepLength(1);
+    sldSeparation->setId("sldSeparation");
   sldSeparation->addActionListener(soundActionListener);
   lblSeparationInfo = new gcn::Label("100%");
 
-	lblStereoDelay = new gcn::Label("Stereo delay:");
-	lblStereoDelay->setSize(130, LABEL_HEIGHT);
+    lblStereoDelay = new gcn::Label("Stereo delay:");
+    lblStereoDelay->setSize(130, LABEL_HEIGHT);
   lblStereoDelay->setAlignment(gcn::Graphics::RIGHT);
   sldStereoDelay = new gcn::Slider(0, 10);
   sldStereoDelay->setSize(160, SLIDER_HEIGHT);
   sldStereoDelay->setBaseColor(gui_baseCol);
-	sldStereoDelay->setMarkerLength(20);
-	sldStereoDelay->setStepLength(1);
-	sldStereoDelay->setId("sldStereoDelay");
+    sldStereoDelay->setMarkerLength(20);
+    sldStereoDelay->setStepLength(1);
+    sldStereoDelay->setId("sldStereoDelay");
   sldStereoDelay->addActionListener(soundActionListener);
   lblStereoDelayInfo = new gcn::Label("10");
   
@@ -396,7 +396,7 @@ void RefreshPanelSound(void)
       break;
   }
 
-	if (changed_prefs.sound_stereo == 0)
+    if (changed_prefs.sound_stereo == 0)
     optMono->setSelected(true);
   else if (changed_prefs.sound_stereo == 1)
     optStereo->setSelected(true);

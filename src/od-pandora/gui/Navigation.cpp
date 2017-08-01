@@ -205,8 +205,8 @@ static NavigationMap navMap[] =
     { "HideIdle",       "Miscellaneous",  "Miscellaneous",  "StatusLine",     "ShowGUI" },
     { "ShowGUI",        "Miscellaneous",  "Miscellaneous",  "HideIdle",      "BSDSocket" },
     { "BSDSocket",      "Miscellaneous",  "Miscellaneous",  "ShowGUI",       "numlock" },
-	{ "numlock",		"Miscellaneous",	"scrolllock",	"",					""},
-	{ "scrolllock",		"numlock",			"",				"",					""},
+    { "numlock",        "Miscellaneous",    "scrolllock",   "",                 ""},
+    { "scrolllock",     "numlock",          "",             "",                 ""},
 
 // PanelSavestate
   { "State0",         "Savestates",     "Savestates",     "LoadState",      "State1" },

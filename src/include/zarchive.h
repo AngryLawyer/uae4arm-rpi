@@ -10,11 +10,11 @@ struct zfile {
     FILE *f; // real file handle if physical file
     uae_u8 *data; // unpacked data
     int dataseek; // use seek position even if real file
-	struct zfile *archiveparent; // set if parent is archive and this has not yet been unpacked (datasize < size)
-	int archiveid;
+    struct zfile *archiveparent; // set if parent is archive and this has not yet been unpacked (datasize < size)
+    int archiveid;
     uae_s64 size; // real size
-	uae_s64 datasize; // available size (not yet unpacked completely?)
-	uae_s64 allocsize; // memory allocated before realloc() needed again
+    uae_s64 datasize; // available size (not yet unpacked completely?)
+    uae_s64 allocsize; // memory allocated before realloc() needed again
     uae_s64 seek; // seek position
     int deleteafterclose;
     int textmode;
@@ -81,7 +81,7 @@ struct zarchive_info
     uae_s64 size;
     int flags;
     TCHAR *comment;
-	struct mytimeval tv;
+    struct mytimeval tv;
 };
 
 #define ArchiveFormat7Zip '7z  '

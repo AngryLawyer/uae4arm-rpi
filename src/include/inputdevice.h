@@ -58,8 +58,8 @@ extern struct inputdevice_functions inputdevicefunc_keyboard;
 
 struct uae_input_device_default_node
 {
-	int evt;
-	uae_u64 flags;
+    int evt;
+    uae_u64 flags;
 };
 
 struct uae_input_device_kbr_default {
@@ -68,12 +68,12 @@ struct uae_input_device_kbr_default {
 };
 
 struct inputevent {
-	const TCHAR *confname;
-	const TCHAR *name;
-	int allow_mask;
-	int type;
-	int unit;
-	int data;
+    const TCHAR *confname;
+    const TCHAR *name;
+    int allow_mask;
+    int type;
+    int unit;
+    int data;
 };
 
 #define MAX_INPUT_QUALIFIERS (8 + 5)

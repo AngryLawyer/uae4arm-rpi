@@ -18,9 +18,9 @@ extern void gui_display (int shortcut);
 
 extern bool no_gui;
 
-#define HDLED_OFF		0
-#define HDLED_READ		1
-#define HDLED_WRITE		2
+#define HDLED_OFF       0
+#define HDLED_READ      1
+#define HDLED_WRITE     2
 
 #define LED_CD_ACTIVE 1
 #define LED_CD_ACTIVE2 2
@@ -46,16 +46,16 @@ struct gui_info
     bool drive_motor[4];    /* motor on off */
     uae_u8 drive_track[4];    /* rw-head track */
     bool drive_writing[4];  /* drive is writing */
-    bool drive_disabled[4];	/* drive is disabled */
+    bool drive_disabled[4]; /* drive is disabled */
     bool powerled;          /* state of power led */
-    uae_s8 drive_side;				/* floppy side */
-    uae_s8 hd;			          /* harddrive */
-    uae_s8 cd;			          /* CD */
+    uae_s8 drive_side;              /* floppy side */
+    uae_s8 hd;                    /* harddrive */
+    uae_s8 cd;                    /* CD */
     bool cpu_halted;
     int fps;
     int sndbuf, sndbuf_status;
-    TCHAR df[4][256];		    /* inserted image */
-    uae_u32 crc32[4];		    /* crc32 of image */
+    TCHAR df[4][256];           /* inserted image */
+    uae_u32 crc32[4];           /* crc32 of image */
 };
 #define NUM_LEDS (LED_MAX)
 #define VISIBLE_LEDS 6
@@ -107,7 +107,7 @@ typedef enum {
   NUMSG_KS68EC020, NUMSG_KS68020, NUMSG_KS68030,
   NUMSG_ROMNEED, NUMSG_EXPROMNEED, NUMSG_NOZLIB, NUMSG_STATEHD,
   NUMSG_NOCAPS, NUMSG_OLDCAPS, NUMSG_KICKREP, NUMSG_KICKREPNO,
-	NUMSG_KS68030PLUS
+    NUMSG_KS68030PLUS
 } notify_user_msg;
 
 #ifdef WITH_LOGGING

@@ -51,7 +51,7 @@ extern int vpos;
 
 STATIC_INLINE int dmaen (unsigned int dmamask)
 {
-	return (dmamask & dmacon) && (dmacon & 0x200);
+    return (dmamask & dmacon) && (dmacon & 0x200);
 }
 
 #define SPCFLAG_STOP 2
@@ -77,7 +77,7 @@ extern bool INTREQ_0 (uae_u16);
 extern void INTREQ_f (uae_u16);
 STATIC_INLINE void send_interrupt (int num)
 {
-	INTREQ_0 (0x8000 | (1 << num));
+    INTREQ_0 (0x8000 | (1 << num));
 }
 
 STATIC_INLINE uae_u16 INTREQR (void)
@@ -148,7 +148,7 @@ STATIC_INLINE int GET_RES_DENISE (uae_u16 con0)
 STATIC_INLINE int GET_RES_AGNUS (uae_u16 con0)
 {
   if (!(currprefs.chipset_mask & CSMASK_ECS_AGNUS))
-		con0 &= ~0x40; // no SUPERHIRES
+        con0 &= ~0x40; // no SUPERHIRES
   return ((con0) & 0x40) ? RES_SUPERHIRES : ((con0) & 0x8000) ? RES_HIRES : RES_LORES;
 }
 /* get sprite width from FMODE */
@@ -157,9 +157,9 @@ STATIC_INLINE int GET_RES_AGNUS (uae_u16 con0)
 STATIC_INLINE int GET_PLANES(uae_u16 bplcon0)
 {
   if ((bplcon0 & 0x0010) && (bplcon0 & 0x7000))
-  	return 0; // >8 planes = 0 planes
+    return 0; // >8 planes = 0 planes
   if (bplcon0 & 0x0010)
-  	return 8; // AGA 8-planes bit
+    return 8; // AGA 8-planes bit
   return (bplcon0 >> 12) & 7; // normal planes bits
 }
 

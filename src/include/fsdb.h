@@ -16,34 +16,34 @@
 #endif
 
 /* AmigaOS errors */
-#define ERROR_NO_FREE_STORE		103
-#define ERROR_BAD_NUMBER			115
-#define ERROR_LINE_TOO_LONG			120
-#define ERROR_OBJECT_IN_USE		202
-#define ERROR_OBJECT_EXISTS		203
-#define ERROR_DIR_NOT_FOUND		204
-#define ERROR_OBJECT_NOT_AROUND		205
-#define ERROR_ACTION_NOT_KNOWN		209
-#define ERROR_INVALID_LOCK		211
-#define ERROR_OBJECT_WRONG_TYPE		212
-#define ERROR_DISK_WRITE_PROTECTED	214
-#define ERROR_DIRECTORY_NOT_EMPTY	216
-#define ERROR_DEVICE_NOT_MOUNTED	218
-#define ERROR_SEEK_ERROR		219
-#define ERROR_COMMENT_TOO_BIG		220
-#define ERROR_DISK_IS_FULL		221
-#define ERROR_DELETE_PROTECTED		222
-#define ERROR_WRITE_PROTECTED		223
-#define ERROR_READ_PROTECTED		224
-#define ERROR_NOT_A_DOS_DISK		225
-#define ERROR_NO_DISK			226
-#define ERROR_NO_MORE_ENTRIES		232
-#define ERROR_IS_SOFT_LINK			233
-#define ERROR_NOT_IMPLEMENTED		236
-#define ERROR_RECORD_NOT_LOCKED		240
-#define ERROR_LOCK_COLLISION		241
-#define ERROR_LOCK_TIMEOUT			242
-#define ERROR_UNLOCK_ERROR			243
+#define ERROR_NO_FREE_STORE     103
+#define ERROR_BAD_NUMBER            115
+#define ERROR_LINE_TOO_LONG         120
+#define ERROR_OBJECT_IN_USE     202
+#define ERROR_OBJECT_EXISTS     203
+#define ERROR_DIR_NOT_FOUND     204
+#define ERROR_OBJECT_NOT_AROUND     205
+#define ERROR_ACTION_NOT_KNOWN      209
+#define ERROR_INVALID_LOCK      211
+#define ERROR_OBJECT_WRONG_TYPE     212
+#define ERROR_DISK_WRITE_PROTECTED  214
+#define ERROR_DIRECTORY_NOT_EMPTY   216
+#define ERROR_DEVICE_NOT_MOUNTED    218
+#define ERROR_SEEK_ERROR        219
+#define ERROR_COMMENT_TOO_BIG       220
+#define ERROR_DISK_IS_FULL      221
+#define ERROR_DELETE_PROTECTED      222
+#define ERROR_WRITE_PROTECTED       223
+#define ERROR_READ_PROTECTED        224
+#define ERROR_NOT_A_DOS_DISK        225
+#define ERROR_NO_DISK           226
+#define ERROR_NO_MORE_ENTRIES       232
+#define ERROR_IS_SOFT_LINK          233
+#define ERROR_NOT_IMPLEMENTED       236
+#define ERROR_RECORD_NOT_LOCKED     240
+#define ERROR_LOCK_COLLISION        241
+#define ERROR_LOCK_TIMEOUT          242
+#define ERROR_UNLOCK_ERROR          243
 
 #define A_FIBF_HIDDEN  (1<<7)
 #define A_FIBF_SCRIPT  (1<<6)
@@ -95,7 +95,7 @@ typedef struct a_inode_struct {
     unsigned int volflags;
     /* not equaling unit.mountcount -> not in this volume */
     unsigned int mountcount;
-  	uae_u64 uniq_external;
+    uae_u64 uniq_external;
 } a_inode;
 
 extern TCHAR *nname_begin (TCHAR *);

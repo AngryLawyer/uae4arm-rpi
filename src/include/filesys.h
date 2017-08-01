@@ -13,7 +13,7 @@ struct hardfiledata {
   uae_u64 virtsize; // virtual size
   uae_u64 physsize; // physical size (dynamic disk)
   uae_u64 offset;
-	struct uaedev_config_info ci;
+    struct uaedev_config_info ci;
   struct hardfilehandle *handle;
   int handle_valid;
   int dangerous;
@@ -39,9 +39,9 @@ struct hardfiledata {
   int drive_empty;
   TCHAR *emptyname;
 
-	struct uaedev_config_info delayedci;
-	int reinsertdelay;
-	bool isreinsert;
+    struct uaedev_config_info delayedci;
+    int reinsertdelay;
+    bool isreinsert;
 };
 
 struct hd_hardfiledata {

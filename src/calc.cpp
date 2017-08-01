@@ -45,7 +45,7 @@ static int op_preced(const TCHAR c)
     switch(c)    {
         case '!':
             return 4;
-		case '*':  case '/': case '\\': case '%':
+        case '*':  case '/': case '\\': case '%':
             return 3;
         case '+': case '-':
             return 2;
@@ -95,10 +95,10 @@ static bool shunting_yard(const TCHAR *input, TCHAR *output)
     TCHAR    sc;          // used for record stack element
  
     while(strpos < strend)   {
-		if (sl >= STACK_SIZE)
-			return false;
+        if (sl >= STACK_SIZE)
+            return false;
 
-		// read one token from the input stream
+        // read one token from the input stream
         c = *strpos;
         if(c != ' ')    {
             // If the token is a number (identifier), then add it to the output queue.
@@ -222,71 +222,71 @@ static bool shunting_yard(const TCHAR *input, TCHAR *output)
 
 struct calcstack
 {
-	TCHAR *s;
-	double val;
+    TCHAR *s;
+    double val;
 };
 
 static double docalcx(TCHAR op, double v1, double v2)
 {
-	switch (op)
-	{
-		case '-':
-		return v1 - v2;
-		case '+':
-		return v1 + v2;
-		case '*':
-		return v1 * v2;
-		case '/':
-		return v1 / v2;
-		case '\\':
-		return (int)v1 % (int)v2;
+    switch (op)
+    {
+        case '-':
+        return v1 - v2;
+        case '+':
+        return v1 + v2;
+        case '*':
+        return v1 * v2;
+        case '/':
+        return v1 / v2;
+        case '\\':
+        return (int)v1 % (int)v2;
 
-	}
-	return 0;
+    }
+    return 0;
 }
 
 static double stacktoval(struct calcstack *st)
 {
-	if (st->s) {
-		if (_tcslen(st->s) == 1 && st->s[0] >= 'a' && st->s[0] <= 'z')
-			return parsedvalues[st->s[0] - 'a'];
-		return _tstof (st->s);
-	} else {
-		return st->val;
-	}
+    if (st->s) {
+        if (_tcslen(st->s) == 1 && st->s[0] >= 'a' && st->s[0] <= 'z')
+            return parsedvalues[st->s[0] - 'a'];
+        return _tstof (st->s);
+    } else {
+        return st->val;
+    }
 }
 
 static double docalc2(TCHAR op, struct calcstack *sv1, struct calcstack *sv2)
 {
-	double v1, v2;
+    double v1, v2;
 
-	v1 = stacktoval(sv1);
-	v2 = stacktoval(sv2);
-	return docalcx (op, v1, v2);
+    v1 = stacktoval(sv1);
+    v2 = stacktoval(sv2);
+    return docalcx (op, v1, v2);
 }
 static double docalc1(TCHAR op, struct calcstack *sv1, double v2)
 {
-	double v1;
+    double v1;
 
-	v1 = stacktoval(sv1);
-	return docalcx (op, v1, v2);
+    v1 = stacktoval(sv1);
+    return docalcx (op, v1, v2);
 }
 
 static TCHAR *stacktostr(struct calcstack *st)
 {
-	static TCHAR out[256];
-	if (st->s)
-		return st->s;
-	_stprintf(out, _T("%f"), st->val);
-	return out;
+    static TCHAR out[256];
+    if (st->s)
+        return st->s;
+    _stprintf(out, _T("%f"), st->val);
+    return out;
 }
 
 static TCHAR *chartostack(TCHAR c)
 {
-	TCHAR *s = xmalloc (TCHAR, 2);
-	s[0] = c;
-	s[1] = 0;
-	return s;
+    TCHAR *s = xmalloc (TCHAR, 2);
+    s[0] = c;
+    s[1] = 0;
+    return s;
 }
 
 static bool execution_order(const TCHAR *input, double *outval)
@@ -294,23 +294,23 @@ static bool execution_order(const TCHAR *input, double *outval)
     const TCHAR *strpos = input, *strend = input + _tcslen(input);
     TCHAR c, res[4];
     unsigned int sl = 0, rn = 0;
-	struct calcstack stack[STACK_SIZE] = { 0 }, *sc, *sc2;
-	double val = 0;
-	int i;
-	bool ok = false;
+    struct calcstack stack[STACK_SIZE] = { 0 }, *sc, *sc2;
+    double val = 0;
+    int i;
+    bool ok = false;
 
-	// While there are input tokens left
+    // While there are input tokens left
     while(strpos < strend)  {
 
-		if (sl >= STACK_SIZE)
-			return false;
+        if (sl >= STACK_SIZE)
+            return false;
 
                // Read the next token from input.
-		c = *strpos;
+        c = *strpos;
                 // If the token is a value or identifier
         if(is_ident(c))    {
                         // Push it onto the stack.
-			stack[sl].s = chartostack (c);
+            stack[sl].s = chartostack (c);
             ++sl;
         }
                 // Otherwise, the token is an operator  (operator here includes both operators, and functions).
@@ -345,21 +345,21 @@ static bool execution_order(const TCHAR *input, double *outval)
                                 if(nargs == 1) {
                                         sc = &stack[sl - 1];
                                         sl--;
-										val = docalc1 (c, sc, val);
-										calc_log ((_T("%c %s = %f;\n"), c, stacktostr(sc), val));
+                                        val = docalc1 (c, sc, val);
+                                        calc_log ((_T("%c %s = %f;\n"), c, stacktostr(sc), val));
                                }
                                 else   {
                                         sc = &stack[sl - 2];
                                         calc_log ((_T("%s %c "), stacktostr(sc), c));
                                         sc2 = &stack[sl - 1];
-										val = docalc2 (c, sc, sc2);
+                                        val = docalc2 (c, sc, sc2);
                                          sl--;sl--;
                                         calc_log ((_T("%s = %f;\n"), stacktostr(sc2), val));
                                }
                         }
                         // Push the returned results, if any, back onto the stack.
-						stack[sl].val = val;
-						stack[sl].s = NULL;
+                        stack[sl].val = val;
+                        stack[sl].s = NULL;
             ++sl;
         }
         ++strpos;
@@ -369,85 +369,85 @@ static bool execution_order(const TCHAR *input, double *outval)
         if(sl == 1) {
                 sc = &stack[sl - 1];
                 sl--;
-				calc_log ((_T("result = %f\n"), val));
-				if (outval)
-					*outval = val;
-				ok = true;
-		}
-		for (i = 0; i < STACK_SIZE; i++)
-			xfree (stack[i].s);
+                calc_log ((_T("result = %f\n"), val));
+                if (outval)
+                    *outval = val;
+                ok = true;
+        }
+        for (i = 0; i < STACK_SIZE; i++)
+            xfree (stack[i].s);
  
-		// If there are more values in the stack
+        // If there are more values in the stack
         // (Error) The user input has too many values.
 
-		return ok;
+        return ok;
 }
 
 static bool parse_values(const TCHAR *ins, TCHAR *out)
 {
-	int ident = 0;
-	TCHAR tmp;
-	TCHAR inbuf[IOBUFFERS];
-	int op;
+    int ident = 0;
+    TCHAR tmp;
+    TCHAR inbuf[IOBUFFERS];
+    int op;
 
-	_tcscpy (inbuf, ins);
-	TCHAR *in = inbuf;
-	TCHAR *p = out;
-	op = 0;
-	if (in[0] == '-' || in[0] == '+') {
-		*p++ = '0';
-	}
-	while (*in) {
-		TCHAR *instart = in;
-		if (_istdigit (*in)) {
-			if (ident >= MAX_VALUES)
-				return false;
-			if (op > 1 && (in[-1] == '-' || in[-1] == '+')) {
-				instart--;
-				p--;
-			}
-			*p++ = ident + 'a';
-			while (_istdigit (*in) || *in == '.')
-				in++;
-			tmp = *in;
-			*in = 0;
-			parsedvalues[ident++] = _tstof (instart);
-			*in = tmp;
-			op = 0;
-		} else {
-			if (is_operator(*in))
-				op++;
-			*p++ = *in++;
-		}
-	}
-	*p = 0;
-	return true;
+    _tcscpy (inbuf, ins);
+    TCHAR *in = inbuf;
+    TCHAR *p = out;
+    op = 0;
+    if (in[0] == '-' || in[0] == '+') {
+        *p++ = '0';
+    }
+    while (*in) {
+        TCHAR *instart = in;
+        if (_istdigit (*in)) {
+            if (ident >= MAX_VALUES)
+                return false;
+            if (op > 1 && (in[-1] == '-' || in[-1] == '+')) {
+                instart--;
+                p--;
+            }
+            *p++ = ident + 'a';
+            while (_istdigit (*in) || *in == '.')
+                in++;
+            tmp = *in;
+            *in = 0;
+            parsedvalues[ident++] = _tstof (instart);
+            *in = tmp;
+            op = 0;
+        } else {
+            if (is_operator(*in))
+                op++;
+            *p++ = *in++;
+        }
+    }
+    *p = 0;
+    return true;
 }
 
 bool calc(const TCHAR *input, double *outval)
 {
     TCHAR output[IOBUFFERS], output2[IOBUFFERS];
     calc_log ((_T("IN: '%s'\n"), input));
-	if (parse_values(input, output2)) {
-		if(shunting_yard(output2, output))    {
-			calc_log ((_T("RPN OUT: %s\n"), output));
-			if(!execution_order(output, outval)) {
-				calc_log ((_T("PARSE ERROR!\n")));
-			} else {
-				return true;
-			}
-		}
+    if (parse_values(input, output2)) {
+        if(shunting_yard(output2, output))    {
+            calc_log ((_T("RPN OUT: %s\n"), output));
+            if(!execution_order(output, outval)) {
+                calc_log ((_T("PARSE ERROR!\n")));
+            } else {
+                return true;
+            }
+        }
     }
     return false;
 }
 
 bool iscalcformula (const TCHAR *formula)
 {
-	for (int i = 0; i < _tcslen (formula); i++) {
-		TCHAR c = formula[i];
-		if (is_operator (c))
-			return true;
-	}
-	return false;
+    for (int i = 0; i < _tcslen (formula); i++) {
+        TCHAR c = formula[i];
+        if (is_operator (c))
+            return true;
+    }
+    return false;
 }
 

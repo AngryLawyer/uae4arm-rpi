@@ -107,9 +107,9 @@ static GLchar default_fShaderStr[] =
       "{\n"
 //      "  gl_FragColor = texture2D( s_texture, v_texCoord );\n"
       "  gl_FragColor = texture2D( s_texture, v_texCoord )\n"
-//      "		* (cos(gl_FragCoord.y * 3.14159) * 0.5 + 0.5); \n"
-//      "		* (cos(v_texCoord.y * 3.14159 * 262.0 * 2.0 * 2.0) * 0.45 + 0.55); \n"
-      "		* (cos(gl_FragCoord.y * 3.1415926) * 0.35 + 0.65); \n"
+//      "       * (cos(gl_FragCoord.y * 3.14159) * 0.5 + 0.5); \n"
+//      "       * (cos(v_texCoord.y * 3.14159 * 262.0 * 2.0 * 2.0) * 0.45 + 0.55); \n"
+      "     * (cos(gl_FragCoord.y * 3.1415926) * 0.35 + 0.65); \n"
       "}\n";
 
 
@@ -129,8 +129,8 @@ void set_fshader_file_name(char *shaderdir)
  */
 int shader_stuff_shader_needs_reload()
 {
-	if ((fshader_file_name == NULL) || (fshader_source == default_fShaderStr))
-		return 0;
+    if ((fshader_file_name == NULL) || (fshader_source == default_fShaderStr))
+        return 0;
 
     return (get_file_date(fshader_file_name) != fshader_file_date);
 }
@@ -159,16 +159,16 @@ int load_file(char *file_name, GLchar **file_data, time_t *file_date)
     FILE *f = fopen(file_name, "rb");
     if(f!=NULL)
     {
-		fseek(f, 0, SEEK_END);
-		int len = ftell(f);
-		*file_data = (GLchar *)malloc(len+1);
-		fseek(f, 0, SEEK_SET);
-		fread(*file_data, 1, len, f);
-		fclose(f);
-		(*file_data)[len] = 0; // String terminator 
+        fseek(f, 0, SEEK_END);
+        int len = ftell(f);
+        *file_data = (GLchar *)malloc(len+1);
+        fseek(f, 0, SEEK_SET);
+        fread(*file_data, 1, len, f);
+        fclose(f);
+        (*file_data)[len] = 0; // String terminator 
 
-		*file_date = get_file_date(file_name);
-	}
+        *file_date = get_file_date(file_name);
+    }
     else {
         printf("Fragment shader file %s won't open\n", file_name);
         return -1;
@@ -179,10 +179,10 @@ int load_file(char *file_name, GLchar **file_data, time_t *file_date)
 
 void free_fshader_source()
 {
-	if ((fshader_source != NULL) && (fshader_source != default_fShaderStr)) {
-		free(fshader_source);
-		fshader_source = NULL;
-	}
+    if ((fshader_source != NULL) && (fshader_source != default_fShaderStr)) {
+        free(fshader_source);
+        fshader_source = NULL;
+    }
 }
 
 ///
@@ -196,7 +196,7 @@ GLuint LoadShader(GLenum type, const GLchar *shaderSrc)
     // Create the shader object
     shader = glCreateShader(type);
     if(shader == 0)
-	return 0;
+    return 0;
     // Load the shader source
     glShaderSource(shader, 1, &shaderSrc, NULL);
     // Compile the shader
@@ -204,19 +204,19 @@ GLuint LoadShader(GLenum type, const GLchar *shaderSrc)
     // Check the compile status
     glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
     if(!compiled)
-	{
-	    GLint infoLen = 0;
-	    glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
-	    if(infoLen > 1)
-		{
-		    char* infoLog = (char *)malloc(sizeof(char) * infoLen);
-		    glGetShaderInfoLog(shader, infoLen, NULL, infoLog);
-		    fprintf(stderr, "Error compiling shader:\n%s\n", infoLog);
-		    free(infoLog);
-		}
-	    glDeleteShader(shader);
-	    return 0;
-	}
+    {
+        GLint infoLen = 0;
+        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &infoLen);
+        if(infoLen > 1)
+        {
+            char* infoLog = (char *)malloc(sizeof(char) * infoLen);
+            glGetShaderInfoLog(shader, infoLen, NULL, infoLog);
+            fprintf(stderr, "Error compiling shader:\n%s\n", infoLog);
+            free(infoLog);
+        }
+        glDeleteShader(shader);
+        return 0;
+    }
     return shader;
 }
 
@@ -235,10 +235,10 @@ GLuint LoadProgram ( const GLchar *vertShaderSrc, const GLchar *fragShaderSrc )
    fragmentShader = LoadShader ( GL_FRAGMENT_SHADER, fragShaderSrc );
    // if it didn't compile, let's try the default shader
    if ((fragmentShader == 0) && (fshader_source != default_fShaderStr)) {
-	   fshader_source = default_fShaderStr;
-		fragmentShader = LoadShader ( GL_FRAGMENT_SHADER, default_fShaderStr );
-	}
-		
+       fshader_source = default_fShaderStr;
+        fragmentShader = LoadShader ( GL_FRAGMENT_SHADER, default_fShaderStr );
+    }
+        
    if ( fragmentShader == 0 )
    {
       glDeleteShader( vertexShader );
@@ -290,7 +290,7 @@ static STATE_T shader_stuff_state;
 
 int shader_stuff_init()
 {
-	STATE_T *p_state = &shader_stuff_state;
+    STATE_T *p_state = &shader_stuff_state;
    p_state->user_data = (UserData *)malloc(sizeof(UserData));
    return GL_TRUE;
 }
@@ -300,26 +300,26 @@ int shader_stuff_init()
 //
 int shader_stuff_reload_shaders()
 {
-	STATE_T *p_state = &shader_stuff_state;
+    STATE_T *p_state = &shader_stuff_state;
    UserData *userData = p_state->user_data;
 
 // ----- these lines could be moved to a separate "delete program" routine
 
-	free_fshader_source();
-	
-	// If there was an existing program object, delete it.
-	if (userData->programObject != 0) {
-		glDeleteProgram(userData->programObject);
-		userData->programObject = 0;
-	}
+    free_fshader_source();
+    
+    // If there was an existing program object, delete it.
+    if (userData->programObject != 0) {
+        glDeleteProgram(userData->programObject);
+        userData->programObject = 0;
+    }
 // -----
 
 
    if (load_file(fshader_file_name, &fshader_source, &fshader_file_date) != 0) {
-	   printf("Cannot open %s. Using built-in default fragment shader.", fshader_file_name);
-	   fshader_source = default_fShaderStr;
+       printf("Cannot open %s. Using built-in default fragment shader.", fshader_file_name);
+       fshader_source = default_fShaderStr;
    }
-		
+        
    // Load the shaders and get a linked program object
    userData->programObject = LoadProgram ( default_vShaderStr, fshader_source );
 
@@ -329,7 +329,7 @@ int shader_stuff_reload_shaders()
 
 int shader_stuff_set_data(GLfloat *vertex_coords_3f, GLfloat *texture_coords_2f, GLuint texture_name)
 {
-	STATE_T *p_state = &shader_stuff_state;
+    STATE_T *p_state = &shader_stuff_state;
    UserData *userData = p_state->user_data;
 
    glClearColor ( 0.0f, 0.0f, 0.0f, 0.0f );
@@ -376,7 +376,7 @@ int shader_stuff_set_data(GLfloat *vertex_coords_3f, GLfloat *texture_coords_2f,
 // todo: merge all this "stuff" properly to gl.cpp
 int shader_stuff_frame(int framecount, int emu_width, int emu_height, int out_width, int out_height)
 {
-	STATE_T *p_state = &shader_stuff_state;
+    STATE_T *p_state = &shader_stuff_state;
    UserData *userData = p_state->user_data;
 
    glUseProgram ( userData->programObject );

@@ -521,4 +521,4 @@ typedef unsigned short USHORT;
 #define _vsntprintf(w,x,y,z)  vsnprintf(w,x,y,z)
 #define _strtoui64(x,y,z)   strtoll(x,y,z)
 #define _istalnum(x)        isalnum(x)
-#define _tcsspn(x,y)		    strspn(x,y)
+#define _tcsspn(x,y)            strspn(x,y)

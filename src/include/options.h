@@ -39,26 +39,26 @@ struct strlist {
 #define SPARE_SUB_EVENT 8
 
 struct uae_input_device {
-	TCHAR *name;
-	TCHAR *configname;
-	uae_s16 eventid[MAX_INPUT_DEVICE_EVENTS][MAX_INPUT_SUB_EVENT_ALL];
-	TCHAR *custom[MAX_INPUT_DEVICE_EVENTS][MAX_INPUT_SUB_EVENT_ALL];
-	uae_u64 flags[MAX_INPUT_DEVICE_EVENTS][MAX_INPUT_SUB_EVENT_ALL];
-	uae_s8 port[MAX_INPUT_DEVICE_EVENTS][MAX_INPUT_SUB_EVENT_ALL];
-	uae_s16 extra[MAX_INPUT_DEVICE_EVENTS];
-	uae_s8 enabled;
+    TCHAR *name;
+    TCHAR *configname;
+    uae_s16 eventid[MAX_INPUT_DEVICE_EVENTS][MAX_INPUT_SUB_EVENT_ALL];
+    TCHAR *custom[MAX_INPUT_DEVICE_EVENTS][MAX_INPUT_SUB_EVENT_ALL];
+    uae_u64 flags[MAX_INPUT_DEVICE_EVENTS][MAX_INPUT_SUB_EVENT_ALL];
+    uae_s8 port[MAX_INPUT_DEVICE_EVENTS][MAX_INPUT_SUB_EVENT_ALL];
+    uae_s16 extra[MAX_INPUT_DEVICE_EVENTS];
+    uae_s8 enabled;
 };
 
 #define MAX_JPORTS 4
 #define NORMAL_JPORTS 2
 #define MAX_JPORTNAME 128
 struct jport {
-	int id;
-	int mode; // 0=def,1=mouse,2=joy,3=anajoy,4=lightpen
-	int autofire;
-	TCHAR name[MAX_JPORTNAME];
-	TCHAR configname[MAX_JPORTNAME];
-	bool nokeyboardoverride;
+    int id;
+    int mode; // 0=def,1=mouse,2=joy,3=anajoy,4=lightpen
+    int autofire;
+    TCHAR name[MAX_JPORTNAME];
+    TCHAR configname[MAX_JPORTNAME];
+    bool nokeyboardoverride;
 };
 #define JPORT_NONE -1
 #define JPORT_CUSTOM -2
@@ -76,16 +76,16 @@ struct jport {
 
 struct cdslot
 {
-	TCHAR name[MAX_DPATH];
-	bool inuse;
-	bool delayed;
-	int type;
+    TCHAR name[MAX_DPATH];
+    bool inuse;
+    bool delayed;
+    int type;
 };
 struct floppyslot
 {
-	TCHAR df[MAX_DPATH];
-	int dfxtype;
-	bool forcedwriteprotect;
+    TCHAR df[MAX_DPATH];
+    int dfxtype;
+    bool forcedwriteprotect;
 };
 
 struct wh {
@@ -104,43 +104,43 @@ struct wh {
 #define ISAUTOBOOT(ci) ((ci)->bootpri > BOOTPRI_NOAUTOBOOT)
 #define ISAUTOMOUNT(ci) ((ci)->bootpri > BOOTPRI_NOAUTOMOUNT)
 struct uaedev_config_info {
-	int type;
+    int type;
   TCHAR devname[MAX_DPATH];
   TCHAR volname[MAX_DPATH];
   TCHAR rootdir[MAX_DPATH];
   bool readonly;
   int bootpri;
   TCHAR filesys[MAX_DPATH];
-	int lowcyl;
-	int highcyl; // zero if detected from size
-	int cyls; // calculated/corrected highcyl
+    int lowcyl;
+    int highcyl; // zero if detected from size
+    int cyls; // calculated/corrected highcyl
   int surfaces;
   int sectors;
   int reserved;
   int blocksize;
   int controller;
-	// zero if default
-	int pcyls, pheads, psecs;
-	int flags;
-	int buffers;
-	int bufmemtype;
-	int stacksize;
-	int priority;
-	uae_u32 mask;
-	int maxtransfer;
-	uae_u32 dostype;
-	int unit;
-	int interleave;
-	int sectorsperblock;
-	int forceload;
-	int device_emu_unit;
+    // zero if default
+    int pcyls, pheads, psecs;
+    int flags;
+    int buffers;
+    int bufmemtype;
+    int stacksize;
+    int priority;
+    uae_u32 mask;
+    int maxtransfer;
+    uae_u32 dostype;
+    int unit;
+    int interleave;
+    int sectorsperblock;
+    int forceload;
+    int device_emu_unit;
 };
 
 struct uaedev_config_data
 {
-	struct uaedev_config_info ci;
-	int configoffset; // HD config entry index
-	int unitnum; // scsi unit number (if tape currently)
+    struct uaedev_config_info ci;
+    int configoffset; // HD config entry index
+    int unitnum; // scsi unit number (if tape currently)
 };
 
 struct uae_prefs {
@@ -150,7 +150,7 @@ struct uae_prefs {
   TCHAR info[256];
   int config_version;
 
-	bool socket_emu;
+    bool socket_emu;
 
   bool start_gui;
 
@@ -162,7 +162,7 @@ struct uae_prefs {
   int sound_interpol;
   int sound_filter;
   int sound_filter_type;
-	int sound_volume_cd;
+    int sound_volume_cd;
 
   int cachesize;
   int optcount[10];
@@ -182,7 +182,7 @@ struct uae_prefs {
 #endif 
 
   bool immediate_blits;
-	int waiting_blits;
+    int waiting_blits;
   unsigned int chipset_mask;
   bool ntscmode;
   int chipset_refreshrate;
@@ -192,17 +192,17 @@ struct uae_prefs {
   int floppy_speed;
   int floppy_write_length;
   bool tod_hack;
-	int filesys_limit;
-	int filesys_max_name;
+    int filesys_limit;
+    int filesys_max_name;
 
-	bool cs_cd32cd;
-	bool cs_cd32c2p;
-	bool cs_cd32nvram;
+    bool cs_cd32cd;
+    bool cs_cd32c2p;
+    bool cs_cd32nvram;
 
   TCHAR romfile[MAX_DPATH];
   TCHAR romextfile[MAX_DPATH];
-	TCHAR flashfile[MAX_DPATH];
-	struct cdslot cdslots[MAX_TOTAL_SCSI_DEVICES];
+    TCHAR flashfile[MAX_DPATH];
+    struct cdslot cdslots[MAX_TOTAL_SCSI_DEVICES];
 
   TCHAR path_floppy[256];
   TCHAR path_hardfile[256];
@@ -243,22 +243,22 @@ struct uae_prefs {
 
   /* input */
 
-	struct jport jports[MAX_JPORTS];
-	int input_selected_setting;
+    struct jport jports[MAX_JPORTS];
+    int input_selected_setting;
   int input_joymouse_multiplier;
-	int input_joymouse_deadzone;
-	int input_joystick_deadzone;
-	int input_joymouse_speed;
-	int input_analog_joystick_mult;
-	int input_analog_joystick_offset;
-	int input_autofire_linecnt;
-	int input_mouse_speed;
+    int input_joymouse_deadzone;
+    int input_joystick_deadzone;
+    int input_joymouse_speed;
+    int input_analog_joystick_mult;
+    int input_analog_joystick_offset;
+    int input_autofire_linecnt;
+    int input_mouse_speed;
   int input_tablet;
-	int input_keyboard_type;
-	struct uae_input_device joystick_settings[MAX_INPUT_SETTINGS][MAX_INPUT_DEVICES];
-	struct uae_input_device mouse_settings[MAX_INPUT_SETTINGS][MAX_INPUT_DEVICES];
-	struct uae_input_device keyboard_settings[MAX_INPUT_SETTINGS][MAX_INPUT_DEVICES];
-	TCHAR input_config_name[GAMEPORT_INPUT_SETTINGS][256];
+    int input_keyboard_type;
+    struct uae_input_device joystick_settings[MAX_INPUT_SETTINGS][MAX_INPUT_DEVICES];
+    struct uae_input_device mouse_settings[MAX_INPUT_SETTINGS][MAX_INPUT_DEVICES];
+    struct uae_input_device keyboard_settings[MAX_INPUT_SETTINGS][MAX_INPUT_DEVICES];
+    TCHAR input_config_name[GAMEPORT_INPUT_SETTINGS][256];
 
 };
 

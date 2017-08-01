@@ -86,8 +86,8 @@ static CreateFilesysHardfileActionListener* createFilesysHardfileActionListener;
 
 static void InitCreateFilesysHardfile(void)
 {
-	wndCreateFilesysHardfile = new gcn::Window("Create");
-	wndCreateFilesysHardfile->setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
+    wndCreateFilesysHardfile = new gcn::Window("Create");
+    wndCreateFilesysHardfile->setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
   wndCreateFilesysHardfile->setPosition((GUI_WIDTH - DIALOG_WIDTH) / 2, (GUI_HEIGHT - DIALOG_HEIGHT) / 2);
   wndCreateFilesysHardfile->setBaseColor(gui_baseCol + 0x202020);
   wndCreateFilesysHardfile->setCaption("Create hardfile");
@@ -95,16 +95,16 @@ static void InitCreateFilesysHardfile(void)
   
   createFilesysHardfileActionListener = new CreateFilesysHardfileActionListener();
   
-	cmdOK = new gcn::Button("Ok");
-	cmdOK->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-	cmdOK->setPosition(DIALOG_WIDTH - DISTANCE_BORDER - 2 * BUTTON_WIDTH - DISTANCE_NEXT_X, DIALOG_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - 10);
+    cmdOK = new gcn::Button("Ok");
+    cmdOK->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    cmdOK->setPosition(DIALOG_WIDTH - DISTANCE_BORDER - 2 * BUTTON_WIDTH - DISTANCE_NEXT_X, DIALOG_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - 10);
   cmdOK->setBaseColor(gui_baseCol + 0x202020);
   cmdOK->setId("createHdfOK");
   cmdOK->addActionListener(createFilesysHardfileActionListener);
   
-	cmdCancel = new gcn::Button("Cancel");
-	cmdCancel->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-	cmdCancel->setPosition(DIALOG_WIDTH - DISTANCE_BORDER - BUTTON_WIDTH, DIALOG_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - 10);
+    cmdCancel = new gcn::Button("Cancel");
+    cmdCancel->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    cmdCancel->setPosition(DIALOG_WIDTH - DISTANCE_BORDER - BUTTON_WIDTH, DIALOG_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - 10);
   cmdCancel->setBaseColor(gui_baseCol + 0x202020);
   cmdCancel->setId("createHdfCancel");
   cmdCancel->addActionListener(createFilesysHardfileActionListener);
@@ -116,7 +116,7 @@ static void InitCreateFilesysHardfile(void)
   txtDevice->setSize(80, TEXTFIELD_HEIGHT);
   txtDevice->setId("createHdfDev");
 
-	chkAutoboot = new gcn::UaeCheckBox("Bootable", true);
+    chkAutoboot = new gcn::UaeCheckBox("Bootable", true);
   chkAutoboot->setId("createHdfAutoboot");
 
   lblBootPri = new gcn::Label("Boot priority:");
@@ -299,7 +299,7 @@ bool CreateFilesysHardfile(void)
     fclose(newFile);
     
     struct uaedev_config_data *uci;
-  	struct uaedev_config_info ci;
+    struct uaedev_config_info ci;
 
     uci_set_defaults(&ci, false);
     strcpy(ci.devname, (char *) txtDevice->getText().c_str());
@@ -310,7 +310,7 @@ bool CreateFilesysHardfile(void)
     
     uci = add_filesys_config(&changed_prefs, -1, &ci);
     if (uci) {
-  		struct hardfiledata *hfd = get_hardfile_data (uci->configoffset);
+        struct hardfiledata *hfd = get_hardfile_data (uci->configoffset);
       hardfile_media_change (hfd, &ci, true, false);
     }
   }

@@ -42,28 +42,28 @@ static ShowMessageActionListener* showMessageActionListener;
 
 static void InitShowMessage(void)
 {
-	wndShowMessage = new gcn::Window("Message");
-	wndShowMessage->setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
+    wndShowMessage = new gcn::Window("Message");
+    wndShowMessage->setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
   wndShowMessage->setPosition((GUI_WIDTH - DIALOG_WIDTH) / 2, (GUI_HEIGHT - DIALOG_HEIGHT) / 2);
   wndShowMessage->setBaseColor(gui_baseCol + 0x202020);
   wndShowMessage->setTitleBarHeight(TITLEBAR_HEIGHT);
 
   showMessageActionListener = new ShowMessageActionListener();
 
-	lblText1 = new gcn::Label("");
-	lblText1->setSize(DIALOG_WIDTH - 2 * DISTANCE_BORDER, LABEL_HEIGHT);
-	lblText2 = new gcn::Label("");
-	lblText2->setSize(DIALOG_WIDTH - 2 * DISTANCE_BORDER, LABEL_HEIGHT);
+    lblText1 = new gcn::Label("");
+    lblText1->setSize(DIALOG_WIDTH - 2 * DISTANCE_BORDER, LABEL_HEIGHT);
+    lblText2 = new gcn::Label("");
+    lblText2->setSize(DIALOG_WIDTH - 2 * DISTANCE_BORDER, LABEL_HEIGHT);
 
-	cmdOK = new gcn::Button("Ok");
-	cmdOK->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-	cmdOK->setPosition(DIALOG_WIDTH - DISTANCE_BORDER - 2 * BUTTON_WIDTH - DISTANCE_NEXT_X, DIALOG_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - 10);
+    cmdOK = new gcn::Button("Ok");
+    cmdOK->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    cmdOK->setPosition(DIALOG_WIDTH - DISTANCE_BORDER - 2 * BUTTON_WIDTH - DISTANCE_NEXT_X, DIALOG_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - 10);
   cmdOK->setBaseColor(gui_baseCol + 0x202020);
   cmdOK->addActionListener(showMessageActionListener);
   
-	cmdCancel = new gcn::Button("Cancel");
-	cmdCancel->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-	cmdCancel->setPosition(DIALOG_WIDTH - DISTANCE_BORDER - BUTTON_WIDTH, DIALOG_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - 10);
+    cmdCancel = new gcn::Button("Cancel");
+    cmdCancel->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    cmdCancel->setPosition(DIALOG_WIDTH - DISTANCE_BORDER - BUTTON_WIDTH, DIALOG_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - 10);
   cmdCancel->setBaseColor(gui_baseCol + 0x202020);
   cmdCancel->addActionListener(showMessageActionListener);
 

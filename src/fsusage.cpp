@@ -38,11 +38,11 @@ static long adjust_blocks(long blocks, int fromsize, int tosize)
   if (fromsize <= 0)
     return -1;
 
-  if (fromsize == tosize)	/* e.g., from 512 to 512 */
+  if (fromsize == tosize)   /* e.g., from 512 to 512 */
     return blocks;
-  else if (fromsize > tosize)	/* e.g., from 2048 to 512 */
+  else if (fromsize > tosize)   /* e.g., from 2048 to 512 */
     return blocks * (fromsize / tosize);
-  else				/* e.g., from 256 to 512 */
+  else              /* e.g., from 256 to 512 */
     return (blocks + (blocks < 0 ? -1 : 1)) / (tosize / fromsize);
 }
 
@@ -91,7 +91,7 @@ int get_fs_usage (const TCHAR *path, const TCHAR *disk, struct fs_usage *fsp)
 
 #endif /* STAT_STATFS3_OSF1 */
 
-#ifdef STAT_STATFS2_FS_DATA	/* Ultrix */
+#ifdef STAT_STATFS2_FS_DATA /* Ultrix */
 # define CONVERT_BLOCKS(B) adjust_blocks ((B), 1024, 512)
 
   struct fs_data fsd;
@@ -106,7 +106,7 @@ int get_fs_usage (const TCHAR *path, const TCHAR *disk, struct fs_usage *fsp)
 
 #endif /* STAT_STATFS2_FS_DATA */
 
-#ifdef STAT_READ_FILSYS		/* SVR2 */
+#ifdef STAT_READ_FILSYS     /* SVR2 */
 # ifndef SUPERBOFF
 #  define SUPERBOFF (SUPERB * 512)
 # endif
@@ -140,7 +140,7 @@ int get_fs_usage (const TCHAR *path, const TCHAR *disk, struct fs_usage *fsp)
 
 #endif /* STAT_READ_FILSYS */
 
-#ifdef STAT_STATFS2_BSIZE	/* 4.3BSD, SunOS 4, HP-UX, AIX */
+#ifdef STAT_STATFS2_BSIZE   /* 4.3BSD, SunOS 4, HP-UX, AIX */
 # define CONVERT_BLOCKS(B) adjust_blocks ((B), fsd.f_bsize, 512)
 
   struct statfs fsd;
@@ -165,7 +165,7 @@ int get_fs_usage (const TCHAR *path, const TCHAR *disk, struct fs_usage *fsp)
 
 #endif /* STAT_STATFS2_BSIZE */
 
-#ifdef STAT_STATFS2_FSIZE	/* 4.4BSD */
+#ifdef STAT_STATFS2_FSIZE   /* 4.4BSD */
 # define CONVERT_BLOCKS(B) adjust_blocks ((B), fsd.f_fsize, 512)
 
   struct statfs fsd;
@@ -175,7 +175,7 @@ int get_fs_usage (const TCHAR *path, const TCHAR *disk, struct fs_usage *fsp)
 
 #endif /* STAT_STATFS2_FSIZE */
 
-#ifdef STAT_STATFS4		/* SVR3, Dynix, Irix, AIX */
+#ifdef STAT_STATFS4     /* SVR3, Dynix, Irix, AIX */
 # if _AIX || defined(_CRAY)
 #  define CONVERT_BLOCKS(B) adjust_blocks ((B), fsd.f_bsize, 512)
 #  ifdef _CRAY
@@ -183,8 +183,8 @@ int get_fs_usage (const TCHAR *path, const TCHAR *disk, struct fs_usage *fsp)
 #  endif
 # else
 #  define CONVERT_BLOCKS(B) (B)
-#  ifndef _SEQUENT_		/* _SEQUENT_ is DYNIX/ptx */
-#   ifndef DOLPHIN		/* DOLPHIN 3.8.alfa/7.18 has f_bavail */
+#  ifndef _SEQUENT_     /* _SEQUENT_ is DYNIX/ptx */
+#   ifndef DOLPHIN      /* DOLPHIN 3.8.alfa/7.18 has f_bavail */
 #    define f_bavail f_bfree
 #   endif
 #  endif
@@ -200,7 +200,7 @@ int get_fs_usage (const TCHAR *path, const TCHAR *disk, struct fs_usage *fsp)
 
 #endif /* STAT_STATFS4 */
 
-#ifdef STAT_STATVFS		/* SVR4 */
+#ifdef STAT_STATVFS     /* SVR4 */
 # define CONVERT_BLOCKS(B) \
     adjust_blocks ((B), fsd.f_frsize ? fsd.f_frsize : fsd.f_bsize, 512)
 
@@ -213,7 +213,7 @@ int get_fs_usage (const TCHAR *path, const TCHAR *disk, struct fs_usage *fsp)
 #endif /* STAT_STATVFS */
 
 #if !defined(STAT_STATFS2_FS_DATA) && !defined(STAT_READ_FILSYS)
-				/* !Ultrix && !SVR2 */
+                /* !Ultrix && !SVR2 */
 
   fsp->fsu_blocks = CONVERT_BLOCKS (fsd.f_blocks);
   fsp->fsu_bfree = CONVERT_BLOCKS (fsd.f_bfree);

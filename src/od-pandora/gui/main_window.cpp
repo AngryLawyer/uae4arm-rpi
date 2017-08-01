@@ -82,8 +82,8 @@ static int gui_create_rtarea_flag(struct uae_prefs *p)
   if(count_HDs(p) > 0)
     flag |= 1;
   
-	if (p->socket_emu)
-		flag |= 4;
+    if (p->socket_emu)
+        flag |= 4;
 
   if (p->input_tablet > 0)
     flag |= 8;
@@ -117,11 +117,11 @@ namespace sdl
     //-------------------------------------------------
     // Set layer for GUI screen
     //-------------------------------------------------
-  	char tmp[20];
-  	snprintf(tmp, 20, "%dx%d", GUI_WIDTH, GUI_HEIGHT);
-  	setenv("SDL_OMAP_LAYER_SIZE", tmp, 1);
-  	snprintf(tmp, 20, "0,0,0,0");
-  	setenv("SDL_OMAP_BORDER_CUT", tmp, 1);
+    char tmp[20];
+    snprintf(tmp, 20, "%dx%d", GUI_WIDTH, GUI_HEIGHT);
+    setenv("SDL_OMAP_LAYER_SIZE", tmp, 1);
+    snprintf(tmp, 20, "0,0,0,0");
+    setenv("SDL_OMAP_BORDER_CUT", tmp, 1);
 
     //-------------------------------------------------
     // Create new screen for GUI
@@ -174,15 +174,15 @@ namespace sdl
       SDL_Event event;
       while(SDL_PollEvent(&event))
       {
-    		if (event.type == SDL_QUIT)
-    		{
+            if (event.type == SDL_QUIT)
+            {
           //-------------------------------------------------
           // Quit entire program via SQL-Quit
           //-------------------------------------------------
-    			uae_quit();
-    			gui_running = false;
-    			break;
-    		}
+                uae_quit();
+                gui_running = false;
+                break;
+            }
 
         else if (event.type == SDL_KEYDOWN)
         {
@@ -217,11 +217,11 @@ namespace sdl
               focusHdl = gui_top->_getFocusHandler();
               activeWidget = focusHdl->getFocused();
               if(dynamic_cast<gcn::TextField*>(activeWidget) == NULL) {
-          			// ...but only if we are not in a Textfield...
-          			uae_quit();
-          			gui_running = false;
-          		}
-        			break;
+                    // ...but only if we are not in a Textfield...
+                    uae_quit();
+                    gui_running = false;
+                }
+                    break;
 
             case VK_ESCAPE:
             case VK_R:
@@ -270,7 +270,7 @@ namespace sdl
         gui_input->pushInput(event);
       }
 
-  		if(gui_rtarea_flags_onenter != gui_create_rtarea_flag(&changed_prefs))
+        if(gui_rtarea_flags_onenter != gui_create_rtarea_flag(&changed_prefs))
         DisableResume();
 
       // Now we let the Gui object perform its logic.
@@ -300,34 +300,34 @@ namespace widgets
     public:
       void action(const gcn::ActionEvent& actionEvent)
       {
-			if (actionEvent.getSource() == cmdShutdown)
-			{
-				// ------------------------------------------------
-				// Shutdown the host (power off)
-				// ------------------------------------------------
-				uae_quit();
-				gui_running = false;
-				host_shutdown();
-			}
-			else 
-	      if (actionEvent.getSource() == cmdQuit)
-	      {
+            if (actionEvent.getSource() == cmdShutdown)
+            {
+                // ------------------------------------------------
+                // Shutdown the host (power off)
+                // ------------------------------------------------
+                uae_quit();
+                gui_running = false;
+                host_shutdown();
+            }
+            else 
+          if (actionEvent.getSource() == cmdQuit)
+          {
           //-------------------------------------------------
           // Quit entire program via click on Quit-button
           //-------------------------------------------------
-	        uae_quit();
-  			  gui_running = false;
-  			}
-  			else if(actionEvent.getSource() == cmdReset)
-			  {
+            uae_quit();
+              gui_running = false;
+            }
+            else if(actionEvent.getSource() == cmdReset)
+              {
           //-------------------------------------------------
           // Reset Amiga via click on Reset-button
           //-------------------------------------------------
-    			uae_reset(1, 1);
-    			gui_running = false;
+                uae_reset(1, 1);
+                gui_running = false;
         }
-  			else if(actionEvent.getSource() == cmdRestart)
-			  {
+            else if(actionEvent.getSource() == cmdRestart)
+              {
           //-------------------------------------------------
           // Restart emulator
           //-------------------------------------------------
@@ -340,25 +340,25 @@ namespace widgets
             strcat (tmp, OPTIONSFILENAME);
             strcat (tmp, ".uae");
           }
-    			uae_restart(0, tmp);
-    			gui_running = false;
-			  }
-			  else if(actionEvent.getSource() == cmdStart)
-			  {
-			    if(emulating && widgets::cmdStart->isEnabled())
-		      {
+                uae_restart(0, tmp);
+                gui_running = false;
+              }
+              else if(actionEvent.getSource() == cmdStart)
+              {
+                if(emulating && widgets::cmdStart->isEnabled())
+              {
             //------------------------------------------------
             // Continue emulation
             //------------------------------------------------
             gui_running = false;
-		      }
+              }
           else
           {
             //------------------------------------------------
             // First start of emulator -> reset Amiga
             //------------------------------------------------
-      			uae_reset(0, 1);
-      			gui_running = false;
+                uae_reset(0, 1);
+                gui_running = false;
           }
         }
       }
@@ -425,58 +425,58 @@ namespace widgets
     //-------------------------------------------------
     // Initialize fonts
     //-------------------------------------------------
-	  TTF_Init();
-	  gui_font = new gcn::contrib::SDLTrueTypeFont("data/FreeSans.ttf", 14);
+      TTF_Init();
+      gui_font = new gcn::contrib::SDLTrueTypeFont("data/FreeSans.ttf", 14);
     gcn::Widget::setGlobalFont(gui_font);
     
-  	//--------------------------------------------------
-  	// Create main buttons
-  	//--------------------------------------------------
+    //--------------------------------------------------
+    // Create main buttons
+    //--------------------------------------------------
     mainButtonActionListener = new MainButtonActionListener();
 
-  	cmdQuit = new gcn::Button("Quit");
-  	cmdQuit->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    cmdQuit = new gcn::Button("Quit");
+    cmdQuit->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     cmdQuit->setBaseColor(gui_baseCol);
     cmdQuit->setId("Quit");
     cmdQuit->addActionListener(mainButtonActionListener);
 
-	cmdShutdown = new gcn::Button("Shutdown");
-	cmdShutdown->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-	cmdShutdown->setBaseColor(gui_baseCol);
-	cmdShutdown->setId("Shutdown");
-	cmdShutdown->addActionListener(mainButtonActionListener);
+    cmdShutdown = new gcn::Button("Shutdown");
+    cmdShutdown->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    cmdShutdown->setBaseColor(gui_baseCol);
+    cmdShutdown->setId("Shutdown");
+    cmdShutdown->addActionListener(mainButtonActionListener);
 
-   	cmdReset = new gcn::Button("Reset");
-  	cmdReset->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    cmdReset = new gcn::Button("Reset");
+    cmdReset->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     cmdReset->setBaseColor(gui_baseCol);
-  	cmdReset->setId("Reset");
+    cmdReset->setId("Reset");
     cmdReset->addActionListener(mainButtonActionListener);
 
-   	cmdRestart = new gcn::Button("Restart");
-  	cmdRestart->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    cmdRestart = new gcn::Button("Restart");
+    cmdRestart->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     cmdRestart->setBaseColor(gui_baseCol);
-  	cmdRestart->setId("Restart");
+    cmdRestart->setId("Restart");
     cmdRestart->addActionListener(mainButtonActionListener);
 
-  	cmdStart = new gcn::Button("Start");
-  	if(emulating)
-  	  cmdStart->setCaption("Resume");
-  	cmdStart->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+    cmdStart = new gcn::Button("Start");
+    if(emulating)
+      cmdStart->setCaption("Resume");
+    cmdStart->setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
     cmdStart->setBaseColor(gui_baseCol);
-  	cmdStart->setId("Start");
+    cmdStart->setId("Start");
     cmdStart->addActionListener(mainButtonActionListener);
 
-  	//--------------------------------------------------
+    //--------------------------------------------------
     // Create selector entries
-  	//--------------------------------------------------
-  	int workAreaHeight = GUI_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - DISTANCE_NEXT_Y;
+    //--------------------------------------------------
+    int workAreaHeight = GUI_HEIGHT - 2 * DISTANCE_BORDER - BUTTON_HEIGHT - DISTANCE_NEXT_Y;
     selectors = new gcn::Container();
     selectors->setSize(150, workAreaHeight - 2);
     selectors->setBaseColor(colSelectorInactive);
     selectors->setFrameSize(1);
-  	int panelStartX = DISTANCE_BORDER + selectors->getWidth() + 2 + 11;
+    int panelStartX = DISTANCE_BORDER + selectors->getWidth() + 2 + 11;
 
-  	panelFocusListener = new PanelFocusListener();
+    panelFocusListener = new PanelFocusListener();
     for(i=0; categories[i].category != NULL; ++i)
     {
       categories[i].selector = new gcn::SelectorEntry(categories[i].category, categories[i].imagepath);
@@ -493,18 +493,18 @@ namespace widgets
       categories[i].panel->setVisible(false);
     }
 
-  	//--------------------------------------------------
-  	// Initialize panels
-  	//--------------------------------------------------
+    //--------------------------------------------------
+    // Initialize panels
+    //--------------------------------------------------
     for(i=0; categories[i].category != NULL; ++i)
     {
       if(categories[i].InitFunc != NULL)
         (*categories[i].InitFunc) (categories[i]);
     }
 
-  	//--------------------------------------------------
+    //--------------------------------------------------
     // Place everything on main form
-  	//--------------------------------------------------
+    //--------------------------------------------------
     gui_top->add(cmdReset, DISTANCE_BORDER, GUI_HEIGHT - DISTANCE_BORDER - BUTTON_HEIGHT);
     gui_top->add(cmdQuit, DISTANCE_BORDER + BUTTON_WIDTH + DISTANCE_NEXT_X, GUI_HEIGHT - DISTANCE_BORDER - BUTTON_HEIGHT);
     gui_top->add(cmdShutdown, DISTANCE_BORDER + 2 * BUTTON_WIDTH + 2 * DISTANCE_NEXT_X, GUI_HEIGHT - DISTANCE_BORDER - BUTTON_HEIGHT);
@@ -517,10 +517,10 @@ namespace widgets
       gui_top->add(categories[i].panel, panelStartX, DISTANCE_BORDER + 1);
     }
 
-  	//--------------------------------------------------
-  	// Activate last active panel
-  	//--------------------------------------------------
-  	categories[last_active_panel].selector->requestFocus();
+    //--------------------------------------------------
+    // Activate last active panel
+    //--------------------------------------------------
+    categories[last_active_panel].selector->requestFocus();
   }
 
 
@@ -540,7 +540,7 @@ namespace widgets
     delete selectors;
 
     delete cmdQuit;
-	delete cmdShutdown;
+    delete cmdShutdown;
     delete cmdReset;
     delete cmdRestart;
     delete cmdStart;
@@ -567,7 +567,7 @@ void RefreshAllPanels(void)
 
 void DisableResume(void)
 {
-	if(emulating)
+    if(emulating)
   {
     widgets::cmdStart->setEnabled(false);
     gcn::Color backCol;
@@ -612,12 +612,12 @@ void run_gui(void)
   }
   if(quit_program > UAE_QUIT || quit_program < -UAE_QUIT)
   {
-  	//--------------------------------------------------
+    //--------------------------------------------------
     // Prepare everything for Reset of Amiga
-  	//--------------------------------------------------
-		currprefs.nr_floppies = changed_prefs.nr_floppies;
-		
-		if(gui_rtarea_flags_onenter != gui_create_rtarea_flag(&changed_prefs))
-	    quit_program = -UAE_RESET_HARD; // Hardreset required...
+    //--------------------------------------------------
+        currprefs.nr_floppies = changed_prefs.nr_floppies;
+        
+        if(gui_rtarea_flags_onenter != gui_create_rtarea_flag(&changed_prefs))
+        quit_program = -UAE_RESET_HARD; // Hardreset required...
   }
 }

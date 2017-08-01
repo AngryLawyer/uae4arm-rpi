@@ -30,16 +30,16 @@ extern void setup_brkhandler (void);
 extern bool vsync_switchmode (int);
 STATIC_INLINE int isvsync_chipset (void)
 {
-	if (picasso_on)
-		return 0;
-	return 1;
+    if (picasso_on)
+        return 0;
+    return 1;
 }
 
 STATIC_INLINE int isvsync_rtg (void)
 {
-	if (!picasso_on)
-		return 0;
-	return 1;
+    if (!picasso_on)
+        return 0;
+    return 1;
 }
 
 extern void flush_screen (void);

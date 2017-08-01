@@ -14,10 +14,10 @@ static int mouseBut1viaCustom = 0;
 static int mouseBut2viaCustom = 0;
 
 
-#define MAX_MOUSE_BUTTONS	2
-#define MAX_MOUSE_AXES	2
-#define FIRST_MOUSE_AXIS	0
-#define FIRST_MOUSE_BUTTON	MAX_MOUSE_AXES
+#define MAX_MOUSE_BUTTONS   2
+#define MAX_MOUSE_AXES  2
+#define FIRST_MOUSE_AXIS    0
+#define FIRST_MOUSE_BUTTON  MAX_MOUSE_AXES
 
 
 static int init_mouse (void) 
@@ -67,12 +67,12 @@ static int get_mouse_widget_num (int mouse)
 static int get_mouse_widget_first (int mouse, int type)
 {
   switch (type) {
-  	case IDEV_WIDGET_BUTTON:
-	    return FIRST_MOUSE_BUTTON;
-	  case IDEV_WIDGET_AXIS:
-	    return FIRST_MOUSE_AXIS;
-  	case IDEV_WIDGET_BUTTONAXIS:
-  	  return MAX_MOUSE_AXES + MAX_MOUSE_BUTTONS; 
+    case IDEV_WIDGET_BUTTON:
+        return FIRST_MOUSE_BUTTON;
+      case IDEV_WIDGET_AXIS:
+        return FIRST_MOUSE_AXIS;
+    case IDEV_WIDGET_BUTTONAXIS:
+      return MAX_MOUSE_AXES + MAX_MOUSE_BUTTONS; 
   }
   return -1;
 }
@@ -80,19 +80,19 @@ static int get_mouse_widget_first (int mouse, int type)
 static int get_mouse_widget_type (int mouse, int num, TCHAR *name, uae_u32 *code)
 {
   if (num >= MAX_MOUSE_AXES && num < MAX_MOUSE_AXES + MAX_MOUSE_BUTTONS) {
-  	if (name)
-	    sprintf (name, "Button %d", num + 1 - MAX_MOUSE_AXES);
-	  return IDEV_WIDGET_BUTTON;
+    if (name)
+        sprintf (name, "Button %d", num + 1 - MAX_MOUSE_AXES);
+      return IDEV_WIDGET_BUTTON;
   } else if (num < MAX_MOUSE_AXES) {
-	  if (name) {
-	    if(num == 0)
-	      sprintf (name, "X Axis");
-	    else if (num == 1)
-	      sprintf (name, "Y Axis");
-	    else
-	      sprintf (name, "Axis %d", num + 1);
-	  }
-	  return IDEV_WIDGET_AXIS;
+      if (name) {
+        if(num == 0)
+          sprintf (name, "X Axis");
+        else if (num == 1)
+          sprintf (name, "Y Axis");
+        else
+          sprintf (name, "Axis %d", num + 1);
+      }
+      return IDEV_WIDGET_AXIS;
   }
   return IDEV_WIDGET_NONE;
 }
@@ -103,13 +103,13 @@ static void read_mouse (void)
     // Mousehack active
     int x, y;
     SDL_GetMouseState(&x, &y);
-	  setmousestate(0, 0, x, 1);
-	  setmousestate(0, 1, y, 1);
+      setmousestate(0, 0, x, 1);
+      setmousestate(0, 1, y, 1);
   }
   
   if(currprefs.jports[0].id == JSEM_MICE + 1 || currprefs.jports[1].id == JSEM_MICE + 1) {
     // dPad is mouse
-  	Uint8 *keystate = SDL_GetKeyState(NULL);
+    Uint8 *keystate = SDL_GetKeyState(NULL);
     int mouseScale = currprefs.input_joymouse_multiplier / 4;
     
     if(keystate[VK_LEFT])
@@ -146,8 +146,8 @@ struct inputdevice_functions inputdevicefunc_mouse = {
 
 static void setid (struct uae_input_device *uid, int i, int slot, int sub, int port, int evt, bool gp)
 {
-	if (gp)
-		inputdevice_sparecopy (&uid[i], slot, 0);
+    if (gp)
+        inputdevice_sparecopy (&uid[i], slot, 0);
   uid[i].eventid[slot][sub] = evt;
   uid[i].port[slot][sub] = port + 1;
 }
@@ -233,11 +233,11 @@ static int get_kb_flags (int num)
 }
 
 struct inputdevice_functions inputdevicefunc_keyboard = {
-	init_kb, close_kb, acquire_kb, unacquire_kb, read_kb,
-	get_kb_num, get_kb_friendlyname, get_kb_uniquename,
-	get_kb_widget_num, get_kb_widget_type,
-	get_kb_widget_first,
-	get_kb_flags
+    init_kb, close_kb, acquire_kb, unacquire_kb, read_kb,
+    get_kb_num, get_kb_friendlyname, get_kb_uniquename,
+    get_kb_widget_num, get_kb_widget_type,
+    get_kb_widget_first,
+    get_kb_flags
 };
 
 int input_get_default_keyboard (int num) 
@@ -249,10 +249,10 @@ int input_get_default_keyboard (int num)
 }
 
 
-#define MAX_JOY_BUTTONS	7
-#define MAX_JOY_AXES	2
-#define FIRST_JOY_AXIS	0
-#define FIRST_JOY_BUTTON	MAX_JOY_AXES
+#define MAX_JOY_BUTTONS 7
+#define MAX_JOY_AXES    2
+#define FIRST_JOY_AXIS  0
+#define FIRST_JOY_BUTTON    MAX_JOY_AXES
 
 
 static int nr_joysticks = 0;
@@ -302,7 +302,7 @@ static void close_joystick (void)
 {
   for (int cpt; cpt < nr_joysticks; cpt++)
   {
-	SDL_JoystickClose (Joysticktable[cpt]);
+    SDL_JoystickClose (Joysticktable[cpt]);
   }
 }
 
@@ -353,12 +353,12 @@ static int get_joystick_widget_num (int joy)
 static int get_joystick_widget_first (int joy, int type)
 {
   switch (type) {
-  	case IDEV_WIDGET_BUTTON:
-	    return FIRST_JOY_BUTTON;
-	  case IDEV_WIDGET_AXIS:
-	    return FIRST_JOY_AXIS;
-  	case IDEV_WIDGET_BUTTONAXIS:
-  	  return MAX_JOY_AXES + MAX_JOY_BUTTONS; 
+    case IDEV_WIDGET_BUTTON:
+        return FIRST_JOY_BUTTON;
+      case IDEV_WIDGET_AXIS:
+        return FIRST_JOY_AXIS;
+    case IDEV_WIDGET_BUTTONAXIS:
+      return MAX_JOY_AXES + MAX_JOY_BUTTONS; 
   }
   return -1;
 }
@@ -366,43 +366,43 @@ static int get_joystick_widget_first (int joy, int type)
 static int get_joystick_widget_type (int joy, int num, TCHAR *name, uae_u32 *code)
 {
   if (num >= MAX_JOY_AXES && num < MAX_JOY_AXES + MAX_JOY_BUTTONS) {
-  	if (name) {
-	    switch(num)
-	    {
-	      case FIRST_JOY_BUTTON:
-	        sprintf (name, "Button X/CD32 red");
-	        break;
-	      case FIRST_JOY_BUTTON + 1:
-	        sprintf (name, "Button B/CD32 blue");
-	        break;
-	      case FIRST_JOY_BUTTON + 2:
-	        sprintf (name, "Button A/CD32 green");
-	        break;
-	      case FIRST_JOY_BUTTON + 3:
-	        sprintf (name, "Button Y/CD32 yellow");
-	        break;
-	      case FIRST_JOY_BUTTON + 4:
-	        sprintf (name, "CD32 start");
-	        break;
-	      case FIRST_JOY_BUTTON + 5:
-	        sprintf (name, "CD32 ffw");
-	        break;
-	      case FIRST_JOY_BUTTON + 6:
-	        sprintf (name, "CD32 rwd");
-	        break;
-	    }
-	  }
-	  return IDEV_WIDGET_BUTTON;
+    if (name) {
+        switch(num)
+        {
+          case FIRST_JOY_BUTTON:
+            sprintf (name, "Button X/CD32 red");
+            break;
+          case FIRST_JOY_BUTTON + 1:
+            sprintf (name, "Button B/CD32 blue");
+            break;
+          case FIRST_JOY_BUTTON + 2:
+            sprintf (name, "Button A/CD32 green");
+            break;
+          case FIRST_JOY_BUTTON + 3:
+            sprintf (name, "Button Y/CD32 yellow");
+            break;
+          case FIRST_JOY_BUTTON + 4:
+            sprintf (name, "CD32 start");
+            break;
+          case FIRST_JOY_BUTTON + 5:
+            sprintf (name, "CD32 ffw");
+            break;
+          case FIRST_JOY_BUTTON + 6:
+            sprintf (name, "CD32 rwd");
+            break;
+        }
+      }
+      return IDEV_WIDGET_BUTTON;
   } else if (num < MAX_JOY_AXES) {
-	  if (name) {
-	    if(num == 0)
-	      sprintf (name, "X Axis");
-	    else if (num == 1)
-	      sprintf (name, "Y Axis");
-	    else
-	      sprintf (name, "Axis %d", num + 1);
-	  }
-	  return IDEV_WIDGET_AXIS;
+      if (name) {
+        if(num == 0)
+          sprintf (name, "X Axis");
+        else if (num == 1)
+          sprintf (name, "Y Axis");
+        else
+          sprintf (name, "Axis %d", num + 1);
+      }
+      return IDEV_WIDGET_AXIS;
   }
   return IDEV_WIDGET_NONE;
 }
@@ -420,7 +420,7 @@ static void read_joystick (void)
   // First handle fake joystick from pandora...
   if(currprefs.jports[joyid].id == JSEM_JOYS)
   {
-  	Uint8 *keystate = SDL_GetKeyState(NULL);
+    Uint8 *keystate = SDL_GetKeyState(NULL);
     
     if(!keystate[VK_R])
     { // Right shoulder + dPad -> cursor keys
@@ -511,11 +511,11 @@ static void read_joystick (void)
 }
 
 struct inputdevice_functions inputdevicefunc_joystick = {
-	init_joystick, close_joystick, acquire_joystick, unacquire_joystick,
-	read_joystick, get_joystick_num, get_joystick_friendlyname, get_joystick_uniquename,
-	get_joystick_widget_num, get_joystick_widget_type,
-	get_joystick_widget_first,
-	get_joystick_flags
+    init_joystick, close_joystick, acquire_joystick, unacquire_joystick,
+    read_joystick, get_joystick_num, get_joystick_friendlyname, get_joystick_uniquename,
+    get_joystick_widget_num, get_joystick_widget_type,
+    get_joystick_widget_first,
+    get_joystick_flags
 };
 
 int input_get_default_joystick (struct uae_input_device *uid, int num, int port, int af, int mode, bool gp, bool joymouseswap)
