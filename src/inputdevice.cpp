@@ -2197,6 +2197,7 @@ static int handle_input_event (int nr, int state, int max, int autofire, bool ca
             queue_input_event (nr, NULL, -1, 0, 0, 1);
 #endif
     }
+    write_log (_T("INPUT %i %i %i\n"), ie->unit, ie->type, ie->data);
     switch (ie->unit)
     {
     case 1: /* ->JOY1 */
