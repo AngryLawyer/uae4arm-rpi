@@ -5,6 +5,7 @@
 #include "keyboard.h"
 #include "inputdevice.h"
 #include <SDL.h>
+#include "uae.h"
 
 static int joyXviaCustom = 0;
 static int joyYviaCustom = 0;
@@ -357,6 +358,8 @@ typedef struct {
   bool button_2;
   bool button_3;
   bool button_4;
+  bool button_5;
+  bool button_6;
 } handled_keys;
 
 void handle_remapped_press(const int hostjoyid, const int input_key, handled_keys& handled_keys) {
@@ -411,6 +414,7 @@ void handle_remapped_press(const int hostjoyid, const int input_key, handled_key
 }
 
 static void read_joystick(void) {
+  static bool enter_last_round = false;
 
   for (int joyid = 0; joyid < MAX_JPORTS; joyid++)
     // First handle fake joystick from pandora...
@@ -485,6 +489,33 @@ static void read_joystick(void) {
         if (SDL_JoystickGetButton(Joysticktable[hostjoyid], 3) & 1) {
           handle_remapped_press(hostjoyid, VK_Y, keys);
         }
+        // Start
+        if (SDL_JoystickGetButton(Joysticktable[hostjoyid], 4) & 1) {
+          //handle_remapped_press(hostjoyid, VK_Y, keys);
+        }
+        // L
+        if (SDL_JoystickGetButton(Joysticktable[hostjoyid], 5) & 1) {
+          handle_remapped_press(hostjoyid, VK_L, keys);
+        }
+        // R
+        if (SDL_JoystickGetButton(Joysticktable[hostjoyid], 6) & 1) {
+          handle_remapped_press(hostjoyid, VK_R, keys);
+        }
+
+        for (int i = 0; i < 16; ++i) {
+            if (SDL_JoystickGetButton(Joysticktable[hostjoyid], i) & 1) {
+              write_log(_T("Button %i\n"), i);
+            }
+        }
+        /*setjoybuttonstate(
+            hostjoyid + 1, 4,
+            (SDL_JoystickGetButton(Joysticktable[hostjoyid], 4) & 1));
+        setjoybuttonstate(
+            hostjoyid + 1, 5,
+            (SDL_JoystickGetButton(Joysticktable[hostjoyid], 5) & 1));
+        setjoybuttonstate(
+            hostjoyid + 1, 6,
+            (SDL_JoystickGetButton(Joysticktable[hostjoyid], 6) & 1));*/
 
         if (!keys.x_axis) {
           setjoystickstate(hostjoyid + 1, 0, val_x, 32767);
@@ -496,6 +527,20 @@ static void read_joystick(void) {
         setjoybuttonstate(hostjoyid + 1, 1, keys.button_2);
         setjoybuttonstate(hostjoyid + 1, 2, keys.button_3);
         setjoybuttonstate(hostjoyid + 1, 3, keys.button_4);
+        setjoybuttonstate(hostjoyid + 1, 4, keys.button_5);
+        setjoybuttonstate(hostjoyid + 1, 5, keys.button_6);
+
+        // Special horrible ENTER handling
+        if (SDL_JoystickGetButton(Joysticktable[hostjoyid], 13)) {
+          inputdevice_do_keyboard(AK_ENT, SDL_JoystickGetButton(Joysticktable[hostjoyid], 13) & 1);
+          enter_last_round = true;
+        } else if (enter_last_round) {
+          inputdevice_do_keyboard(AK_ENT, 0);
+          enter_last_round = false;
+        }
+        if ((SDL_JoystickGetButton(Joysticktable[hostjoyid], 8) & 1) && (SDL_JoystickGetButton(Joysticktable[hostjoyid], 9))) {
+          uae_quit();
+        }
 
         // cd32 start, ffw, rwd
         /*setjoybuttonstate(
